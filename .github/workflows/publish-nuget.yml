@@ -26,10 +26,7 @@ jobs:
       run: dotnet build src/Tablazor.sln --configuration Release --no-restore
 
     - name: Pack
-      run: dotnet pack src/Tablazor/Tablazor.csproj \
-           --configuration Release \
-           --no-build \
-           --out ./nupkg
+      run: dotnet pack src/Tablazor/Tablazor.csproj --configuration Release --no-build --out ./nupkg
 
     - name: Check Commit Message
       id: check_commit
