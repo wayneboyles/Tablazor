@@ -1,0 +1,52 @@
+name: Build and Publish NuGet Package
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout Source
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+
+    - name: Restore Dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Pack
+      run: dotnet pack src/Tablazor/Tablazor.csproj \
+           --configuration Release \
+           --no-build \
+           --out ./nupkg
+
+    - name: Check Commit Message
+      id: check_commit
+      run: |
+        COMMIT_MSG="${{ github.event.head_commit.message }}"
+        echo "Commit message: $COMMIT_MSG"
+
+        if [[ "$COMMIT_MSG" =~ (\\[nuget\\]|release|publish-nuget) ]]; then
+          echo "publish=true" >> $GITHUB_OUTPUT
+        else
+          echo "publish=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Publish to NuGet
+      if: steps.check_commit.outputs.publish == 'true'
+      run: |
+        dotnet nuget push ./nupkg/*.nupkg \
+          --api-key ${{ secrets.Tablazor }} \
+          --source https://api.nuget.org/v3/index.json \
+          --skip-duplicate
