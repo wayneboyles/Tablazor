@@ -20,10 +20,10 @@ jobs:
         dotnet-version: '10.0.x'
 
     - name: Restore Dependencies
-      run: dotnet restore
+      run: dotnet restore src/Tablazor.sln
 
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build src/Tablazor.sln --configuration Release --no-restore
 
     - name: Pack
       run: dotnet pack src/Tablazor/Tablazor.csproj \
