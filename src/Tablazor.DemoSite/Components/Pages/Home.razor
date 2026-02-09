@@ -1,0 +1,156 @@
+﻿@page "/"
+
+<PageTitle>Tablazor - Blazor Component Library</PageTitle>
+
+<SetTabPageHeader Title="Tablazor" Subtitle="Tablazor Components Demo Site"></SetTabPageHeader>
+
+<div class="row row-deck row-cards">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Getting Started</h3>
+            </div>
+            <div class="card-body">
+                <p>
+                    Tablazor provides a set of reusable Blazor components styled with the Tabler design system.
+                    Explore the components below to see what's available.
+                </p>
+                <CodeBlock Language="bash" Code="dotnet add package Tablazor" />
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Components</h3>
+            </div>
+            <div class="card-body">
+                <div class="row row-cards">
+                    <div class="col-sm-6 col-lg-4">
+                        <a href="/components/avatar" class="card card-link">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <span class="avatar bg-green-lt">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
+                                                <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/>
+                                                <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855"/>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <div class="font-weight-medium">Avatar</div>
+                                        <div class="text-muted small">User profile images</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <a href="/components/badge" class="card card-link">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <span class="avatar bg-primary-lt">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M3 5m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"/>
+                                                <path d="M7 15v-6l2 2l2 -2v6"/>
+                                                <path d="M14 13h2"/>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <div class="font-weight-medium">Badge</div>
+                                        <div class="text-muted small">Labels and counts</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <a href="/components/divider" class="card card-link">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <span class="avatar bg-cyan-lt">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M4 12l6 0"/>
+                                                <path d="M14 12l6 0"/>
+                                                <path d="M12 10v4"/>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <div class="font-weight-medium">Divider</div>
+                                        <div class="text-muted small">Content separators</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                        <a href="/components/icon" class="card card-link">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <span class="avatar bg-purple-lt">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"/>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <div class="font-weight-medium">Icon</div>
+                                        <div class="text-muted small">4000+ Tabler icons</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Features</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <h4>Multi-Target</h4>
+                            <p class="text-muted">
+                                Supports .NET 8.0, 9.0, and 10.0 for maximum compatibility.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <h4>Tabler Design</h4>
+                            <p class="text-muted">
+                                Built on the beautiful Tabler UI kit with consistent styling.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <h4>Accessible</h4>
+                            <p class="text-muted">
+                                Components support ARIA attributes and keyboard navigation.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

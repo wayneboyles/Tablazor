@@ -1,0 +1,141 @@
+@page "/components/avatar"
+@using Tablazor.Icons
+
+<PageTitle>Avatar - Tablazor</PageTitle>
+
+<SetTabPageHeader Title="Avatar" Subtitle="Avatars help customize various elements of a user interface and make the product experience more personalized."></SetTabPageHeader>
+
+<ComponentDemo
+    Id="basic-avatar"
+    Title="Basic Avatar"
+    Description="A simple avatar with an image."
+    SourceCode="@_basicAvatarCode">
+    <TabAvatar ImageUrl="https://i.pravatar.cc/150?img=1" />
+</ComponentDemo>
+
+<ComponentDemo
+    Id="avatar-initials"
+    Title="Avatar with Initials"
+    Description="Avatars can display text content like initials when no image is available."
+    SourceCode="@_avatarInitialsCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabAvatar Color="TabColors.Primary">JD</TabAvatar>
+        <TabAvatar Color="TabColors.Success">AB</TabAvatar>
+        <TabAvatar Color="TabColors.Warning">XY</TabAvatar>
+        <TabAvatar Color="TabColors.Danger">ZZ</TabAvatar>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="avatar-icons"
+    Title="Avatar with Icons"
+    Description="Avatars can display icons instead of images or text."
+    SourceCode="@_avatarIconsCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabAvatar Color="TabColors.Primary" Icon="@TabIcons.Outline.AlarmPlus" />
+        <TabAvatar Color="TabColors.Success" Icon="@TabIcons.Outline.AdjustmentsCheck" />
+        <TabAvatar Color="TabColors.Info" Icon="@TabIcons.Outline.Bell" />
+        <TabAvatar Color="TabColors.Warning" Icon="@TabIcons.Outline.BellStar" />
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="avatar-sizes"
+    Title="Avatar Sizes"
+    Description="Avatars come in different sizes: extra small, small, default, large, and extra large."
+    SourceCode="@_avatarSizesCode">
+    <div class="d-flex flex-wrap align-items-center gap-2">
+        <TabAvatar ImageUrl="https://i.pravatar.cc/150?img=2" Size="AvatarSize.ExtraSmall" />
+        <TabAvatar ImageUrl="https://i.pravatar.cc/150?img=2" Size="AvatarSize.Small" />
+        <TabAvatar ImageUrl="https://i.pravatar.cc/150?img=2" />
+        <TabAvatar ImageUrl="https://i.pravatar.cc/150?img=2" Size="AvatarSize.Large" />
+        <TabAvatar ImageUrl="https://i.pravatar.cc/150?img=2" Size="AvatarSize.ExtraLarge" />
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="avatar-status"
+    Title="Avatar with Status"
+    Description="Avatars can display a status indicator to show online/offline state or other statuses."
+    SourceCode="@_avatarStatusCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabAvatar ImageUrl="https://i.pravatar.cc/150?img=3" StatusColor="TabColors.Success" />
+        <TabAvatar ImageUrl="https://i.pravatar.cc/150?img=4" StatusColor="TabColors.Warning" />
+        <TabAvatar ImageUrl="https://i.pravatar.cc/150?img=5" StatusColor="TabColors.Danger" />
+        <TabAvatar ImageUrl="https://i.pravatar.cc/150?img=6" StatusColor="TabColors.Secondary" />
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="avatar-list"
+    Title="Avatar List"
+    Description="Group multiple avatars together in a list."
+    SourceCode="@_avatarListCode">
+    <TabAvatarList>
+        <TabAvatar ImageUrl="https://i.pravatar.cc/150?img=10" />
+        <TabAvatar ImageUrl="https://i.pravatar.cc/150?img=11" />
+        <TabAvatar ImageUrl="https://i.pravatar.cc/150?img=12" />
+        <TabAvatar ImageUrl="https://i.pravatar.cc/150?img=13" />
+    </TabAvatarList>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="avatar-list-stacked"
+    Title="Stacked Avatar List"
+    Description="Avatars can be stacked to show overlapping avatars, useful for showing team members."
+    SourceCode="@_avatarListStackedCode">
+    <TabAvatarList Stacked="true">
+        <TabAvatar ImageUrl="https://i.pravatar.cc/150?img=20" />
+        <TabAvatar ImageUrl="https://i.pravatar.cc/150?img=21" />
+        <TabAvatar ImageUrl="https://i.pravatar.cc/150?img=22" />
+        <TabAvatar ImageUrl="https://i.pravatar.cc/150?img=23" />
+        <TabAvatar>+5</TabAvatar>
+    </TabAvatarList>
+</ComponentDemo>
+
+@code {
+    private const string _basicAvatarCode =
+@"<TabAvatar ImageUrl=""https://i.pravatar.cc/150?img=1"" />";
+
+    private const string _avatarInitialsCode =
+@"<TabAvatar Color=""TabColors.Primary"">JD</TabAvatar>
+<TabAvatar Color=""TabColors.Success"">AB</TabAvatar>
+<TabAvatar Color=""TabColors.Warning"">XY</TabAvatar>
+<TabAvatar Color=""TabColors.Danger"">ZZ</TabAvatar>";
+
+    private const string _avatarIconsCode =
+@"<TabAvatar Color=""TabColors.Primary"" Icon=""user"" />
+<TabAvatar Color=""TabColors.Success"" Icon=""check"" />
+<TabAvatar Color=""TabColors.Info"" Icon=""bell"" />
+<TabAvatar Color=""TabColors.Warning"" Icon=""star"" />";
+
+    private const string _avatarSizesCode =
+@"<TabAvatar ImageUrl=""..."" Size=""AvatarSize.ExtraSmall"" />
+<TabAvatar ImageUrl=""..."" Size=""AvatarSize.Small"" />
+<TabAvatar ImageUrl=""..."" />
+<TabAvatar ImageUrl=""..."" Size=""AvatarSize.Large"" />
+<TabAvatar ImageUrl=""..."" Size=""AvatarSize.ExtraLarge"" />";
+
+    private const string _avatarStatusCode =
+@"<TabAvatar ImageUrl=""..."" StatusColor=""TabColors.Success"" />
+<TabAvatar ImageUrl=""..."" StatusColor=""TabColors.Warning"" />
+<TabAvatar ImageUrl=""..."" StatusColor=""TabColors.Danger"" />
+<TabAvatar ImageUrl=""..."" StatusColor=""TabColors.Secondary"" />";
+
+    private const string _avatarListCode =
+@"<TabAvatarList>
+    <TabAvatar ImageUrl=""..."" />
+    <TabAvatar ImageUrl=""..."" />
+    <TabAvatar ImageUrl=""..."" />
+    <TabAvatar ImageUrl=""..."" />
+</TabAvatarList>";
+
+    private const string _avatarListStackedCode =
+@"<TabAvatarList Stacked=""true"">
+    <TabAvatar ImageUrl=""..."" />
+    <TabAvatar ImageUrl=""..."" />
+    <TabAvatar ImageUrl=""..."" />
+    <TabAvatar ImageUrl=""..."" />
+    <TabAvatar>+5</TabAvatar>
+</TabAvatarList>";
+}

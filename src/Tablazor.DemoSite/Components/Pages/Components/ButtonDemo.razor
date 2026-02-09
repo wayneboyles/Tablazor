@@ -1,0 +1,380 @@
+@page "/components/button"
+@rendermode InteractiveServer
+@using Tablazor.Icons
+
+<PageTitle>Button - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Button</h1>
+    <p class="text-muted">
+        Buttons are used to trigger actions or navigate to other pages. They come in various styles, sizes, and colors.
+    </p>
+</div>
+
+<ComponentDemo
+    Id="basic-button"
+    Title="Basic Button"
+    Description="A simple button with default styling."
+    SourceCode="@_basicButtonCode">
+    <TabButton>Button</TabButton>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="button-colors"
+    Title="Button Colors"
+    Description="Buttons can be styled with different colors to convey meaning and draw attention."
+    SourceCode="@_buttonColorsCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabButton Color="TabColors.Primary">Primary</TabButton>
+        <TabButton Color="TabColors.Secondary">Secondary</TabButton>
+        <TabButton Color="TabColors.Success">Success</TabButton>
+        <TabButton Color="TabColors.Info">Info</TabButton>
+        <TabButton Color="TabColors.Warning">Warning</TabButton>
+        <TabButton Color="TabColors.Danger">Danger</TabButton>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="button-types"
+    Title="Button Types"
+    Description="Different button types for various use cases: regular buttons, submit buttons for forms, reset buttons, and link buttons."
+    SourceCode="@_buttonTypesCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabButton Type="ButtonType.Button" Color="TabColors.Primary">Button</TabButton>
+        <TabButton Type="ButtonType.Submit" Color="TabColors.Success">Submit</TabButton>
+        <TabButton Type="ButtonType.Reset" Color="TabColors.Warning">Reset</TabButton>
+        <TabButton Type="ButtonType.Link" Href="#" Color="TabColors.Info">Link</TabButton>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="button-sizes"
+    Title="Button Sizes"
+    Description="Buttons come in different sizes: small, default, large, and extra large."
+    SourceCode="@_buttonSizesCode">
+    <div class="d-flex flex-wrap align-items-center gap-2">
+        <TabButton Color="TabColors.Primary" Size="ButtonSize.Small">Small</TabButton>
+        <TabButton Color="TabColors.Primary">Default</TabButton>
+        <TabButton Color="TabColors.Primary" Size="ButtonSize.Large">Large</TabButton>
+        <TabButton Color="TabColors.Primary" Size="ButtonSize.ExtraLarge">Extra Large</TabButton>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="button-outline"
+    Title="Outline Buttons"
+    Description="Outline buttons have a transparent background with a colored border. They're useful for secondary actions."
+    SourceCode="@_buttonOutlineCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabButton Color="TabColors.Primary" Outline="true">Primary</TabButton>
+        <TabButton Color="TabColors.Secondary" Outline="true">Secondary</TabButton>
+        <TabButton Color="TabColors.Success" Outline="true">Success</TabButton>
+        <TabButton Color="TabColors.Info" Outline="true">Info</TabButton>
+        <TabButton Color="TabColors.Warning" Outline="true">Warning</TabButton>
+        <TabButton Color="TabColors.Danger" Outline="true">Danger</TabButton>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="button-ghost"
+    Title="Ghost Buttons"
+    Description="Ghost buttons have no background or border until hovered. They're ideal for minimal UI designs."
+    SourceCode="@_buttonGhostCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabButton Color="TabColors.Primary" Ghost="true">Primary</TabButton>
+        <TabButton Color="TabColors.Secondary" Ghost="true">Secondary</TabButton>
+        <TabButton Color="TabColors.Success" Ghost="true">Success</TabButton>
+        <TabButton Color="TabColors.Info" Ghost="true">Info</TabButton>
+        <TabButton Color="TabColors.Warning" Ghost="true">Warning</TabButton>
+        <TabButton Color="TabColors.Danger" Ghost="true">Danger</TabButton>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="button-shapes"
+    Title="Button Shapes"
+    Description="Buttons can be displayed as square (equal padding) or pill (rounded corners)."
+    SourceCode="@_buttonShapesCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabButton Color="TabColors.Primary">Default</TabButton>
+        <TabButton Color="TabColors.Primary" Square="true">Square</TabButton>
+        <TabButton Color="TabColors.Primary" Pill="true">Pill</TabButton>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="button-icons"
+    Title="Buttons with Icons"
+    Description="Icons can be added to buttons to provide visual context. Use the Icon parameter with values from TabIcons."
+    SourceCode="@_buttonIconsCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabButton Color="TabColors.Primary" Icon="@TabIcons.Outline.AdjustmentsHeart">Like</TabButton>
+        <TabButton Color="TabColors.Success" Icon="@TabIcons.Outline.BookmarkPlus">Save</TabButton>
+        <TabButton Color="TabColors.Info" Icon="@TabIcons.Outline.BookDownload">Download</TabButton>
+        <TabButton Color="TabColors.Danger" Icon="@TabIcons.Outline.AlertTriangle">Delete</TabButton>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="button-icon-only"
+    Title="Icon-Only Buttons"
+    Description="Buttons can display only an icon without text. Use the IconOnly parameter for square proportions."
+    SourceCode="@_buttonIconOnlyCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabButton Color="TabColors.Primary" Icon="@TabIcons.Outline.AdjustmentsHeart" IconOnly="true" />
+        <TabButton Color="TabColors.Success" Icon="@TabIcons.Outline.AdjustmentsCheck" IconOnly="true" />
+        <TabButton Color="TabColors.Info" Icon="@TabIcons.Outline.Adjustments" IconOnly="true" />
+        <TabButton Color="TabColors.Danger" Icon="@TabIcons.Outline.AlertTriangle" IconOnly="true" />
+        <TabButton Color="TabColors.Primary" Icon="@TabIcons.Outline.ArrowLeft" IconOnly="true" Outline="true" />
+        <TabButton Color="TabColors.Primary" Icon="@TabIcons.Outline.ArrowRight" IconOnly="true" Outline="true" />
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="button-block"
+    Title="Block/Full-Width Buttons"
+    Description="Buttons can span the full width of their container using the Block parameter."
+    SourceCode="@_buttonBlockCode">
+    <div style="max-width: 400px;">
+        <TabButton Color="TabColors.Primary" Block="true">Full Width Button</TabButton>
+        <div class="mt-2">
+            <TabButton Color="TabColors.Success" Block="true" Icon="@TabIcons.Outline.BookmarkPlus">Save Changes</TabButton>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="button-loading"
+    Title="Loading State"
+    Description="Buttons can display a loading spinner to indicate an ongoing operation. Click the button to see the loading state."
+    SourceCode="@_buttonLoadingCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabButton Color="TabColors.Primary" IsLoading="@_isLoading1" OnClick="@SimulateLoading1">
+            @(_isLoading1 ? "Loading..." : "Click to Load")
+        </TabButton>
+        <TabButton Color="TabColors.Success" IsLoading="@_isLoading2" OnClick="@SimulateLoading2">
+            @(_isLoading2 ? "Saving..." : "Save")
+        </TabButton>
+        <TabButton Color="TabColors.Primary" IsLoading="true">Always Loading</TabButton>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="button-disabled"
+    Title="Disabled State"
+    Description="Buttons can be disabled to prevent user interaction."
+    SourceCode="@_buttonDisabledCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabButton Color="TabColors.Primary" Disabled="true">Disabled</TabButton>
+        <TabButton Color="TabColors.Success" Disabled="true" Outline="true">Disabled Outline</TabButton>
+        <TabButton Color="TabColors.Info" Disabled="true" Ghost="true">Disabled Ghost</TabButton>
+        <TabButton Type="ButtonType.Link" Href="#" Color="TabColors.Warning" Disabled="true">Disabled Link</TabButton>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="button-click-counter"
+    Title="Click Event Handling"
+    Description="Buttons can handle click events using the OnClick callback. This example demonstrates a simple counter."
+    SourceCode="@_buttonClickCounterCode">
+    <div class="d-flex flex-wrap align-items-center gap-3">
+        <TabButton Color="TabColors.Primary" OnClick="@IncrementCounter">
+            Click me!
+        </TabButton>
+        <TabButton Color="TabColors.Danger" OnClick="@ResetCounter" Outline="true">
+            Reset
+        </TabButton>
+        <span class="text-muted">Counter: <strong>@_counter</strong></span>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="button-practical"
+    Title="Practical Example"
+    Description="A common use case showing a card with action buttons."
+    SourceCode="@_buttonPracticalCode">
+    <div class="card" style="max-width: 400px;">
+        <div class="card-body">
+            <h3 class="card-title">Confirm Action</h3>
+            <p class="text-muted">Are you sure you want to proceed with this action? This cannot be undone.</p>
+            <div class="d-flex gap-2">
+                <TabButton Color="TabColors.Danger" OnClick="@HandleConfirm">
+                    Confirm
+                </TabButton>
+                <TabButton Color="TabColors.Secondary" Outline="true" OnClick="@HandleCancel">
+                    Cancel
+                </TabButton>
+            </div>
+            @if (!string.IsNullOrEmpty(_actionResult))
+            {
+                <div class="mt-3">
+                    <TabBadge Color="@(_actionResult == "Confirmed!" ? TabColors.Success : TabColors.Secondary)">
+                        @_actionResult
+                    </TabBadge>
+                </div>
+            }
+        </div>
+    </div>
+</ComponentDemo>
+
+@code {
+    private int _counter;
+    private bool _isLoading1;
+    private bool _isLoading2;
+    private string? _actionResult;
+
+    private void IncrementCounter()
+    {
+        _counter++;
+    }
+
+    private void ResetCounter()
+    {
+        _counter = 0;
+    }
+
+    private async Task SimulateLoading1()
+    {
+        _isLoading1 = true;
+        await Task.Delay(2000);
+        _isLoading1 = false;
+    }
+
+    private async Task SimulateLoading2()
+    {
+        _isLoading2 = true;
+        await Task.Delay(1500);
+        _isLoading2 = false;
+    }
+
+    private void HandleConfirm()
+    {
+        _actionResult = "Confirmed!";
+    }
+
+    private void HandleCancel()
+    {
+        _actionResult = "Cancelled";
+    }
+
+    private const string _basicButtonCode =
+@"<TabButton>Button</TabButton>";
+
+    private const string _buttonColorsCode =
+@"<TabButton Color=""TabColors.Primary"">Primary</TabButton>
+<TabButton Color=""TabColors.Secondary"">Secondary</TabButton>
+<TabButton Color=""TabColors.Success"">Success</TabButton>
+<TabButton Color=""TabColors.Info"">Info</TabButton>
+<TabButton Color=""TabColors.Warning"">Warning</TabButton>
+<TabButton Color=""TabColors.Danger"">Danger</TabButton>";
+
+    private const string _buttonTypesCode =
+@"<TabButton Type=""ButtonType.Button"" Color=""TabColors.Primary"">Button</TabButton>
+<TabButton Type=""ButtonType.Submit"" Color=""TabColors.Success"">Submit</TabButton>
+<TabButton Type=""ButtonType.Reset"" Color=""TabColors.Warning"">Reset</TabButton>
+<TabButton Type=""ButtonType.Link"" Href=""#"" Color=""TabColors.Info"">Link</TabButton>";
+
+    private const string _buttonSizesCode =
+@"<TabButton Color=""TabColors.Primary"" Size=""ButtonSize.Small"">Small</TabButton>
+<TabButton Color=""TabColors.Primary"">Default</TabButton>
+<TabButton Color=""TabColors.Primary"" Size=""ButtonSize.Large"">Large</TabButton>
+<TabButton Color=""TabColors.Primary"" Size=""ButtonSize.ExtraLarge"">Extra Large</TabButton>";
+
+    private const string _buttonOutlineCode =
+@"<TabButton Color=""TabColors.Primary"" Outline=""true"">Primary</TabButton>
+<TabButton Color=""TabColors.Secondary"" Outline=""true"">Secondary</TabButton>
+<TabButton Color=""TabColors.Success"" Outline=""true"">Success</TabButton>
+<TabButton Color=""TabColors.Info"" Outline=""true"">Info</TabButton>
+<TabButton Color=""TabColors.Warning"" Outline=""true"">Warning</TabButton>
+<TabButton Color=""TabColors.Danger"" Outline=""true"">Danger</TabButton>";
+
+    private const string _buttonGhostCode =
+@"<TabButton Color=""TabColors.Primary"" Ghost=""true"">Primary</TabButton>
+<TabButton Color=""TabColors.Secondary"" Ghost=""true"">Secondary</TabButton>
+<TabButton Color=""TabColors.Success"" Ghost=""true"">Success</TabButton>
+<TabButton Color=""TabColors.Info"" Ghost=""true"">Info</TabButton>
+<TabButton Color=""TabColors.Warning"" Ghost=""true"">Warning</TabButton>
+<TabButton Color=""TabColors.Danger"" Ghost=""true"">Danger</TabButton>";
+
+    private const string _buttonShapesCode =
+@"<TabButton Color=""TabColors.Primary"">Default</TabButton>
+<TabButton Color=""TabColors.Primary"" Square=""true"">Square</TabButton>
+<TabButton Color=""TabColors.Primary"" Pill=""true"">Pill</TabButton>";
+
+    private const string _buttonIconsCode =
+@"<TabButton Color=""TabColors.Primary"" Icon=""@TabIcons.Outline.AdjustmentsHeart"">Like</TabButton>
+<TabButton Color=""TabColors.Success"" Icon=""@TabIcons.Outline.BookmarkPlus"">Save</TabButton>
+<TabButton Color=""TabColors.Info"" Icon=""@TabIcons.Outline.BookDownload"">Download</TabButton>
+<TabButton Color=""TabColors.Danger"" Icon=""@TabIcons.Outline.AlertTriangle"">Delete</TabButton>";
+
+    private const string _buttonIconOnlyCode =
+@"<TabButton Color=""TabColors.Primary"" Icon=""@TabIcons.Outline.AdjustmentsHeart"" IconOnly=""true"" />
+<TabButton Color=""TabColors.Success"" Icon=""@TabIcons.Outline.AdjustmentsCheck"" IconOnly=""true"" />
+<TabButton Color=""TabColors.Info"" Icon=""@TabIcons.Outline.Adjustments"" IconOnly=""true"" />
+<TabButton Color=""TabColors.Danger"" Icon=""@TabIcons.Outline.AlertTriangle"" IconOnly=""true"" />
+<TabButton Color=""TabColors.Primary"" Icon=""@TabIcons.Outline.ArrowLeft"" IconOnly=""true"" Outline=""true"" />
+<TabButton Color=""TabColors.Primary"" Icon=""@TabIcons.Outline.ArrowRight"" IconOnly=""true"" Outline=""true"" />";
+
+    private const string _buttonBlockCode =
+@"<TabButton Color=""TabColors.Primary"" Block=""true"">Full Width Button</TabButton>
+<TabButton Color=""TabColors.Success"" Block=""true"" Icon=""@TabIcons.Outline.BookmarkPlus"">Save Changes</TabButton>";
+
+    private const string _buttonLoadingCode =
+@"<TabButton Color=""TabColors.Primary"" IsLoading=""@_isLoading"" OnClick=""@SimulateLoading"">
+    @(_isLoading ? ""Loading..."" : ""Click to Load"")
+</TabButton>
+
+@code {
+    private bool _isLoading;
+
+    private async Task SimulateLoading()
+    {
+        _isLoading = true;
+        await Task.Delay(2000);
+        _isLoading = false;
+    }
+}";
+
+    private const string _buttonDisabledCode =
+@"<TabButton Color=""TabColors.Primary"" Disabled=""true"">Disabled</TabButton>
+<TabButton Color=""TabColors.Success"" Disabled=""true"" Outline=""true"">Disabled Outline</TabButton>
+<TabButton Color=""TabColors.Info"" Disabled=""true"" Ghost=""true"">Disabled Ghost</TabButton>
+<TabButton Type=""ButtonType.Link"" Href=""#"" Color=""TabColors.Warning"" Disabled=""true"">Disabled Link</TabButton>";
+
+    private const string _buttonClickCounterCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@IncrementCounter"">
+    Click me!
+</TabButton>
+<TabButton Color=""TabColors.Danger"" OnClick=""@ResetCounter"" Outline=""true"">
+    Reset
+</TabButton>
+<span>Counter: <strong>@_counter</strong></span>
+
+@code {
+    private int _counter;
+
+    private void IncrementCounter() => _counter++;
+    private void ResetCounter() => _counter = 0;
+}";
+
+    private const string _buttonPracticalCode =
+@"<div class=""card"" style=""max-width: 400px;"">
+    <div class=""card-body"">
+        <h3 class=""card-title"">Confirm Action</h3>
+        <p class=""text-muted"">Are you sure you want to proceed?</p>
+        <div class=""d-flex gap-2"">
+            <TabButton Color=""TabColors.Danger"" OnClick=""@HandleConfirm"">
+                Confirm
+            </TabButton>
+            <TabButton Color=""TabColors.Secondary"" Outline=""true"" OnClick=""@HandleCancel"">
+                Cancel
+            </TabButton>
+        </div>
+    </div>
+</div>
+
+@code {
+    private void HandleConfirm() { /* Handle confirm */ }
+    private void HandleCancel() { /* Handle cancel */ }
+}";
+}

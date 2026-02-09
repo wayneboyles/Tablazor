@@ -1,0 +1,448 @@
+@page "/components/modal"
+@rendermode InteractiveServer
+
+<PageTitle>Modal - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Modal</h1>
+    <p class="text-muted">
+        Modals are dialog overlays that focus the user's attention on a specific task or piece of information.
+        They support various sizes, centered layout, scrollable content, and static backdrop options.
+    </p>
+</div>
+
+<ComponentDemo Id="basic-modal" Title="Basic Modal" Description="A simple modal with a title, body content, and a close button." SourceCode="@_basicModalCode">
+    <TabButton Color="TabColors.Primary" OnClick="@(() => _basicModalOpen = true)">Open Basic Modal</TabButton>
+    <TabModal @bind-IsOpen="@_basicModalOpen" Title="Basic Modal">
+        <TabModalBody>
+            <p>This is a basic modal with a title and close button. Click the X or press Escape to close.</p>
+        </TabModalBody>
+    </TabModal>
+</ComponentDemo>
+
+<ComponentDemo Id="modal-sizes" Title="Modal Sizes" Description="Modals come in different sizes: small, default, large, and full-width." SourceCode="@_modalSizesCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabButton Color="TabColors.Secondary" OnClick="@(() => _smallModalOpen = true)">Small Modal</TabButton>
+        <TabButton Color="TabColors.Primary" OnClick="@(() => _defaultModalOpen = true)">Default Modal</TabButton>
+        <TabButton Color="TabColors.Info" OnClick="@(() => _largeModalOpen = true)">Large Modal</TabButton>
+        <TabButton Color="TabColors.Warning" OnClick="@(() => _fullWidthModalOpen = true)">Full Width Modal</TabButton>
+    </div>
+
+    <TabModal @bind-IsOpen="@_smallModalOpen" Title="Small Modal" Size="ModalSize.Small">
+        <TabModalBody>
+            <p>This is a small modal with a max-width of 300px.</p>
+        </TabModalBody>
+    </TabModal>
+
+    <TabModal @bind-IsOpen="@_defaultModalOpen" Title="Default Modal">
+        <TabModalBody>
+            <p>This is a default-sized modal.</p>
+        </TabModalBody>
+    </TabModal>
+
+    <TabModal @bind-IsOpen="@_largeModalOpen" Title="Large Modal" Size="ModalSize.Large">
+        <TabModalBody>
+            <p>This is a large modal with a max-width of 800px.</p>
+        </TabModalBody>
+    </TabModal>
+
+    <TabModal @bind-IsOpen="@_fullWidthModalOpen" Title="Full Width Modal" Size="ModalSize.FullWidth">
+        <TabModalBody>
+            <p>This is a full-width modal that spans the entire viewport width.</p>
+        </TabModalBody>
+    </TabModal>
+</ComponentDemo>
+
+<ComponentDemo Id="centered-modal" Title="Centered Modal" Description="Use the Centered parameter to vertically center the modal in the viewport." SourceCode="@_centeredModalCode">
+    <TabButton Color="TabColors.Primary" OnClick="@(() => _centeredModalOpen = true)">Open Centered Modal</TabButton>
+    <TabModal @bind-IsOpen="@_centeredModalOpen" Title="Centered Modal" Centered="true">
+        <TabModalBody>
+            <p>This modal is vertically centered in the viewport.</p>
+        </TabModalBody>
+    </TabModal>
+</ComponentDemo>
+
+<ComponentDemo Id="scrollable-modal" Title="Scrollable Modal" Description="Use the Scrollable parameter to enable scrolling within the modal body for long content." SourceCode="@_scrollableModalCode">
+    <TabButton Color="TabColors.Primary" OnClick="@(() => _scrollableModalOpen = true)">Open Scrollable Modal</TabButton>
+    <TabModal @bind-IsOpen="@_scrollableModalOpen" Title="Scrollable Modal" Scrollable="true">
+        <TabModalBody>
+            <p>This modal has scrollable content. When the content exceeds the viewport height, the modal body will scroll.</p>
+            @for (var i = 0; i < 20; i++)
+            {
+                <p>This is paragraph @(i + 1) of 20. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            }
+        </TabModalBody>
+    </TabModal>
+</ComponentDemo>
+
+<ComponentDemo Id="static-backdrop" Title="Static Backdrop" Description="Use the StaticBackdrop parameter to prevent closing the modal when clicking outside of it." SourceCode="@_staticBackdropCode">
+    <TabButton Color="TabColors.Primary" OnClick="@(() => _staticBackdropModalOpen = true)">Open Static Backdrop Modal</TabButton>
+    <TabModal @bind-IsOpen="@_staticBackdropModalOpen" Title="Static Backdrop Modal" StaticBackdrop="true">
+        <TabModalBody>
+            <p>This modal will not close when clicking outside of it. You must use the close button or press Escape.</p>
+        </TabModalBody>
+    </TabModal>
+</ComponentDemo>
+
+<ComponentDemo Id="custom-header" Title="Custom Header" Description="Use TabModalHeader and TabModalTitle for custom header content with additional elements." SourceCode="@_customHeaderCode">
+    <TabButton Color="TabColors.Primary" OnClick="@(() => _customHeaderModalOpen = true)">Open Custom Header Modal</TabButton>
+    <TabModal @bind-IsOpen="@_customHeaderModalOpen">
+        <TabModalHeader OnClose="@(() => _customHeaderModalOpen = false)">
+            <TabModalTitle>Custom Header</TabModalTitle>
+            <TabBadge Color="TabColors.Success" CssClass="ms-2">New</TabBadge>
+        </TabModalHeader>
+        <TabModalBody>
+            <p>This modal uses TabModalHeader and TabModalTitle components for a custom header layout with a badge.</p>
+        </TabModalBody>
+    </TabModal>
+</ComponentDemo>
+
+<ComponentDemo Id="modal-footer" Title="Modal with Footer" Description="Add action buttons or other content to the modal footer using the FooterContent parameter or TabModalFooter component." SourceCode="@_modalFooterCode">
+    <TabButton Color="TabColors.Primary" OnClick="@(() => _footerModalOpen = true)">Open Modal with Footer</TabButton>
+    <TabModal @bind-IsOpen="@_footerModalOpen" Title="Confirm Action">
+        <TabModalBody>
+            <p>Are you sure you want to perform this action? This cannot be undone.</p>
+        </TabModalBody>
+        <TabModalFooter>
+            <TabButton Color="TabColors.Secondary" OnClick="@(() => _footerModalOpen = false)">Cancel</TabButton>
+            <TabButton Color="TabColors.Danger" OnClick="@HandleConfirmAsync">Confirm</TabButton>
+        </TabModalFooter>
+    </TabModal>
+</ComponentDemo>
+
+<ComponentDemo Id="modal-footer-content" Title="Simple Footer with FooterContent" Description="For simple scenarios, use the FooterContent parameter instead of the TabModalFooter component." SourceCode="@_footerContentCode">
+    <TabButton Color="TabColors.Primary" OnClick="@(() => _footerContentModalOpen = true)">Open Modal</TabButton>
+    <TabModal @bind-IsOpen="@_footerContentModalOpen" Title="Simple Footer Example">
+        <ChildContent>
+            <TabModalBody>
+                <p>This modal uses the FooterContent parameter for a simpler footer setup.</p>
+            </TabModalBody>
+        </ChildContent>
+        <FooterContent>
+            <TabButton Color="TabColors.Primary" OnClick="@(() => _footerContentModalOpen = false)">Close</TabButton>
+        </FooterContent>
+    </TabModal>
+</ComponentDemo>
+
+<ComponentDemo Id="two-way-binding" Title="Two-Way Binding" Description="@("Use @bind-IsOpen for two-way binding to control modal visibility from parent components.")" SourceCode="@_twoWayBindingCode">
+    <div class="d-flex align-items-center gap-3">
+        <TabButton Color="TabColors.Primary" OnClick="@(() => _bindingModalOpen = true)">Open Modal</TabButton>
+        <span class="text-muted">Modal is currently: <strong>@(_bindingModalOpen ? "Open" : "Closed")</strong></span>
+    </div>
+    <TabModal @bind-IsOpen="@_bindingModalOpen" Title="Two-Way Binding Example">
+        <TabModalBody>
+            <p>The modal state is bound to a variable. Close this modal and watch the status update.</p>
+        </TabModalBody>
+    </TabModal>
+</ComponentDemo>
+
+<ComponentDemo Id="event-callbacks" Title="Event Callbacks" Description="Use OnShown and OnHidden callbacks to respond to modal visibility changes." SourceCode="@_eventCallbacksCode">
+    <div class="mb-3">
+        <TabButton Color="TabColors.Primary" OnClick="@(() => _eventsModalOpen = true)">Open Modal</TabButton>
+    </div>
+    <div class="alert alert-info mb-0">
+        <strong>Last Event:</strong> @_lastModalEvent
+    </div>
+    <TabModal @bind-IsOpen="@_eventsModalOpen"
+              Title="Event Callbacks Example"
+              OnShown="@HandleModalShown"
+              OnHidden="@HandleModalHidden">
+        <TabModalBody>
+            <p>Open and close this modal to see the event callbacks in action.</p>
+        </TabModalBody>
+    </TabModal>
+</ComponentDemo>
+
+<ComponentDemo Id="no-animation" Title="Disable Animation" Description="Use EnableAnimation=false to show and hide the modal without fade animation." SourceCode="@_noAnimationCode">
+    <TabButton Color="TabColors.Primary" OnClick="@(() => _noAnimationModalOpen = true)">Open Without Animation</TabButton>
+    <TabModal @bind-IsOpen="@_noAnimationModalOpen" Title="No Animation" EnableAnimation="false">
+        <TabModalBody>
+            <p>This modal appears and disappears instantly without the fade animation.</p>
+        </TabModalBody>
+    </TabModal>
+</ComponentDemo>
+
+<ComponentDemo Id="no-close-on-escape" Title="Disable Escape Key" Description="Use CloseOnEscape=false to prevent closing the modal with the Escape key." SourceCode="@_noEscapeCode">
+    <TabButton Color="TabColors.Primary" OnClick="@(() => _noEscapeModalOpen = true)">Open Modal</TabButton>
+    <TabModal @bind-IsOpen="@_noEscapeModalOpen" Title="Escape Key Disabled" CloseOnEscape="false">
+        <TabModalBody>
+            <p>This modal cannot be closed by pressing the Escape key. Use the close button instead.</p>
+        </TabModalBody>
+    </TabModal>
+</ComponentDemo>
+
+@code {
+    // Basic modal
+    private bool _basicModalOpen;
+
+    // Size modals
+    private bool _smallModalOpen;
+    private bool _defaultModalOpen;
+    private bool _largeModalOpen;
+    private bool _fullWidthModalOpen;
+
+    // Other modals
+    private bool _centeredModalOpen;
+    private bool _scrollableModalOpen;
+    private bool _staticBackdropModalOpen;
+    private bool _customHeaderModalOpen;
+    private bool _footerModalOpen;
+    private bool _footerContentModalOpen;
+    private bool _bindingModalOpen;
+    private bool _eventsModalOpen;
+    private bool _noAnimationModalOpen;
+    private bool _noEscapeModalOpen;
+
+    // Event tracking
+    private string _lastModalEvent = "None";
+
+    private async Task HandleConfirmAsync()
+    {
+        _footerModalOpen = false;
+        await Task.CompletedTask;
+    }
+
+    private void HandleModalShown()
+    {
+        _lastModalEvent = $"OnShown fired at {DateTime.Now:HH:mm:ss}";
+    }
+
+    private void HandleModalHidden()
+    {
+        _lastModalEvent = $"OnHidden fired at {DateTime.Now:HH:mm:ss}";
+    }
+
+    private const string _basicModalCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _modalOpen = true)"">
+    Open Basic Modal
+</TabButton>
+
+<TabModal @bind-IsOpen=""@_modalOpen"" Title=""Basic Modal"">
+    <TabModalBody>
+        <p>This is a basic modal with a title and close button.</p>
+    </TabModalBody>
+</TabModal>
+
+@code {
+    private bool _modalOpen;
+}";
+
+    private const string _modalSizesCode =
+@"<TabButton Color=""TabColors.Secondary"" OnClick=""@(() => _smallModalOpen = true)"">Small</TabButton>
+<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _defaultModalOpen = true)"">Default</TabButton>
+<TabButton Color=""TabColors.Info"" OnClick=""@(() => _largeModalOpen = true)"">Large</TabButton>
+<TabButton Color=""TabColors.Warning"" OnClick=""@(() => _fullWidthModalOpen = true)"">Full Width</TabButton>
+
+<TabModal @bind-IsOpen=""@_smallModalOpen"" Title=""Small Modal"" Size=""ModalSize.Small"">
+    <TabModalBody><p>Small modal (300px max-width)</p></TabModalBody>
+</TabModal>
+
+<TabModal @bind-IsOpen=""@_defaultModalOpen"" Title=""Default Modal"">
+    <TabModalBody><p>Default-sized modal</p></TabModalBody>
+</TabModal>
+
+<TabModal @bind-IsOpen=""@_largeModalOpen"" Title=""Large Modal"" Size=""ModalSize.Large"">
+    <TabModalBody><p>Large modal (800px max-width)</p></TabModalBody>
+</TabModal>
+
+<TabModal @bind-IsOpen=""@_fullWidthModalOpen"" Title=""Full Width Modal"" Size=""ModalSize.FullWidth"">
+    <TabModalBody><p>Full-width modal</p></TabModalBody>
+</TabModal>
+
+@code {
+    private bool _smallModalOpen;
+    private bool _defaultModalOpen;
+    private bool _largeModalOpen;
+    private bool _fullWidthModalOpen;
+}";
+
+    private const string _centeredModalCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _modalOpen = true)"">
+    Open Centered Modal
+</TabButton>
+
+<TabModal @bind-IsOpen=""@_modalOpen"" Title=""Centered Modal"" Centered=""true"">
+    <TabModalBody>
+        <p>This modal is vertically centered in the viewport.</p>
+    </TabModalBody>
+</TabModal>
+
+@code {
+    private bool _modalOpen;
+}";
+
+    private const string _scrollableModalCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _modalOpen = true)"">
+    Open Scrollable Modal
+</TabButton>
+
+<TabModal @bind-IsOpen=""@_modalOpen"" Title=""Scrollable Modal"" Scrollable=""true"">
+    <TabModalBody>
+        <p>When content exceeds the viewport height, the modal body will scroll.</p>
+        @for (var i = 0; i < 20; i++)
+        {
+            <p>Paragraph @(i + 1) of 20...</p>
+        }
+    </TabModalBody>
+</TabModal>
+
+@code {
+    private bool _modalOpen;
+}";
+
+    private const string _staticBackdropCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _modalOpen = true)"">
+    Open Static Backdrop Modal
+</TabButton>
+
+<TabModal @bind-IsOpen=""@_modalOpen"" Title=""Static Backdrop"" StaticBackdrop=""true"">
+    <TabModalBody>
+        <p>Clicking outside will not close this modal.</p>
+    </TabModalBody>
+</TabModal>
+
+@code {
+    private bool _modalOpen;
+}";
+
+    private const string _customHeaderCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _modalOpen = true)"">
+    Open Custom Header Modal
+</TabButton>
+
+<TabModal @bind-IsOpen=""@_modalOpen"">
+    <TabModalHeader OnClose=""@(() => _modalOpen = false)"">
+        <TabModalTitle>Custom Header</TabModalTitle>
+        <TabBadge Color=""TabColors.Success"" CssClass=""ms-2"">New</TabBadge>
+    </TabModalHeader>
+    <TabModalBody>
+        <p>Custom header with TabModalHeader and TabModalTitle components.</p>
+    </TabModalBody>
+</TabModal>
+
+@code {
+    private bool _modalOpen;
+}";
+
+    private const string _modalFooterCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _modalOpen = true)"">
+    Open Modal with Footer
+</TabButton>
+
+<TabModal @bind-IsOpen=""@_modalOpen"" Title=""Confirm Action"">
+    <TabModalBody>
+        <p>Are you sure you want to perform this action?</p>
+    </TabModalBody>
+    <TabModalFooter>
+        <TabButton Color=""TabColors.Secondary"" OnClick=""@(() => _modalOpen = false)"">Cancel</TabButton>
+        <TabButton Color=""TabColors.Danger"" OnClick=""@HandleConfirmAsync"">Confirm</TabButton>
+    </TabModalFooter>
+</TabModal>
+
+@code {
+    private bool _modalOpen;
+
+    private async Task HandleConfirmAsync()
+    {
+        _modalOpen = false;
+        // Perform action...
+    }
+}";
+
+    private const string _footerContentCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _modalOpen = true)"">
+    Open Modal
+</TabButton>
+
+<TabModal @bind-IsOpen=""@_modalOpen"" Title=""Simple Footer Example"">
+    <ChildContent>
+        <TabModalBody>
+            <p>This modal uses FooterContent for a simpler footer setup.</p>
+        </TabModalBody>
+    </ChildContent>
+    <FooterContent>
+        <TabButton Color=""TabColors.Primary"" OnClick=""@(() => _modalOpen = false)"">Close</TabButton>
+    </FooterContent>
+</TabModal>
+
+@code {
+    private bool _modalOpen;
+}";
+
+    private const string _twoWayBindingCode =
+@"<div class=""d-flex align-items-center gap-3"">
+    <TabButton Color=""TabColors.Primary"" OnClick=""@(() => _modalOpen = true)"">Open Modal</TabButton>
+    <span>Modal is currently: <strong>@(_modalOpen ? ""Open"" : ""Closed"")</strong></span>
+</div>
+
+<TabModal @bind-IsOpen=""@_modalOpen"" Title=""Two-Way Binding Example"">
+    <TabModalBody>
+        <p>The modal state is bound to a variable.</p>
+    </TabModalBody>
+</TabModal>
+
+@code {
+    private bool _modalOpen;
+}";
+
+    private const string _eventCallbacksCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _modalOpen = true)"">Open Modal</TabButton>
+
+<div class=""alert alert-info"">
+    <strong>Last Event:</strong> @_lastModalEvent
+</div>
+
+<TabModal @bind-IsOpen=""@_modalOpen""
+          Title=""Event Callbacks Example""
+          OnShown=""@HandleModalShown""
+          OnHidden=""@HandleModalHidden"">
+    <TabModalBody>
+        <p>Open and close to see the event callbacks in action.</p>
+    </TabModalBody>
+</TabModal>
+
+@code {
+    private bool _modalOpen;
+    private string _lastModalEvent = ""None"";
+
+    private void HandleModalShown()
+    {
+        _lastModalEvent = $""OnShown fired at {DateTime.Now:HH:mm:ss}"";
+    }
+
+    private void HandleModalHidden()
+    {
+        _lastModalEvent = $""OnHidden fired at {DateTime.Now:HH:mm:ss}"";
+    }
+}";
+
+    private const string _noAnimationCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _modalOpen = true)"">
+    Open Without Animation
+</TabButton>
+
+<TabModal @bind-IsOpen=""@_modalOpen"" Title=""No Animation"" EnableAnimation=""false"">
+    <TabModalBody>
+        <p>This modal appears instantly without the fade animation.</p>
+    </TabModalBody>
+</TabModal>
+
+@code {
+    private bool _modalOpen;
+}";
+
+    private const string _noEscapeCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _modalOpen = true)"">
+    Open Modal
+</TabButton>
+
+<TabModal @bind-IsOpen=""@_modalOpen"" Title=""Escape Key Disabled"" CloseOnEscape=""false"">
+    <TabModalBody>
+        <p>This modal cannot be closed by pressing the Escape key.</p>
+    </TabModalBody>
+</TabModal>
+
+@code {
+    private bool _modalOpen;
+}";
+}

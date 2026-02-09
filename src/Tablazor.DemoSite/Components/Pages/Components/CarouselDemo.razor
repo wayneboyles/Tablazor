@@ -1,0 +1,395 @@
+@page "/components/carousel"
+@rendermode InteractiveServer
+
+<PageTitle>Carousel - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Carousel</h1>
+    <p class="text-muted">
+        A slideshow component for cycling through images and content with built-in indicators, controls, and transitions.
+        Based on the Tabler design system.
+    </p>
+</div>
+
+<ComponentDemo Id="basic-carousel" Title="Basic Carousel" Description="A simple carousel with images and navigation controls." SourceCode="@_basicCode">
+    <TabCarousel style="max-width: 600px;">
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1018/600/300" ImageAlt="Mountain landscape" />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1015/600/300" ImageAlt="River landscape" />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1019/600/300" ImageAlt="Ocean landscape" />
+    </TabCarousel>
+</ComponentDemo>
+
+<ComponentDemo Id="carousel-captions" Title="With Captions" Description="Add titles and descriptions to your slides." SourceCode="@_captionsCode">
+    <TabCarousel style="max-width: 600px;">
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1018/600/300"
+                          CaptionTitle="First Slide"
+                          CaptionText="This is the description for the first slide." />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1015/600/300"
+                          CaptionTitle="Second Slide"
+                          CaptionText="This is the description for the second slide." />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1019/600/300"
+                          CaptionTitle="Third Slide"
+                          CaptionText="This is the description for the third slide." />
+    </TabCarousel>
+</ComponentDemo>
+
+<ComponentDemo Id="carousel-caption-background" Title="Caption Background" Description="Add a dark background overlay behind captions for better readability." SourceCode="@_captionBgCode">
+    <TabCarousel style="max-width: 600px;">
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1018/600/300"
+                          CaptionTitle="First Slide"
+                          CaptionText="The background makes this text easier to read."
+                          ShowCaptionBackground="true" />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1015/600/300"
+                          CaptionTitle="Second Slide"
+                          CaptionText="Works great with light-colored images."
+                          ShowCaptionBackground="true" />
+    </TabCarousel>
+</ComponentDemo>
+
+<ComponentDemo Id="carousel-fade" Title="Fade Transition" Description="Use a fade effect instead of the default slide transition." SourceCode="@_fadeCode">
+    <TabCarousel Transition="CarouselTransition.Fade" style="max-width: 600px;">
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1018/600/300" />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1015/600/300" />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1019/600/300" />
+    </TabCarousel>
+</ComponentDemo>
+
+<ComponentDemo Id="carousel-dot-indicators" Title="Dot Indicators" Description="Use dot-style navigation indicators." SourceCode="@_dotCode">
+    <TabCarousel IndicatorStyle="CarouselIndicatorStyle.Dot" style="max-width: 600px;">
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1018/600/300" />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1015/600/300" />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1019/600/300" />
+    </TabCarousel>
+</ComponentDemo>
+
+<ComponentDemo Id="carousel-thumbnails" Title="Thumbnail Indicators" Description="Use thumbnail images as navigation indicators." SourceCode="@_thumbnailCode">
+    <TabCarousel IndicatorStyle="CarouselIndicatorStyle.Thumbnail" style="max-width: 600px;">
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1018/600/300" />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1015/600/300" />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1019/600/300" />
+    </TabCarousel>
+</ComponentDemo>
+
+<ComponentDemo Id="carousel-vertical-indicators" Title="Vertical Indicators" Description="Position indicators vertically on the side of the carousel." SourceCode="@_verticalCode">
+    <TabCarousel VerticalIndicators="true" IndicatorStyle="CarouselIndicatorStyle.Dot" style="max-width: 600px;">
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1018/600/300" />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1015/600/300" />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1019/600/300" />
+    </TabCarousel>
+</ComponentDemo>
+
+<ComponentDemo Id="carousel-autoplay" Title="Autoplay" Description="Automatically cycle through slides. Pause on hover by default." SourceCode="@_autoplayCode">
+    <TabCarousel AutoPlay="true" Interval="3000" style="max-width: 600px;">
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1018/600/300"
+                          CaptionTitle="Slide 1" />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1015/600/300"
+                          CaptionTitle="Slide 2" />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1019/600/300"
+                          CaptionTitle="Slide 3" />
+    </TabCarousel>
+</ComponentDemo>
+
+<ComponentDemo Id="carousel-no-controls" Title="No Controls" Description="Hide navigation controls while keeping indicators." SourceCode="@_noControlsCode">
+    <TabCarousel ShowControls="false" style="max-width: 600px;">
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1018/600/300" />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1015/600/300" />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1019/600/300" />
+    </TabCarousel>
+</ComponentDemo>
+
+<ComponentDemo Id="carousel-no-wrap" Title="No Wrap" Description="Stop at the first and last slides instead of cycling continuously." SourceCode="@_noWrapCode">
+    <TabCarousel Wrap="false" style="max-width: 600px;">
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1018/600/300"
+                          CaptionTitle="First Slide (cannot go back)" />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1015/600/300"
+                          CaptionTitle="Middle Slide" />
+        <TabCarouselSlide ImageUrl="https://picsum.photos/id/1019/600/300"
+                          CaptionTitle="Last Slide (cannot go forward)" />
+    </TabCarousel>
+</ComponentDemo>
+
+<ComponentDemo Id="carousel-programmatic" Title="Programmatic Control" Description="Control the carousel programmatically with methods." SourceCode="@_programmaticCode">
+    <div class="row">
+        <div class="col-md-8">
+            <TabCarousel @ref="_controlledCarousel" style="max-width: 500px;">
+                <TabCarouselSlide ImageUrl="https://picsum.photos/id/1018/600/300"
+                                  CaptionTitle="Slide 1" />
+                <TabCarouselSlide ImageUrl="https://picsum.photos/id/1015/600/300"
+                                  CaptionTitle="Slide 2" />
+                <TabCarouselSlide ImageUrl="https://picsum.photos/id/1019/600/300"
+                                  CaptionTitle="Slide 3" />
+            </TabCarousel>
+        </div>
+        <div class="col-md-4">
+            <div class="btn-list">
+                <button class="btn btn-primary" @onclick="GoPrevious">
+                    Previous
+                </button>
+                <button class="btn btn-primary" @onclick="GoNext">
+                    Next
+                </button>
+                <button class="btn btn-secondary" @onclick="GoToFirst">
+                    Go to First
+                </button>
+                <button class="btn btn-secondary" @onclick="GoToLast">
+                    Go to Last
+                </button>
+            </div>
+            <div class="mt-3 text-muted">
+                Current slide: @(_controlledCarousel?.CurrentIndex + 1) of @_controlledCarousel?.SlideCount
+            </div>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="carousel-callbacks" Title="Event Callbacks" Description="Execute code when slides change." SourceCode="@_callbacksCode">
+    <div class="row">
+        <div class="col-md-8">
+            <TabCarousel OnSlideStart="HandleSlideStart"
+                         OnSlideEnd="HandleSlideEnd"
+                         ActiveIndexChanged="HandleIndexChanged"
+                         style="max-width: 500px;">
+                <TabCarouselSlide ImageUrl="https://picsum.photos/id/1018/600/300"
+                                  CaptionTitle="Slide 1" />
+                <TabCarouselSlide ImageUrl="https://picsum.photos/id/1015/600/300"
+                                  CaptionTitle="Slide 2" />
+                <TabCarouselSlide ImageUrl="https://picsum.photos/id/1019/600/300"
+                                  CaptionTitle="Slide 3" />
+            </TabCarousel>
+        </div>
+        <div class="col-md-4">
+            <div class="text-muted small">
+                <div>Event Log:</div>
+                <ul class="list-unstyled">
+                    @foreach (var log in _eventLog.TakeLast(5))
+                    {
+                        <li>@log</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="carousel-custom-content" Title="Custom Content" Description="Use custom content inside slides instead of images." SourceCode="@_customContentCode">
+    <TabCarousel style="max-width: 600px;">
+        <TabCarouselSlide>
+            <div class="d-flex align-items-center justify-content-center bg-primary text-white" style="height: 300px;">
+                <div class="text-center">
+                    <h2>Welcome</h2>
+                    <p>This slide has custom content</p>
+                </div>
+            </div>
+        </TabCarouselSlide>
+        <TabCarouselSlide>
+            <div class="d-flex align-items-center justify-content-center bg-success text-white" style="height: 300px;">
+                <div class="text-center">
+                    <h2>Features</h2>
+                    <p>Describe your features here</p>
+                </div>
+            </div>
+        </TabCarouselSlide>
+        <TabCarouselSlide>
+            <div class="d-flex align-items-center justify-content-center bg-info text-white" style="height: 300px;">
+                <div class="text-center">
+                    <h2>Get Started</h2>
+                    <button class="btn btn-light">Learn More</button>
+                </div>
+            </div>
+        </TabCarouselSlide>
+    </TabCarousel>
+</ComponentDemo>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h3 class="card-title">Setup</h3>
+    </div>
+    <div class="card-body">
+        <p>The TabCarousel component is ready to use out of the box:</p>
+        <CodeBlock Language="razor" Code="@_setupCode" />
+    </div>
+</div>
+
+@code {
+    private TabCarousel? _controlledCarousel;
+    private List<string> _eventLog = new();
+
+    private async Task GoPrevious()
+    {
+        if (_controlledCarousel is not null)
+        {
+            await _controlledCarousel.PreviousAsync();
+        }
+    }
+
+    private async Task GoNext()
+    {
+        if (_controlledCarousel is not null)
+        {
+            await _controlledCarousel.NextAsync();
+        }
+    }
+
+    private async Task GoToFirst()
+    {
+        if (_controlledCarousel is not null)
+        {
+            await _controlledCarousel.GoToSlideAsync(0);
+        }
+    }
+
+    private async Task GoToLast()
+    {
+        if (_controlledCarousel is not null)
+        {
+            await _controlledCarousel.GoToSlideAsync(_controlledCarousel.SlideCount - 1);
+        }
+    }
+
+    private void HandleSlideStart(int index)
+    {
+        _eventLog.Add($"Slide start: {index + 1}");
+    }
+
+    private void HandleSlideEnd(int index)
+    {
+        _eventLog.Add($"Slide end: {index + 1}");
+    }
+
+    private void HandleIndexChanged(int index)
+    {
+        _eventLog.Add($"Index changed: {index + 1}");
+    }
+
+    private const string _basicCode =
+@"<TabCarousel>
+    <TabCarouselSlide ImageUrl=""image1.jpg"" />
+    <TabCarouselSlide ImageUrl=""image2.jpg"" />
+    <TabCarouselSlide ImageUrl=""image3.jpg"" />
+</TabCarousel>";
+
+    private const string _captionsCode =
+@"<TabCarousel>
+    <TabCarouselSlide ImageUrl=""image1.jpg""
+                      CaptionTitle=""First Slide""
+                      CaptionText=""Description for the first slide."" />
+    <TabCarouselSlide ImageUrl=""image2.jpg""
+                      CaptionTitle=""Second Slide""
+                      CaptionText=""Description for the second slide."" />
+</TabCarousel>";
+
+    private const string _captionBgCode =
+@"<TabCarouselSlide ImageUrl=""image.jpg""
+                  CaptionTitle=""Slide Title""
+                  CaptionText=""Description text""
+                  ShowCaptionBackground=""true"" />";
+
+    private const string _fadeCode =
+@"<TabCarousel Transition=""CarouselTransition.Fade"">
+    <TabCarouselSlide ImageUrl=""image1.jpg"" />
+    <TabCarouselSlide ImageUrl=""image2.jpg"" />
+</TabCarousel>";
+
+    private const string _dotCode =
+@"<TabCarousel IndicatorStyle=""CarouselIndicatorStyle.Dot"">
+    <TabCarouselSlide ImageUrl=""image1.jpg"" />
+    <TabCarouselSlide ImageUrl=""image2.jpg"" />
+</TabCarousel>";
+
+    private const string _thumbnailCode =
+@"<TabCarousel IndicatorStyle=""CarouselIndicatorStyle.Thumbnail"">
+    <TabCarouselSlide ImageUrl=""image1.jpg"" />
+    <TabCarouselSlide ImageUrl=""image2.jpg"" />
+</TabCarousel>";
+
+    private const string _verticalCode =
+@"<TabCarousel VerticalIndicators=""true"" IndicatorStyle=""CarouselIndicatorStyle.Dot"">
+    <TabCarouselSlide ImageUrl=""image1.jpg"" />
+    <TabCarouselSlide ImageUrl=""image2.jpg"" />
+</TabCarousel>";
+
+    private const string _autoplayCode =
+@"<TabCarousel AutoPlay=""true"" Interval=""3000"">
+    <TabCarouselSlide ImageUrl=""image1.jpg"" />
+    <TabCarouselSlide ImageUrl=""image2.jpg"" />
+</TabCarousel>";
+
+    private const string _noControlsCode =
+@"<TabCarousel ShowControls=""false"">
+    <TabCarouselSlide ImageUrl=""image1.jpg"" />
+    <TabCarouselSlide ImageUrl=""image2.jpg"" />
+</TabCarousel>";
+
+    private const string _noWrapCode =
+@"<TabCarousel Wrap=""false"">
+    <TabCarouselSlide ImageUrl=""image1.jpg"" />
+    <TabCarouselSlide ImageUrl=""image2.jpg"" />
+</TabCarousel>";
+
+    private const string _programmaticCode =
+@"<TabCarousel @ref=""carouselRef"">
+    <TabCarouselSlide ImageUrl=""image1.jpg"" />
+    <TabCarouselSlide ImageUrl=""image2.jpg"" />
+</TabCarousel>
+
+<button @onclick=""() => carouselRef.PreviousAsync()"">Previous</button>
+<button @onclick=""() => carouselRef.NextAsync()"">Next</button>
+<button @onclick=""() => carouselRef.GoToSlideAsync(0)"">Go to First</button>";
+
+    private const string _callbacksCode =
+@"<TabCarousel OnSlideStart=""HandleSlideStart""
+             OnSlideEnd=""HandleSlideEnd""
+             ActiveIndexChanged=""HandleIndexChanged"">
+    <TabCarouselSlide ImageUrl=""image1.jpg"" />
+    <TabCarouselSlide ImageUrl=""image2.jpg"" />
+</TabCarousel>
+
+@code {
+    private void HandleSlideStart(int index) => Console.WriteLine($""Starting slide {index}"");
+    private void HandleSlideEnd(int index) => Console.WriteLine($""Ended on slide {index}"");
+    private void HandleIndexChanged(int index) => Console.WriteLine($""Now on slide {index}"");
+}";
+
+    private const string _customContentCode =
+@"<TabCarousel>
+    <TabCarouselSlide>
+        <div class=""d-flex align-items-center justify-content-center bg-primary text-white"" style=""height: 300px;"">
+            <div class=""text-center"">
+                <h2>Welcome</h2>
+                <p>Custom content here</p>
+            </div>
+        </div>
+    </TabCarouselSlide>
+</TabCarousel>";
+
+    private const string _setupCode =
+@"<!-- Basic usage -->
+<TabCarousel>
+    <TabCarouselSlide ImageUrl=""image.jpg"" />
+</TabCarousel>
+
+<!-- With all options -->
+<TabCarousel ActiveIndex=""0""
+             Transition=""CarouselTransition.Slide""
+             ShowIndicators=""true""
+             IndicatorStyle=""CarouselIndicatorStyle.Default""
+             VerticalIndicators=""false""
+             ShowControls=""true""
+             AutoPlay=""false""
+             Interval=""5000""
+             PauseOnHover=""true""
+             EnableKeyboard=""true""
+             Wrap=""true""
+             TransitionDuration=""600""
+             OnSlideStart=""HandleSlideStart""
+             OnSlideEnd=""HandleSlideEnd""
+             ActiveIndexChanged=""HandleIndexChanged"">
+    <TabCarouselSlide ImageUrl=""image.jpg""
+                      ImageAlt=""Description""
+                      CaptionTitle=""Title""
+                      CaptionText=""Description""
+                      ShowCaptionBackground=""false""
+                      ThumbnailUrl=""thumb.jpg""
+                      Interval=""3000"" />
+</TabCarousel>";
+}

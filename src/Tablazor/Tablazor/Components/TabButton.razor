@@ -1,0 +1,33 @@
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    @if (Type == ButtonType.Link)
+    {
+        <a @ref="Element" id="@GetId()" href="@Href" class="@GetCssClass()" style="@Style" role="button" aria-disabled="@(Disabled ? "true" : null)" tabindex="@(Disabled ? -1 : null)" @onclick="HandleClickAsync" @onclick:preventDefault="@Disabled" @attributes="AdditionalAttributes">
+            @RenderContent()
+        </a>
+    }
+    else
+    {
+        <button @ref="Element" id="@GetId()" type="@GetButtonType()" class="@GetCssClass()" style="@Style" disabled="@Disabled" @onclick="HandleClickAsync" @attributes="AdditionalAttributes">
+            @RenderContent()
+        </button>
+    }
+}
+
+@code {
+    private RenderFragment RenderContent() => __builder =>
+    {
+        @if (IsLoading)
+        {
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        }
+        else if (!string.IsNullOrWhiteSpace(Icon))
+        {
+            <TabIcon Icon="@Icon" Size="@IconSize" CssClass="@GetIconCssClass()" />
+        }
+        
+        @ChildContent
+    };
+}

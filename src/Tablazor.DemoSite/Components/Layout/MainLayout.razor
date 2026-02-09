@@ -1,0 +1,20 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+    
+    <HeaderComponent />
+    
+    <div class="page-wrapper">
+        <TabPageHeader />
+        
+        <main id="content" class="page-body">
+            <div class="container-xl">
+                @Body
+            </div>
+        </main>
+        
+    </div>
+    
+</div>
+
+<TabToastContainer Position="ToastPosition.TopRight" @rendermode="InteractiveServer" />

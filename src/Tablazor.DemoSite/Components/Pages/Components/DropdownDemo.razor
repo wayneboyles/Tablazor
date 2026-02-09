@@ -1,0 +1,478 @@
+@page "/components/dropdown"
+@rendermode InteractiveServer
+@using Tablazor.Icons
+
+<PageTitle>Dropdown - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Dropdown</h1>
+    <p class="text-muted">
+        Dropdowns display a toggleable menu of actions and links. They can wrap buttons or other elements to provide contextual menus.
+    </p>
+</div>
+
+<ComponentDemo
+    Id="basic-dropdown"
+    Title="Basic Dropdown"
+    Description="A simple dropdown with a button toggle and menu items."
+    SourceCode="@_basicDropdownCode">
+    <TabDropdown @ref="_basicDropdown">
+        <TabButton Color="TabColors.Primary" OnClick="@(() => _basicDropdown.ToggleAsync())">
+            Dropdown
+        </TabButton>
+        <TabDropdownMenu>
+            <TabDropdownItem>Action</TabDropdownItem>
+            <TabDropdownItem>Another action</TabDropdownItem>
+            <TabDropdownItem>Something else</TabDropdownItem>
+        </TabDropdownMenu>
+    </TabDropdown>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="dropdown-colors"
+    Title="Dropdown Button Colors"
+    Description="Dropdowns can use buttons of any color."
+    SourceCode="@_dropdownColorsCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabDropdown @ref="_colorPrimary">
+            <TabButton Color="TabColors.Primary" OnClick="@(() => _colorPrimary.ToggleAsync())">Primary</TabButton>
+            <TabDropdownMenu>
+                <TabDropdownItem>Action 1</TabDropdownItem>
+                <TabDropdownItem>Action 2</TabDropdownItem>
+            </TabDropdownMenu>
+        </TabDropdown>
+        <TabDropdown @ref="_colorSuccess">
+            <TabButton Color="TabColors.Success" OnClick="@(() => _colorSuccess.ToggleAsync())">Success</TabButton>
+            <TabDropdownMenu>
+                <TabDropdownItem>Action 1</TabDropdownItem>
+                <TabDropdownItem>Action 2</TabDropdownItem>
+            </TabDropdownMenu>
+        </TabDropdown>
+        <TabDropdown @ref="_colorDanger">
+            <TabButton Color="TabColors.Danger" OnClick="@(() => _colorDanger.ToggleAsync())">Danger</TabButton>
+            <TabDropdownMenu>
+                <TabDropdownItem>Action 1</TabDropdownItem>
+                <TabDropdownItem>Action 2</TabDropdownItem>
+            </TabDropdownMenu>
+        </TabDropdown>
+        <TabDropdown @ref="_colorWarning">
+            <TabButton Color="TabColors.Warning" OnClick="@(() => _colorWarning.ToggleAsync())">Warning</TabButton>
+            <TabDropdownMenu>
+                <TabDropdownItem>Action 1</TabDropdownItem>
+                <TabDropdownItem>Action 2</TabDropdownItem>
+            </TabDropdownMenu>
+        </TabDropdown>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="dropdown-headers-dividers"
+    Title="Headers and Dividers"
+    Description="Use headers to label groups of items and dividers to separate them."
+    SourceCode="@_headersDividersCode">
+    <TabDropdown @ref="_headersDividers">
+        <TabButton Color="TabColors.Primary" OnClick="@(() => _headersDividers.ToggleAsync())">
+            Actions
+        </TabButton>
+        <TabDropdownMenu>
+            <TabDropdownHeader>File</TabDropdownHeader>
+            <TabDropdownItem>New</TabDropdownItem>
+            <TabDropdownItem>Open</TabDropdownItem>
+            <TabDropdownItem>Save</TabDropdownItem>
+            <TabDropdownDivider />
+            <TabDropdownHeader>Edit</TabDropdownHeader>
+            <TabDropdownItem>Cut</TabDropdownItem>
+            <TabDropdownItem>Copy</TabDropdownItem>
+            <TabDropdownItem>Paste</TabDropdownItem>
+        </TabDropdownMenu>
+    </TabDropdown>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="dropdown-icons"
+    Title="Items with Icons"
+    Description="Dropdown items can include icons for additional visual context."
+    SourceCode="@_iconsCode">
+    <TabDropdown @ref="_iconsDropdown">
+        <TabButton Color="TabColors.Primary" OnClick="@(() => _iconsDropdown.ToggleAsync())">
+            Options
+        </TabButton>
+        <TabDropdownMenu>
+            <TabDropdownItem Icon="@TabIcons.Outline.Ballpen">Edit</TabDropdownItem>
+            <TabDropdownItem Icon="@TabIcons.Outline.BookmarkPlus">Bookmark</TabDropdownItem>
+            <TabDropdownItem Icon="@TabIcons.Outline.BookDownload">Download</TabDropdownItem>
+            <TabDropdownDivider />
+            <TabDropdownItem Icon="@TabIcons.Outline.AlertTriangle">Delete</TabDropdownItem>
+        </TabDropdownMenu>
+    </TabDropdown>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="dropdown-active-disabled"
+    Title="Active and Disabled Items"
+    Description="Items can be marked as active to indicate the current selection, or disabled to prevent interaction."
+    SourceCode="@_activeDisabledCode">
+    <TabDropdown @ref="_activeDisabled">
+        <TabButton Color="TabColors.Primary" OnClick="@(() => _activeDisabled.ToggleAsync())">
+            Status
+        </TabButton>
+        <TabDropdownMenu>
+            <TabDropdownItem Active="true">Active Item</TabDropdownItem>
+            <TabDropdownItem>Normal Item</TabDropdownItem>
+            <TabDropdownItem Disabled="true">Disabled Item</TabDropdownItem>
+        </TabDropdownMenu>
+    </TabDropdown>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="dropdown-links"
+    Title="Link Items"
+    Description="Items can be rendered as links by providing an Href parameter."
+    SourceCode="@_linksCode">
+    <TabDropdown @ref="_linksDropdown">
+        <TabButton Color="TabColors.Info" OnClick="@(() => _linksDropdown.ToggleAsync())">
+            Links
+        </TabButton>
+        <TabDropdownMenu>
+            <TabDropdownItem Href="#" Icon="@TabIcons.Outline.AdjustmentsHeart">Dashboard</TabDropdownItem>
+            <TabDropdownItem Href="#" Icon="@TabIcons.Outline.Adjustments">Settings</TabDropdownItem>
+            <TabDropdownDivider />
+            <TabDropdownItem Href="#" Target="_blank" Icon="@TabIcons.Outline.ArrowUpRight">External Link</TabDropdownItem>
+        </TabDropdownMenu>
+    </TabDropdown>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="dropdown-directions"
+    Title="Dropdown Directions"
+    Description="Dropdowns can open in different directions: down (default), up, start, or end."
+    SourceCode="@_directionsCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabDropdown @ref="_dirDown" Direction="DropdownDirection.Down">
+            <TabButton Color="TabColors.Primary" OnClick="@(() => _dirDown.ToggleAsync())">Drop Down</TabButton>
+            <TabDropdownMenu>
+                <TabDropdownItem>Action 1</TabDropdownItem>
+                <TabDropdownItem>Action 2</TabDropdownItem>
+            </TabDropdownMenu>
+        </TabDropdown>
+        <TabDropdown @ref="_dirUp" Direction="DropdownDirection.Up">
+            <TabButton Color="TabColors.Secondary" OnClick="@(() => _dirUp.ToggleAsync())">Drop Up</TabButton>
+            <TabDropdownMenu>
+                <TabDropdownItem>Action 1</TabDropdownItem>
+                <TabDropdownItem>Action 2</TabDropdownItem>
+            </TabDropdownMenu>
+        </TabDropdown>
+        <TabDropdown @ref="_dirEnd" Direction="DropdownDirection.End">
+            <TabButton Color="TabColors.Success" OnClick="@(() => _dirEnd.ToggleAsync())">Drop End</TabButton>
+            <TabDropdownMenu>
+                <TabDropdownItem>Action 1</TabDropdownItem>
+                <TabDropdownItem>Action 2</TabDropdownItem>
+            </TabDropdownMenu>
+        </TabDropdown>
+        <TabDropdown @ref="_dirStart" Direction="DropdownDirection.Start">
+            <TabButton Color="TabColors.Info" OnClick="@(() => _dirStart.ToggleAsync())">Drop Start</TabButton>
+            <TabDropdownMenu>
+                <TabDropdownItem>Action 1</TabDropdownItem>
+                <TabDropdownItem>Action 2</TabDropdownItem>
+            </TabDropdownMenu>
+        </TabDropdown>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="dropdown-alignment"
+    Title="Menu Alignment"
+    Description="The dropdown menu can be aligned to the start (default) or end of the toggle element."
+    SourceCode="@_alignmentCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabDropdown @ref="_alignStart">
+            <TabButton Color="TabColors.Primary" OnClick="@(() => _alignStart.ToggleAsync())">Align Start</TabButton>
+            <TabDropdownMenu Alignment="DropdownAlignment.Start">
+                <TabDropdownItem>Action 1</TabDropdownItem>
+                <TabDropdownItem>Action 2</TabDropdownItem>
+                <TabDropdownItem>Action 3</TabDropdownItem>
+            </TabDropdownMenu>
+        </TabDropdown>
+        <TabDropdown @ref="_alignEnd">
+            <TabButton Color="TabColors.Secondary" OnClick="@(() => _alignEnd.ToggleAsync())">Align End</TabButton>
+            <TabDropdownMenu Alignment="DropdownAlignment.End">
+                <TabDropdownItem>Action 1</TabDropdownItem>
+                <TabDropdownItem>Action 2</TabDropdownItem>
+                <TabDropdownItem>Action 3</TabDropdownItem>
+            </TabDropdownMenu>
+        </TabDropdown>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="dropdown-click-handling"
+    Title="Click Event Handling"
+    Description="Dropdown items can handle click events. Click an item to see the result."
+    SourceCode="@_clickHandlingCode">
+    <div class="d-flex flex-wrap align-items-center gap-3">
+        <TabDropdown @ref="_clickDropdown">
+            <TabButton Color="TabColors.Primary" OnClick="@(() => _clickDropdown.ToggleAsync())">
+                Choose Action
+            </TabButton>
+            <TabDropdownMenu>
+                <TabDropdownItem OnClick="@(() => HandleItemClick("Edit"))">Edit</TabDropdownItem>
+                <TabDropdownItem OnClick="@(() => HandleItemClick("Duplicate"))">Duplicate</TabDropdownItem>
+                <TabDropdownItem OnClick="@(() => HandleItemClick("Archive"))">Archive</TabDropdownItem>
+                <TabDropdownDivider />
+                <TabDropdownItem OnClick="@(() => HandleItemClick("Delete"))">Delete</TabDropdownItem>
+            </TabDropdownMenu>
+        </TabDropdown>
+        @if (!string.IsNullOrEmpty(_lastAction))
+        {
+            <span class="text-muted">Last action: <strong>@_lastAction</strong></span>
+        }
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="dropdown-practical"
+    Title="Practical Example"
+    Description="A common use case showing a card with a dropdown actions menu."
+    SourceCode="@_practicalCode">
+    <div class="card" style="max-width: 400px;">
+        <div class="card-header">
+            <h3 class="card-title">Project Tasks</h3>
+            <div class="card-actions">
+                <TabDropdown @ref="_practicalDropdown">
+                    <TabButton Color="TabColors.Primary" Size="ButtonSize.Small" OnClick="@(() => _practicalDropdown.ToggleAsync())">
+                        Actions
+                    </TabButton>
+                    <TabDropdownMenu Alignment="DropdownAlignment.End">
+                        <TabDropdownItem Icon="@TabIcons.Outline.BookmarkPlus" OnClick="@(() => HandleItemClick("New task created"))">New Task</TabDropdownItem>
+                        <TabDropdownItem Icon="@TabIcons.Outline.BookUpload" OnClick="@(() => HandleItemClick("Import started"))">Import</TabDropdownItem>
+                        <TabDropdownItem Icon="@TabIcons.Outline.BookDownload" OnClick="@(() => HandleItemClick("Export started"))">Export</TabDropdownItem>
+                        <TabDropdownDivider />
+                        <TabDropdownItem Icon="@TabIcons.Outline.Adjustments" OnClick="@(() => HandleItemClick("Settings opened"))">Settings</TabDropdownItem>
+                    </TabDropdownMenu>
+                </TabDropdown>
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="text-muted">Use the actions dropdown to manage your project tasks.</p>
+            @if (!string.IsNullOrEmpty(_lastAction))
+            {
+                <TabBadge Color="TabColors.Success">@_lastAction</TabBadge>
+            }
+        </div>
+    </div>
+</ComponentDemo>
+
+@code {
+    private TabDropdown _basicDropdown = default!;
+    private TabDropdown _colorPrimary = default!;
+    private TabDropdown _colorSuccess = default!;
+    private TabDropdown _colorDanger = default!;
+    private TabDropdown _colorWarning = default!;
+    private TabDropdown _headersDividers = default!;
+    private TabDropdown _iconsDropdown = default!;
+    private TabDropdown _activeDisabled = default!;
+    private TabDropdown _linksDropdown = default!;
+    private TabDropdown _dirDown = default!;
+    private TabDropdown _dirUp = default!;
+    private TabDropdown _dirEnd = default!;
+    private TabDropdown _dirStart = default!;
+    private TabDropdown _alignStart = default!;
+    private TabDropdown _alignEnd = default!;
+    private TabDropdown _clickDropdown = default!;
+    private TabDropdown _practicalDropdown = default!;
+
+    private string? _lastAction;
+
+    private async Task HandleItemClick(string action)
+    {
+        _lastAction = action;
+        await _clickDropdown.CloseAsync();
+        await _practicalDropdown.CloseAsync();
+    }
+
+    private const string _basicDropdownCode =
+@"<TabDropdown @ref=""dropdown"">
+    <TabButton Color=""TabColors.Primary"" OnClick=""@(() => dropdown.ToggleAsync())"">
+        Dropdown
+    </TabButton>
+    <TabDropdownMenu>
+        <TabDropdownItem>Action</TabDropdownItem>
+        <TabDropdownItem>Another action</TabDropdownItem>
+        <TabDropdownItem>Something else</TabDropdownItem>
+    </TabDropdownMenu>
+</TabDropdown>
+
+@code {
+    private TabDropdown dropdown = default!;
+}";
+
+    private const string _dropdownColorsCode =
+@"<TabDropdown @ref=""primary"">
+    <TabButton Color=""TabColors.Primary"" OnClick=""@(() => primary.ToggleAsync())"">Primary</TabButton>
+    <TabDropdownMenu>
+        <TabDropdownItem>Action 1</TabDropdownItem>
+        <TabDropdownItem>Action 2</TabDropdownItem>
+    </TabDropdownMenu>
+</TabDropdown>
+<TabDropdown @ref=""success"">
+    <TabButton Color=""TabColors.Success"" OnClick=""@(() => success.ToggleAsync())"">Success</TabButton>
+    <TabDropdownMenu>
+        <TabDropdownItem>Action 1</TabDropdownItem>
+        <TabDropdownItem>Action 2</TabDropdownItem>
+    </TabDropdownMenu>
+</TabDropdown>";
+
+    private const string _headersDividersCode =
+@"<TabDropdown @ref=""dropdown"">
+    <TabButton Color=""TabColors.Primary"" OnClick=""@(() => dropdown.ToggleAsync())"">
+        Actions
+    </TabButton>
+    <TabDropdownMenu>
+        <TabDropdownHeader>File</TabDropdownHeader>
+        <TabDropdownItem>New</TabDropdownItem>
+        <TabDropdownItem>Open</TabDropdownItem>
+        <TabDropdownItem>Save</TabDropdownItem>
+        <TabDropdownDivider />
+        <TabDropdownHeader>Edit</TabDropdownHeader>
+        <TabDropdownItem>Cut</TabDropdownItem>
+        <TabDropdownItem>Copy</TabDropdownItem>
+        <TabDropdownItem>Paste</TabDropdownItem>
+    </TabDropdownMenu>
+</TabDropdown>";
+
+    private const string _iconsCode =
+@"<TabDropdown @ref=""dropdown"">
+    <TabButton Color=""TabColors.Primary"" OnClick=""@(() => dropdown.ToggleAsync())"">
+        Options
+    </TabButton>
+    <TabDropdownMenu>
+        <TabDropdownItem Icon=""@TabIcons.Outline.Ballpen"">Edit</TabDropdownItem>
+        <TabDropdownItem Icon=""@TabIcons.Outline.BookmarkPlus"">Bookmark</TabDropdownItem>
+        <TabDropdownItem Icon=""@TabIcons.Outline.BookDownload"">Download</TabDropdownItem>
+        <TabDropdownDivider />
+        <TabDropdownItem Icon=""@TabIcons.Outline.AlertTriangle"">Delete</TabDropdownItem>
+    </TabDropdownMenu>
+</TabDropdown>";
+
+    private const string _activeDisabledCode =
+@"<TabDropdown @ref=""dropdown"">
+    <TabButton Color=""TabColors.Primary"" OnClick=""@(() => dropdown.ToggleAsync())"">
+        Status
+    </TabButton>
+    <TabDropdownMenu>
+        <TabDropdownItem Active=""true"">Active Item</TabDropdownItem>
+        <TabDropdownItem>Normal Item</TabDropdownItem>
+        <TabDropdownItem Disabled=""true"">Disabled Item</TabDropdownItem>
+    </TabDropdownMenu>
+</TabDropdown>";
+
+    private const string _linksCode =
+@"<TabDropdown @ref=""dropdown"">
+    <TabButton Color=""TabColors.Info"" OnClick=""@(() => dropdown.ToggleAsync())"">
+        Links
+    </TabButton>
+    <TabDropdownMenu>
+        <TabDropdownItem Href=""#"" Icon=""@TabIcons.Outline.AdjustmentsHeart"">Dashboard</TabDropdownItem>
+        <TabDropdownItem Href=""#"" Icon=""@TabIcons.Outline.Adjustments"">Settings</TabDropdownItem>
+        <TabDropdownDivider />
+        <TabDropdownItem Href=""#"" Target=""_blank"" Icon=""@TabIcons.Outline.ArrowUpRight"">External Link</TabDropdownItem>
+    </TabDropdownMenu>
+</TabDropdown>";
+
+    private const string _directionsCode =
+@"<TabDropdown @ref=""dirDown"" Direction=""DropdownDirection.Down"">
+    <TabButton Color=""TabColors.Primary"" OnClick=""@(() => dirDown.ToggleAsync())"">Drop Down</TabButton>
+    <TabDropdownMenu>
+        <TabDropdownItem>Action 1</TabDropdownItem>
+        <TabDropdownItem>Action 2</TabDropdownItem>
+    </TabDropdownMenu>
+</TabDropdown>
+<TabDropdown @ref=""dirUp"" Direction=""DropdownDirection.Up"">
+    <TabButton Color=""TabColors.Secondary"" OnClick=""@(() => dirUp.ToggleAsync())"">Drop Up</TabButton>
+    <TabDropdownMenu>
+        <TabDropdownItem>Action 1</TabDropdownItem>
+        <TabDropdownItem>Action 2</TabDropdownItem>
+    </TabDropdownMenu>
+</TabDropdown>
+<TabDropdown @ref=""dirEnd"" Direction=""DropdownDirection.End"">
+    <TabButton Color=""TabColors.Success"" OnClick=""@(() => dirEnd.ToggleAsync())"">Drop End</TabButton>
+    <TabDropdownMenu>
+        <TabDropdownItem>Action 1</TabDropdownItem>
+        <TabDropdownItem>Action 2</TabDropdownItem>
+    </TabDropdownMenu>
+</TabDropdown>
+<TabDropdown @ref=""dirStart"" Direction=""DropdownDirection.Start"">
+    <TabButton Color=""TabColors.Info"" OnClick=""@(() => dirStart.ToggleAsync())"">Drop Start</TabButton>
+    <TabDropdownMenu>
+        <TabDropdownItem>Action 1</TabDropdownItem>
+        <TabDropdownItem>Action 2</TabDropdownItem>
+    </TabDropdownMenu>
+</TabDropdown>";
+
+    private const string _alignmentCode =
+@"<TabDropdown @ref=""alignStart"">
+    <TabButton Color=""TabColors.Primary"" OnClick=""@(() => alignStart.ToggleAsync())"">Align Start</TabButton>
+    <TabDropdownMenu Alignment=""DropdownAlignment.Start"">
+        <TabDropdownItem>Action 1</TabDropdownItem>
+        <TabDropdownItem>Action 2</TabDropdownItem>
+    </TabDropdownMenu>
+</TabDropdown>
+<TabDropdown @ref=""alignEnd"">
+    <TabButton Color=""TabColors.Secondary"" OnClick=""@(() => alignEnd.ToggleAsync())"">Align End</TabButton>
+    <TabDropdownMenu Alignment=""DropdownAlignment.End"">
+        <TabDropdownItem>Action 1</TabDropdownItem>
+        <TabDropdownItem>Action 2</TabDropdownItem>
+    </TabDropdownMenu>
+</TabDropdown>";
+
+    private const string _clickHandlingCode =
+@"<TabDropdown @ref=""dropdown"">
+    <TabButton Color=""TabColors.Primary"" OnClick=""@(() => dropdown.ToggleAsync())"">
+        Choose Action
+    </TabButton>
+    <TabDropdownMenu>
+        <TabDropdownItem OnClick=""@(() => HandleItemClick(""Edit""))"">Edit</TabDropdownItem>
+        <TabDropdownItem OnClick=""@(() => HandleItemClick(""Duplicate""))"">Duplicate</TabDropdownItem>
+        <TabDropdownItem OnClick=""@(() => HandleItemClick(""Archive""))"">Archive</TabDropdownItem>
+        <TabDropdownDivider />
+        <TabDropdownItem OnClick=""@(() => HandleItemClick(""Delete""))"">Delete</TabDropdownItem>
+    </TabDropdownMenu>
+</TabDropdown>
+<span>Last action: <strong>@_lastAction</strong></span>
+
+@code {
+    private TabDropdown dropdown = default!;
+    private string? _lastAction;
+
+    private async Task HandleItemClick(string action)
+    {
+        _lastAction = action;
+        await dropdown.CloseAsync();
+    }
+}";
+
+    private const string _practicalCode =
+@"<div class=""card"" style=""max-width: 400px;"">
+    <div class=""card-header"">
+        <h3 class=""card-title"">Project Tasks</h3>
+        <div class=""card-actions"">
+            <TabDropdown @ref=""dropdown"">
+                <TabButton Color=""TabColors.Primary"" Size=""ButtonSize.Small""
+                    OnClick=""@(() => dropdown.ToggleAsync())"">
+                    Actions
+                </TabButton>
+                <TabDropdownMenu Alignment=""DropdownAlignment.End"">
+                    <TabDropdownItem Icon=""@TabIcons.Outline.BookmarkPlus"">New Task</TabDropdownItem>
+                    <TabDropdownItem Icon=""@TabIcons.Outline.BookUpload"">Import</TabDropdownItem>
+                    <TabDropdownItem Icon=""@TabIcons.Outline.BookDownload"">Export</TabDropdownItem>
+                    <TabDropdownDivider />
+                    <TabDropdownItem Icon=""@TabIcons.Outline.Adjustments"">Settings</TabDropdownItem>
+                </TabDropdownMenu>
+            </TabDropdown>
+        </div>
+    </div>
+    <div class=""card-body"">
+        <p class=""text-muted"">Use the actions dropdown to manage your project tasks.</p>
+    </div>
+</div>";
+}

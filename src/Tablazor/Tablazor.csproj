@@ -1,0 +1,77 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <Import Project="../../common.props" />
+
+    <PropertyGroup>
+        <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <RootNamespace />
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <PackageId>Tablazor</PackageId>
+        <PackageIconUrl>logo.png</PackageIconUrl>
+        <Authors>Wayne Boyles</Authors>
+        <Company>Wayne Boyles</Company>
+        <Product>Tablazor</Product>
+        <Description>A Blazor component library built on the Tabler CSS framework. Provides 40+ reusable UI components including buttons, badges, avatars, modals, toasts, carousels, and more for Blazor Server and WebAssembly applications.</Description>
+        <Copyright>Copyright (c) Wayne Boyles</Copyright>
+        <PackageTags>blazor;blazor-components;tabler;ui;components;razor;dotnet;csharp;webassembly;blazor-server;blazor-wasm</PackageTags>
+        <PackageProjectUrl>https://github.com/WayneBoyles/Tablazor</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/WayneBoyles/Tablazor</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageReleaseNotes>Tablazor - A Blazor component library based on the Tabler.io CSS Framework.</PackageReleaseNotes>
+    </PropertyGroup>
+    
+    <!-- SourceLink -->
+    <PropertyGroup>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    </PropertyGroup>
+    
+    <!-- Assembly Versions -->
+    <PropertyGroup>
+        <VersionPrefix>0.5.1</VersionPrefix>
+        <VersionSuffix>beta</VersionSuffix>
+        <AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
+        <FileVersion>$(VersionPrefix)</FileVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="../../README.md" Pack="true" PackagePath="/" />
+        <None Include="../../logo.png" Pack="true" PackagePath="/" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <SupportedPlatform Include="browser"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Tablazor.Tests"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.2"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.12"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.23"/>
+    </ItemGroup>
+    
+    <!-- Common Packages -->
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.102" PrivateAssets="All" />
+    </ItemGroup>
+
+</Project>

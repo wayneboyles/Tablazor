@@ -1,0 +1,65 @@
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    <div @ref="Element" id="@_carouselId" class="@GetCssClass()" style="@Style" tabindex="0" @onkeydown="HandleKeyDownAsync" @onmouseenter="HandleMouseEnter" @onmouseleave="HandleMouseLeave" @attributes="AdditionalAttributes">
+
+        @* Indicators *@
+        @if (ShowIndicators && _slides.Count > 1)
+        {
+            <div class="@BuildIndicatorsCssClass()">
+                @for (var i = 0; i < _slides.Count; i++)
+                {
+                    var index = i;
+                    var slide = _slides[i];
+
+                    @if (IndicatorStyle == CarouselIndicatorStyle.Thumbnail && !string.IsNullOrEmpty(slide.EffectiveThumbnailUrl))
+                    {
+                        <button type="button"
+                                class="ratio ratio-4x3 @(index == _activeIndex ? "active" : "")"
+                                style="background-image: url('@slide.EffectiveThumbnailUrl')"
+                                aria-current="@(index == _activeIndex ? "true" : "false")"
+                                aria-label="Slide @(index + 1)"
+                                @onclick="() => HandleIndicatorClickAsync(index)">
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button"
+                                class="@(index == _activeIndex ? "active" : "")"
+                                aria-current="@(index == _activeIndex ? "true" : "false")"
+                                aria-label="Slide @(index + 1)"
+                                @onclick="() => HandleIndicatorClickAsync(index)">
+                        </button>
+                    }
+                }
+            </div>
+        }
+
+        @* Slides Container *@
+        <div class="carousel-inner">
+            <CascadingValue Value="this">
+                @ChildContent
+            </CascadingValue>
+        </div>
+
+        @* Previous/Next Controls *@
+        @if (ShowControls && _slides.Count > 1)
+        {
+            <button class="carousel-control-prev"
+                    type="button"
+                    aria-label="Previous"
+                    @onclick="HandlePreviousClickAsync">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next"
+                    type="button"
+                    aria-label="Next"
+                    @onclick="HandleNextClickAsync">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        }
+    </div>
+}

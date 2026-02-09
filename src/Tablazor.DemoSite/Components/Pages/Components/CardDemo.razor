@@ -1,0 +1,392 @@
+@page "/components/card"
+@rendermode InteractiveServer
+
+<PageTitle>Card - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Card</h1>
+    <p class="text-muted">
+        Cards are flexible containers for displaying content. They support headers, bodies, footers,
+        status indicators, and various styling options.
+    </p>
+</div>
+
+<ComponentDemo Id="basic-card" Title="Basic Card" Description="A simple card with a body section." SourceCode="@_basicCardCode">
+    <TabCard>
+        <TabCardBody>
+            This is a basic card with some content.
+        </TabCardBody>
+    </TabCard>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="card-with-header"
+    Title="Card with Header"
+    Description="Cards can include a header section with a title."
+    SourceCode="@_cardWithHeaderCode">
+    <TabCard>
+        <TabCardHeader>
+            <TabCardTitle>Card Title</TabCardTitle>
+        </TabCardHeader>
+        <TabCardBody>
+            This card has a header with a title and a body section.
+        </TabCardBody>
+    </TabCard>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="card-with-title-subtitle"
+    Title="Card with Title and Subtitle"
+    Description="Add a subtitle for additional context."
+    SourceCode="@_cardWithTitleSubtitleCode">
+    <TabCard>
+        <TabCardHeader>
+            <TabCardTitle>Main Title</TabCardTitle>
+            <TabCardSubtitle>Supporting subtitle text</TabCardSubtitle>
+        </TabCardHeader>
+        <TabCardBody>
+            Cards can have both a title and subtitle in the header for better organization.
+        </TabCardBody>
+    </TabCard>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="card-with-actions"
+    Title="Card with Header Actions"
+    Description="Include action buttons or controls in the card header."
+    SourceCode="@_cardWithActionsCode">
+    <TabCard>
+        <TabCardHeader>
+            <TabCardTitle>Card with Actions</TabCardTitle>
+            <TabCardActions>
+                <button class="btn btn-primary btn-sm">Action</button>
+            </TabCardActions>
+        </TabCardHeader>
+        <TabCardBody>
+            The header can include action buttons aligned to the right.
+        </TabCardBody>
+    </TabCard>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="card-with-footer"
+    Title="Card with Footer"
+    Description="Cards can have a footer section for actions or additional information."
+    SourceCode="@_cardWithFooterCode">
+    <TabCard>
+        <TabCardHeader>
+            <TabCardTitle>Complete Card</TabCardTitle>
+        </TabCardHeader>
+        <TabCardBody>
+            This card demonstrates the complete structure with header, body, and footer.
+        </TabCardBody>
+        <TabCardFooter>
+            <button class="btn btn-primary">Save</button>
+            <button class="btn btn-secondary ms-2">Cancel</button>
+        </TabCardFooter>
+    </TabCard>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="card-status-top"
+    Title="Status Border - Top"
+    Description="Add a colored status border to the top of the card."
+    SourceCode="@_cardStatusTopCode">
+    <div class="row g-3">
+        <div class="col-md-4">
+            <TabCard StatusPosition="CardStatusPosition.Top" StatusColor="TabColors.Primary">
+                <TabCardBody>
+                    <TabCardTitle>Primary</TabCardTitle>
+                    Status border at top
+                </TabCardBody>
+            </TabCard>
+        </div>
+        <div class="col-md-4">
+            <TabCard StatusPosition="CardStatusPosition.Top" StatusColor="TabColors.Success">
+                <TabCardBody>
+                    <TabCardTitle>Success</TabCardTitle>
+                    Status border at top
+                </TabCardBody>
+            </TabCard>
+        </div>
+        <div class="col-md-4">
+            <TabCard StatusPosition="CardStatusPosition.Top" StatusColor="TabColors.Danger">
+                <TabCardBody>
+                    <TabCardTitle>Danger</TabCardTitle>
+                    Status border at top
+                </TabCardBody>
+            </TabCard>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="card-status-start"
+    Title="Status Border - Start"
+    Description="Add a colored status border to the start (left) of the card."
+    SourceCode="@_cardStatusStartCode">
+    <div class="row g-3">
+        <div class="col-md-4">
+            <TabCard StatusPosition="CardStatusPosition.Start" StatusColor="TabColors.Primary">
+                <TabCardBody>
+                    <TabCardTitle>Primary</TabCardTitle>
+                    Status border at start
+                </TabCardBody>
+            </TabCard>
+        </div>
+        <div class="col-md-4">
+            <TabCard StatusPosition="CardStatusPosition.Start" StatusColor="TabColors.Warning">
+                <TabCardBody>
+                    <TabCardTitle>Warning</TabCardTitle>
+                    Status border at start
+                </TabCardBody>
+            </TabCard>
+        </div>
+        <div class="col-md-4">
+            <TabCard StatusPosition="CardStatusPosition.Start" StatusColor="TabColors.Info">
+                <TabCardBody>
+                    <TabCardTitle>Info</TabCardTitle>
+                    Status border at start
+                </TabCardBody>
+            </TabCard>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="card-padding"
+    Title="Padding Sizes"
+    Description="Cards support different padding sizes for compact or spacious layouts."
+    SourceCode="@_cardPaddingCode">
+    <div class="row g-3">
+        <div class="col-md-4">
+            <TabCard Padding="CardPadding.Small">
+                <TabCardBody>
+                    <TabCardTitle>Small Padding</TabCardTitle>
+                    Compact card with smaller padding.
+                </TabCardBody>
+            </TabCard>
+        </div>
+        <div class="col-md-4">
+            <TabCard Padding="CardPadding.Medium">
+                <TabCardBody>
+                    <TabCardTitle>Medium Padding</TabCardTitle>
+                    Standard card with medium padding.
+                </TabCardBody>
+            </TabCard>
+        </div>
+        <div class="col-md-4">
+            <TabCard Padding="CardPadding.Large">
+                <TabCardBody>
+                    <TabCardTitle>Large Padding</TabCardTitle>
+                    Spacious card with larger padding.
+                </TabCardBody>
+            </TabCard>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="card-stacked"
+    Title="Stacked Cards"
+    Description="Create a visual effect of stacked cards."
+    SourceCode="@_cardStackedCode">
+    <div class="row">
+        <div class="col-md-6">
+            <TabCard Stacked="true">
+                <TabCardHeader>
+                    <TabCardTitle>Stacked Card</TabCardTitle>
+                </TabCardHeader>
+                <TabCardBody>
+                    This card appears as if there are multiple cards stacked behind it.
+                </TabCardBody>
+            </TabCard>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="card-borderless"
+    Title="Borderless Cards"
+    Description="Remove the border for a cleaner appearance."
+    SourceCode="@_cardBorderlessCode">
+    <TabCard Borderless="true" CssClass="bg-light">
+        <TabCardBody>
+            <TabCardTitle>Borderless Card</TabCardTitle>
+            This card has no border, providing a cleaner look.
+        </TabCardBody>
+    </TabCard>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="card-visibility"
+    Title="Conditional Visibility"
+    Description="Cards can be conditionally shown or hidden using the Visible parameter."
+    SourceCode="@_cardVisibilityCode">
+    <div class="d-flex flex-wrap align-items-center gap-3">
+        <button class="btn btn-primary" @onclick="ToggleCard">Toggle Card</button>
+        <TabCard Visible="@_showCard" CssClass="flex-grow-1">
+            <TabCardBody>
+                This card can be toggled on and off.
+            </TabCardBody>
+        </TabCard>
+    </div>
+</ComponentDemo>
+
+@code {
+    private bool _showCard = true;
+
+    private void ToggleCard() => _showCard = !_showCard;
+
+    private const string _basicCardCode =
+@"<TabCard>
+    <TabCardBody>
+        This is a basic card with some content.
+    </TabCardBody>
+</TabCard>";
+
+    private const string _cardWithHeaderCode =
+@"<TabCard>
+    <TabCardHeader>
+        <TabCardTitle>Card Title</TabCardTitle>
+    </TabCardHeader>
+    <TabCardBody>
+        This card has a header with a title and a body section.
+    </TabCardBody>
+</TabCard>";
+
+    private const string _cardWithTitleSubtitleCode =
+@"<TabCard>
+    <TabCardHeader>
+        <TabCardTitle>Main Title</TabCardTitle>
+        <TabCardSubtitle>Supporting subtitle text</TabCardSubtitle>
+    </TabCardHeader>
+    <TabCardBody>
+        Cards can have both a title and subtitle in the header for better organization.
+    </TabCardBody>
+</TabCard>";
+
+    private const string _cardWithActionsCode =
+@"<TabCard>
+    <TabCardHeader>
+        <TabCardTitle>Card with Actions</TabCardTitle>
+        <TabCardActions>
+            <button class=""btn btn-primary btn-sm"">Action</button>
+        </TabCardActions>
+    </TabCardHeader>
+    <TabCardBody>
+        The header can include action buttons aligned to the right.
+    </TabCardBody>
+</TabCard>";
+
+    private const string _cardWithFooterCode =
+@"<TabCard>
+    <TabCardHeader>
+        <TabCardTitle>Complete Card</TabCardTitle>
+    </TabCardHeader>
+    <TabCardBody>
+        This card demonstrates the complete structure with header, body, and footer.
+    </TabCardBody>
+    <TabCardFooter>
+        <button class=""btn btn-primary"">Save</button>
+        <button class=""btn btn-secondary ms-2"">Cancel</button>
+    </TabCardFooter>
+</TabCard>";
+
+    private const string _cardStatusTopCode =
+@"<TabCard StatusPosition=""CardStatusPosition.Top"" StatusColor=""TabColors.Primary"">
+    <TabCardBody>
+        <TabCardTitle>Primary</TabCardTitle>
+        Status border at top
+    </TabCardBody>
+</TabCard>
+
+<TabCard StatusPosition=""CardStatusPosition.Top"" StatusColor=""TabColors.Success"">
+    <TabCardBody>
+        <TabCardTitle>Success</TabCardTitle>
+        Status border at top
+    </TabCardBody>
+</TabCard>
+
+<TabCard StatusPosition=""CardStatusPosition.Top"" StatusColor=""TabColors.Danger"">
+    <TabCardBody>
+        <TabCardTitle>Danger</TabCardTitle>
+        Status border at top
+    </TabCardBody>
+</TabCard>";
+
+    private const string _cardStatusStartCode =
+@"<TabCard StatusPosition=""CardStatusPosition.Start"" StatusColor=""TabColors.Primary"">
+    <TabCardBody>
+        <TabCardTitle>Primary</TabCardTitle>
+        Status border at start
+    </TabCardBody>
+</TabCard>
+
+<TabCard StatusPosition=""CardStatusPosition.Start"" StatusColor=""TabColors.Warning"">
+    <TabCardBody>
+        <TabCardTitle>Warning</TabCardTitle>
+        Status border at start
+    </TabCardBody>
+</TabCard>
+
+<TabCard StatusPosition=""CardStatusPosition.Start"" StatusColor=""TabColors.Info"">
+    <TabCardBody>
+        <TabCardTitle>Info</TabCardTitle>
+        Status border at start
+    </TabCardBody>
+</TabCard>";
+
+    private const string _cardPaddingCode =
+@"<TabCard Padding=""CardPadding.Small"">
+    <TabCardBody>
+        <TabCardTitle>Small Padding</TabCardTitle>
+        Compact card with smaller padding.
+    </TabCardBody>
+</TabCard>
+
+<TabCard Padding=""CardPadding.Medium"">
+    <TabCardBody>
+        <TabCardTitle>Medium Padding</TabCardTitle>
+        Standard card with medium padding.
+    </TabCardBody>
+</TabCard>
+
+<TabCard Padding=""CardPadding.Large"">
+    <TabCardBody>
+        <TabCardTitle>Large Padding</TabCardTitle>
+        Spacious card with larger padding.
+    </TabCardBody>
+</TabCard>";
+
+    private const string _cardStackedCode =
+@"<TabCard Stacked=""true"">
+    <TabCardHeader>
+        <TabCardTitle>Stacked Card</TabCardTitle>
+    </TabCardHeader>
+    <TabCardBody>
+        This card appears as if there are multiple cards stacked behind it.
+    </TabCardBody>
+</TabCard>";
+
+    private const string _cardBorderlessCode =
+@"<TabCard Borderless=""true"" CssClass=""bg-light"">
+    <TabCardBody>
+        <TabCardTitle>Borderless Card</TabCardTitle>
+        This card has no border, providing a cleaner look.
+    </TabCardBody>
+</TabCard>";
+
+    private const string _cardVisibilityCode =
+@"<button class=""btn btn-primary"" @onclick=""ToggleCard"">Toggle Card</button>
+<TabCard Visible=""@_showCard"">
+    <TabCardBody>
+        This card can be toggled on and off.
+    </TabCardBody>
+</TabCard>
+
+@code {
+    private bool _showCard = true;
+    private void ToggleCard() => _showCard = !_showCard;
+}";
+}

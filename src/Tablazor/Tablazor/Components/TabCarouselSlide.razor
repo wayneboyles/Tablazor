@@ -1,0 +1,39 @@
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    <div @ref="Element" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+        @if (!string.IsNullOrEmpty(ImageUrl))
+        {
+            <img src="@ImageUrl" class="d-block w-100" alt="@(ImageAlt ?? "")" />
+        }
+        @if (ChildContent is not null)
+        {
+            @ChildContent
+        }
+        @if (HasCaption)
+        {
+            @if (ShowCaptionBackground)
+            {
+                <div class="carousel-caption-background d-none d-md-block"></div>
+            }
+            <div class="@BuildCaptionCssClass()">
+                @if (CaptionContent is not null)
+                {
+                    @CaptionContent
+                }
+                else
+                {
+                    @if (!string.IsNullOrEmpty(CaptionTitle))
+                    {
+                        <h3>@CaptionTitle</h3>
+                    }
+                    @if (!string.IsNullOrEmpty(CaptionText))
+                    {
+                        <p>@CaptionText</p>
+                    }
+                }
+            </div>
+        }
+    </div>
+}

@@ -1,0 +1,30 @@
+﻿@inherits TabBaseComponent
+
+@if (Visible)
+{
+    <CascadingValue Value="this">
+        <div @ref="Element" id="@GetId()" class="@GetCssClass()" style="@GetStyleString()" @attributes="AdditionalAttributes">
+            <div class="container-xl">
+                <div class="row g-2 align-items-center">
+                    <div class="col">
+                        @if (!string.IsNullOrWhiteSpace(HeaderService?.Subtitle))
+                        {
+                            <div class="page-pretitle">
+                                @HeaderService.Subtitle
+                            </div>
+                        }
+                        <h2 class="page-title">@HeaderService?.Title</h2>
+                    </div>
+                    @if (@HeaderService?.ChildContent != null)
+                    {
+                        <div class="col-auto ms-auto">
+                            <div class="btn-list">
+                                @HeaderService?.ChildContent
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </CascadingValue>
+}

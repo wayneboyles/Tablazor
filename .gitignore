@@ -11,6 +11,12 @@
 *.sln.docstates
 *.env
 
+# Nuget Packages
+[Nn]upkg/
+
+# Don't include Docs for now
+[Dd]ocs/
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -416,3 +422,10 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Rider
+.idea
+
+# Claude Code
+.claude
+CLAUDE.md

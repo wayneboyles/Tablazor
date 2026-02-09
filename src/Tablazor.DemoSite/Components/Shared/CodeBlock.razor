@@ -1,0 +1,72 @@
+﻿@inject IJSRuntime JsRuntime
+@implements IAsyncDisposable
+
+<div class="code-block">
+    <div class="code-block-header">
+        <span class="code-block-language">@Language</span>
+        <button class="btn btn-sm btn-ghost-secondary" @onclick="CopyCode">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" />
+                <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+            </svg>
+            @(_copied ? "Copied!" : "Copy")
+        </button>
+    </div>
+    <pre><code class="language-@Language.ToLower()">@Code</code></pre>
+</div>
+
+@code {
+
+    private bool _copied;
+    private IJSObjectReference? _module;
+
+    [Parameter]
+    public string Code { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Language { get; set; } = "razor";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./Components/Shared/CodeBlock.razor.js");
+            await _module.InvokeVoidAsync("highlightCode");
+        }
+    }
+
+    private async Task CopyCode()
+    {
+        if (_module != null)
+        {
+            await _module.InvokeVoidAsync("copyToClipboard", Code);
+            _copied = true;
+            StateHasChanged();
+
+            await Task.Delay(2000);
+            _copied = false;
+            StateHasChanged();
+        }
+    }
+
+    /// <summary>
+    /// Performs application-defined tasks associated with freeing, releasing, or
+    /// resetting unmanaged resources asynchronously.</summary>
+    /// <returns>A task that represents the asynchronous dispose operation.</returns>
+    public async ValueTask DisposeAsync()
+    {
+        if (_module != null)
+        {
+            try
+            {
+                await _module.DisposeAsync();
+            }
+            catch
+            {
+                // Ignore disposal errors
+            }
+        }
+    }
+
+}

@@ -1,0 +1,194 @@
+@page "/components/icon"
+@using Tablazor.Icons
+
+<PageTitle>Icon - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Icon</h1>
+    <p class="text-muted">
+        Tablazor includes over 4,000 Tabler icons. Icons can be customized with different sizes, colors, stroke widths, and animations.
+    </p>
+</div>
+
+<ComponentDemo
+    Id="basic-icon"
+    Title="Basic Icons"
+    Description="Display icons using the Icon parameter with icon names from TabIcons.Outline or TabIcons.Filled."
+    SourceCode="@_basicIconCode">
+    <div class="d-flex flex-wrap gap-3">
+        <TabIcon Icon="@TabIcons.Outline.Bell" />
+        <TabIcon Icon="@TabIcons.Outline.Bell" />
+        <TabIcon Icon="@TabIcons.Outline.Ad2" />
+        <TabIcon Icon="@TabIcons.Outline.Bell" />
+        <TabIcon Icon="@TabIcons.Outline.BellHeart" />
+        <TabIcon Icon="@TabIcons.Outline.BellStar" />
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="icon-sizes"
+    Title="Icon Sizes"
+    Description="Change icon size using the Size parameter (default is 24)."
+    SourceCode="@_iconSizesCode">
+    <div class="d-flex flex-wrap align-items-center gap-3">
+        <TabIcon Icon="@TabIcons.Outline.BellStar" Size="16" />
+        <TabIcon Icon="@TabIcons.Outline.BellStar" Size="24" />
+        <TabIcon Icon="@TabIcons.Outline.BellStar" Size="32" />
+        <TabIcon Icon="@TabIcons.Outline.BellStar" Size="48" />
+        <TabIcon Icon="@TabIcons.Outline.BellStar" Size="64" />
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="icon-colors"
+    Title="Icon Colors"
+    Description="Apply colors to icons using the Color parameter."
+    SourceCode="@_iconColorsCode">
+    <div class="d-flex flex-wrap gap-3">
+        <TabIcon Icon="@TabIcons.Outline.BellStar" Color="TabColors.Primary" />
+        <TabIcon Icon="@TabIcons.Outline.BellStar" Color="TabColors.Secondary" />
+        <TabIcon Icon="@TabIcons.Outline.BellStar" Color="TabColors.Success" />
+        <TabIcon Icon="@TabIcons.Outline.BellStar" Color="TabColors.Warning" />
+        <TabIcon Icon="@TabIcons.Outline.BellStar" Color="TabColors.Danger" />
+        <TabIcon Icon="@TabIcons.Outline.BellStar" Color="TabColors.Info" />
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="icon-stroke"
+    Title="Stroke Width"
+    Description="Adjust the stroke width of icons using the StrokeWidth parameter (default is 2)."
+    SourceCode="@_iconStrokeCode">
+    <div class="d-flex flex-wrap align-items-center gap-3">
+        <TabIcon Icon="@TabIcons.Outline.BellStar" Size="32" StrokeWidth="1" />
+        <TabIcon Icon="@TabIcons.Outline.BellStar" Size="32" StrokeWidth="2" />
+        <TabIcon Icon="@TabIcons.Outline.BellStar" Size="32" StrokeWidth="3" />
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="icon-animations"
+    Title="Icon Animations"
+    Description="Add animations to icons using the Animation parameter."
+    SourceCode="@_iconAnimationsCode">
+    <div class="d-flex flex-wrap align-items-center gap-4">
+        <div class="text-center">
+            <TabIcon Icon="@TabIcons.Outline.Bell" Size="32" Animation="IconAnimation.Pulse" />
+            <div class="text-muted small mt-1">Pulse</div>
+        </div>
+        <div class="text-center">
+            <TabIcon Icon="@TabIcons.Outline.BellStar" Size="32" Animation="IconAnimation.Tada" />
+            <div class="text-muted small mt-1">Tada</div>
+        </div>
+        <div class="text-center">
+            <TabIcon Icon="@TabIcons.Outline.BellStar" Size="32" Animation="IconAnimation.Rotate" />
+            <div class="text-muted small mt-1">Rotate</div>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="filled-icons"
+    Title="Filled Icons"
+    Description="Use filled versions of icons from TabIcons.Filled."
+    SourceCode="@_filledIconsCode">
+    <div class="d-flex flex-wrap gap-3">
+        <div class="text-center">
+            <TabIcon Icon="@TabIcons.Outline.BellStar" Size="32" />
+            <div class="text-muted small mt-1">Outline</div>
+        </div>
+        <div class="text-center">
+            <TabIcon Icon="@TabIcons.Filled.Heart" Size="32" Color="TabColors.Danger" />
+            <div class="text-muted small mt-1">Filled</div>
+        </div>
+        <div class="text-center">
+            <TabIcon Icon="@TabIcons.Outline.BellStar" Size="32" />
+            <div class="text-muted small mt-1">Outline</div>
+        </div>
+        <div class="text-center">
+            <TabIcon Icon="@TabIcons.Filled.Star" Size="32" Color="TabColors.Warning" />
+            <div class="text-muted small mt-1">Filled</div>
+        </div>
+    </div>
+</ComponentDemo>
+
+@code {
+    private record IconInfo(string Name, string Path);
+
+    // private readonly List<IconInfo> _commonIcons = new()
+    // {
+    //     new("Home", TabIcons.Outline.Home),
+    //     new("User", TabIcons.Outline.User),
+    //     new("Settings", TabIcons.Outline.Settings),
+    //     new("Bell", TabIcons.Outline.Bell),
+    //     new("Search", TabIcons.Outline.Search),
+    //     new("Menu", TabIcons.Outline.Menu2),
+    //     new("Close", TabIcons.Outline.X),
+    //     new("Check", TabIcons.Outline.Check),
+    //     new("Plus", TabIcons.Outline.Plus),
+    //     new("Minus", TabIcons.Outline.Minus),
+    //     new("Edit", TabIcons.Outline.Edit),
+    //     new("Trash", TabIcons.Outline.Trash),
+    //     new("Download", TabIcons.Outline.Download),
+    //     new("Upload", TabIcons.Outline.Upload),
+    //     new("Mail", TabIcons.Outline.Mail),
+    //     new("Calendar", TabIcons.Outline.Calendar),
+    //     new("Clock", TabIcons.Outline.Clock),
+    //     new("Map", TabIcons.Outline.MapPin),
+    // };
+
+    private const string _basicIconCode =
+@"@using Tablazor.Icons
+
+<TabIcon Icon=""@TabIcons.Outline.Home"" />
+<TabIcon Icon=""@TabIcons.Outline.User"" />
+<TabIcon Icon=""@TabIcons.Outline.Settings"" />
+<TabIcon Icon=""@TabIcons.Outline.Bell"" />
+<TabIcon Icon=""@TabIcons.Outline.Heart"" />
+<TabIcon Icon=""@TabIcons.Outline.Star"" />";
+
+    private const string _iconSizesCode =
+@"<TabIcon Icon=""@TabIcons.Outline.Star"" Size=""16"" />
+<TabIcon Icon=""@TabIcons.Outline.Star"" Size=""24"" />
+<TabIcon Icon=""@TabIcons.Outline.Star"" Size=""32"" />
+<TabIcon Icon=""@TabIcons.Outline.Star"" Size=""48"" />
+<TabIcon Icon=""@TabIcons.Outline.Star"" Size=""64"" />";
+
+    private const string _iconColorsCode =
+@"<TabIcon Icon=""@TabIcons.Outline.Heart"" Color=""TabColors.Primary"" />
+<TabIcon Icon=""@TabIcons.Outline.Heart"" Color=""TabColors.Secondary"" />
+<TabIcon Icon=""@TabIcons.Outline.Heart"" Color=""TabColors.Success"" />
+<TabIcon Icon=""@TabIcons.Outline.Heart"" Color=""TabColors.Warning"" />
+<TabIcon Icon=""@TabIcons.Outline.Heart"" Color=""TabColors.Danger"" />
+<TabIcon Icon=""@TabIcons.Outline.Heart"" Color=""TabColors.Info"" />";
+
+    private const string _iconStrokeCode =
+@"<TabIcon Icon=""@TabIcons.Outline.Circle"" Size=""32"" StrokeWidth=""1"" />
+<TabIcon Icon=""@TabIcons.Outline.Circle"" Size=""32"" StrokeWidth=""2"" />
+<TabIcon Icon=""@TabIcons.Outline.Circle"" Size=""32"" StrokeWidth=""3"" />";
+
+    private const string _iconAnimationsCode =
+@"<TabIcon Icon=""@TabIcons.Outline.Bell"" Animation=""IconAnimation.Pulse"" />
+<TabIcon Icon=""@TabIcons.Outline.Star"" Animation=""IconAnimation.Tada"" />
+<TabIcon Icon=""@TabIcons.Outline.Loader"" Animation=""IconAnimation.Rotate"" />";
+
+    private const string _filledIconsCode =
+@"@* Outline icons *@
+<TabIcon Icon=""@TabIcons.Outline.Heart"" />
+<TabIcon Icon=""@TabIcons.Outline.Star"" />
+
+@* Filled icons *@
+<TabIcon Icon=""@TabIcons.Filled.Heart"" Color=""TabColors.Danger"" />
+<TabIcon Icon=""@TabIcons.Filled.Star"" Color=""TabColors.Warning"" />";
+
+    private const string _commonIconsCode =
+@"@using Tablazor.Icons
+
+<TabIcon Icon=""@TabIcons.Outline.Home"" />
+<TabIcon Icon=""@TabIcons.Outline.User"" />
+<TabIcon Icon=""@TabIcons.Outline.Settings"" />
+<TabIcon Icon=""@TabIcons.Outline.Bell"" />
+<TabIcon Icon=""@TabIcons.Outline.Search"" />
+<TabIcon Icon=""@TabIcons.Outline.Menu2"" />
+@* ... and 4000+ more icons *@";
+}

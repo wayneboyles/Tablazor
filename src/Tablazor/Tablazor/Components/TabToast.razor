@@ -1,0 +1,40 @@
+@inherits TabBaseComponent
+
+@if (Visible && _isVisible)
+{
+    <div @ref="Element" id="@_toastId" class="@GetCssClass()" style="@Style" role="alert" aria-live="assertive" aria-atomic="true" @attributes="AdditionalAttributes">
+        @if (HasHeader)
+        {
+            <div class="@BuildHeaderCssClass()">
+                @if (!string.IsNullOrEmpty(Icon))
+                {
+                    <span class="me-2">
+                        <TabIcon Icon="@Icon"></TabIcon>
+                    </span>
+                }
+                @if (!string.IsNullOrEmpty(Title))
+                {
+                    <strong class="me-auto">@Title</strong>
+                }
+                @if (Closable)
+                {
+                    <button type="button" class="ms-2 btn-close @(Color != TabColors.Default && Color != TabColors.Light && Color != TabColors.Warning ? "btn-close-white" : "")" aria-label="Close" @onclick="HandleCloseClickAsync">
+                    </button>
+                }
+            </div>
+        }
+        @if (HasBody)
+        {
+            <div class="toast-body">
+                @if (ChildContent is not null)
+                {
+                    @ChildContent
+                }
+                else if (!string.IsNullOrEmpty(Message))
+                {
+                    @Message
+                }
+            </div>
+        }
+    </div>
+}

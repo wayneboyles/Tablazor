@@ -1,0 +1,34 @@
+﻿@using Tablazor.Icons
+<nav aria-label="Primary">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <NavLink href="/" Match="NavLinkMatch.All" class="nav-link" ActiveClass="active">
+                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-home"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l-2 0l9 -9l9 9l-2 0" /><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" /><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" /></svg>
+                </span>
+                <span class="nav-link-title">Home</span>
+            </NavLink>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-components"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12l3 3l3 -3l-3 -3l-3 3" /><path d="M15 12l3 3l3 -3l-3 -3l-3 3" /><path d="M9 6l3 3l3 -3l-3 -3l-3 3" /><path d="M9 18l3 3l3 -3l-3 -3l-3 3" /></svg>
+                </span>
+                <span class="nav-link-title">Components</span>
+            </a>
+            <div class="dropdown-menu">
+                <NavLink ActiveClass="active" Match="NavLinkMatch.Prefix" class="dropdown-item" href="/components/avatar">Avatars</NavLink>
+                <NavLink ActiveClass="active" Match="NavLinkMatch.Prefix" class="dropdown-item" href="/components/badge">Badges</NavLink>
+                <NavLink ActiveClass="active" Match="NavLinkMatch.Prefix" class="dropdown-item" href="/components/breadcrumbs">Breadcrumbs</NavLink>
+                <NavLink ActiveClass="active" Match="NavLinkMatch.Prefix" class="dropdown-item" href="/components/button">Buttons</NavLink>
+                <NavLink ActiveClass="active" Match="NavLinkMatch.Prefix" class="dropdown-item" href="/components/carousel">Carousel</NavLink>
+                <NavLink ActiveClass="active" Match="NavLinkMatch.Prefix" class="dropdown-item" href="/components/countup">Countup</NavLink>
+                <NavLink ActiveClass="active" Match="NavLinkMatch.Prefix" class="dropdown-item" href="/components/divider">Divider</NavLink>
+                <NavLink ActiveClass="active" Match="NavLinkMatch.Prefix" class="dropdown-item" href="/components/dropdown">Dropdown</NavLink>
+                <NavLink ActiveClass="active" Match="NavLinkMatch.Prefix" class="dropdown-item" href="/components/icon">Icons</NavLink>
+                <NavLink ActiveClass="active" Match="NavLinkMatch.Prefix" class="dropdown-item" href="/components/modal">Modals</NavLink>
+                <NavLink ActiveClass="active" Match="NavLinkMatch.Prefix" class="dropdown-item" href="/components/toast">Toasts</NavLink>
+            </div>
+        </li>
+    </ul>
+</nav>

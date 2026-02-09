@@ -1,0 +1,122 @@
+@page "/components/badge"
+@rendermode InteractiveServer
+
+<PageTitle>Badge - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Badge</h1>
+    <p class="text-muted">
+        Badges are small count and labeling components used to add extra information to an interface element.
+    </p>
+</div>
+
+<ComponentDemo Id="basic-badge" Title="Basic Badge" Description="A simple badge with default styling." SourceCode="@_basicBadgeCode">
+    <TabBadge>Badge</TabBadge>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="badge-colors"
+    Title="Badge Colors"
+    Description="Badges can be styled with different colors to convey meaning."
+    SourceCode="@_badgeColorsCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabBadge Color="TabColors.Primary">Primary</TabBadge>
+        <TabBadge Color="TabColors.Secondary">Secondary</TabBadge>
+        <TabBadge Color="TabColors.Success">Success</TabBadge>
+        <TabBadge Color="TabColors.Info">Info</TabBadge>
+        <TabBadge Color="TabColors.Warning">Warning</TabBadge>
+        <TabBadge Color="TabColors.Danger">Danger</TabBadge>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="badge-pill"
+    Title="Pill Badges"
+    Description="Use the Pill shape for rounded badges."
+    SourceCode="@_badgePillCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabBadge Color="TabColors.Primary" Shape="BadgeShape.Pill">Primary</TabBadge>
+        <TabBadge Color="TabColors.Secondary" Shape="BadgeShape.Pill">Secondary</TabBadge>
+        <TabBadge Color="TabColors.Success" Shape="BadgeShape.Pill">Success</TabBadge>
+        <TabBadge Color="TabColors.Info" Shape="BadgeShape.Pill">Info</TabBadge>
+        <TabBadge Color="TabColors.Warning" Shape="BadgeShape.Pill">Warning</TabBadge>
+        <TabBadge Color="TabColors.Danger" Shape="BadgeShape.Pill">Danger</TabBadge>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="badge-sizes"
+    Title="Badge Sizes"
+    Description="Badges come in different sizes: small, default, and large."
+    SourceCode="@_badgeSizesCode">
+    <div class="d-flex flex-wrap align-items-center gap-2">
+        <TabBadge Color="TabColors.Primary" Size="BadgeSize.Small">Small</TabBadge>
+        <TabBadge Color="TabColors.Primary">Default</TabBadge>
+        <TabBadge Color="TabColors.Primary" Size="BadgeSize.Large">Large</TabBadge>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="badge-links"
+    Title="Badge Links"
+    Description="Badges can be rendered as links by providing an Href parameter."
+    SourceCode="@_badgeLinksCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabBadge Color="TabColors.Primary" Href="#">Link Badge</TabBadge>
+        <TabBadge Color="TabColors.Success" Shape="BadgeShape.Pill" Href="#">Pill Link</TabBadge>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="badge-visibility"
+    Title="Conditional Visibility"
+    Description="Badges can be conditionally shown or hidden using the Visible parameter."
+    SourceCode="@_badgeVisibilityCode">
+    <div class="d-flex flex-wrap align-items-center gap-2">
+        <button class="btn btn-primary" @onclick="ToggleBadge">Toggle Badge</button>
+        <TabBadge Color="TabColors.Success" Visible="@_showBadge">Visible Badge</TabBadge>
+    </div>
+</ComponentDemo>
+
+@code {
+    private bool _showBadge = true;
+
+    private void ToggleBadge() => _showBadge = !_showBadge;
+
+    private const string _basicBadgeCode =
+@"<TabBadge>Badge</TabBadge>";
+
+    private const string _badgeColorsCode =
+@"<TabBadge Color=""TabColors.Primary"">Primary</TabBadge>
+<TabBadge Color=""TabColors.Secondary"">Secondary</TabBadge>
+<TabBadge Color=""TabColors.Success"">Success</TabBadge>
+<TabBadge Color=""TabColors.Info"">Info</TabBadge>
+<TabBadge Color=""TabColors.Warning"">Warning</TabBadge>
+<TabBadge Color=""TabColors.Danger"">Danger</TabBadge>";
+
+    private const string _badgePillCode =
+@"<TabBadge Color=""TabColors.Primary"" Shape=""BadgeShape.Pill"">Primary</TabBadge>
+<TabBadge Color=""TabColors.Secondary"" Shape=""BadgeShape.Pill"">Secondary</TabBadge>
+<TabBadge Color=""TabColors.Success"" Shape=""BadgeShape.Pill"">Success</TabBadge>
+<TabBadge Color=""TabColors.Info"" Shape=""BadgeShape.Pill"">Info</TabBadge>
+<TabBadge Color=""TabColors.Warning"" Shape=""BadgeShape.Pill"">Warning</TabBadge>
+<TabBadge Color=""TabColors.Danger"" Shape=""BadgeShape.Pill"">Danger</TabBadge>";
+
+    private const string _badgeSizesCode =
+@"<TabBadge Color=""TabColors.Primary"" Size=""BadgeSize.Small"">Small</TabBadge>
+<TabBadge Color=""TabColors.Primary"">Default</TabBadge>
+<TabBadge Color=""TabColors.Primary"" Size=""BadgeSize.Large"">Large</TabBadge>";
+
+    private const string _badgeLinksCode =
+@"<TabBadge Color=""TabColors.Primary"" Href=""#"">Link Badge</TabBadge>
+<TabBadge Color=""TabColors.Success"" Shape=""BadgeShape.Pill"" Href=""#"">Pill Link</TabBadge>";
+
+    private const string _badgeVisibilityCode =
+@"<button class=""btn btn-primary"" @onclick=""ToggleBadge"">Toggle Badge</button>
+<TabBadge Color=""TabColors.Success"" Visible=""@_showBadge"">Visible Badge</TabBadge>
+
+@code {
+    private bool _showBadge = true;
+    private void ToggleBadge() => _showBadge = !_showBadge;
+}";
+}

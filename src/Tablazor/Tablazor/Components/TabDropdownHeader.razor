@@ -1,0 +1,8 @@
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    <h6 @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+        @ChildContent
+    </h6>
+}

@@ -1,0 +1,330 @@
+@page "/components/toast"
+@rendermode InteractiveServer
+@using Tablazor.Icons
+@using Tablazor.Services
+@inject TabToastService ToastService
+
+<PageTitle>Toast - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Toast</h1>
+    <p class="text-muted">
+        Toast notifications provide lightweight feedback messages that appear temporarily and auto-dismiss.
+        Use them to inform users about the result of an action without interrupting their workflow.
+    </p>
+</div>
+
+<ComponentDemo Id="basic-toast" Title="Basic Toasts" Description="Show simple toast notifications using the TabToastService." SourceCode="@_basicToastCode">
+    <div class="d-flex flex-wrap gap-2">
+        <button class="btn btn-primary" @onclick="ShowBasicToast">Show Basic Toast</button>
+        <button class="btn btn-success" @onclick="ShowSuccessToast">Success</button>
+        <button class="btn btn-danger" @onclick="ShowErrorToast">Error</button>
+        <button class="btn btn-warning" @onclick="ShowWarningToast">Warning</button>
+        <button class="btn btn-info" @onclick="ShowInfoToast">Info</button>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="toast-with-title" Title="Toast with Title" Description="Add a header to your toast with a title." SourceCode="@_toastWithTitleCode">
+    <div class="d-flex flex-wrap gap-2">
+        <button class="btn btn-primary" @onclick="ShowTitledToast">Show Toast with Title</button>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="toast-colors" Title="Toast Colors" Description="Toasts support all Tablazor color themes." SourceCode="@_toastColorsCode">
+    <div class="d-flex flex-wrap gap-2">
+        <button class="btn btn-primary" @onclick='() => ShowColorToast(TabColors.Primary, "Primary")'>Primary</button>
+        <button class="btn btn-secondary" @onclick='() => ShowColorToast(TabColors.Secondary, "Secondary")'>Secondary</button>
+        <button class="btn btn-azure" @onclick='() => ShowColorToast(TabColors.Azure, "Azure")'>Azure</button>
+        <button class="btn btn-purple" @onclick='() => ShowColorToast(TabColors.Purple, "Purple")'>Purple</button>
+        <button class="btn btn-pink" @onclick='() => ShowColorToast(TabColors.Pink, "Pink")'>Pink</button>
+        <button class="btn btn-cyan" @onclick='() => ShowColorToast(TabColors.Cyan, "Cyan")'>Cyan</button>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="toast-with-icon" Title="Toast with Icon" Description="Add an icon to the toast header for visual emphasis." SourceCode="@_toastWithIconCode">
+    <div class="d-flex flex-wrap gap-2">
+        <button class="btn btn-success" @onclick="ShowToastWithIcon">Show Toast with Icon</button>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="toast-auto-close" Title="Auto-Close Configuration" Description="Control how long toasts stay visible before auto-dismissing." SourceCode="@_toastAutoCloseCode">
+    <div class="d-flex flex-wrap gap-2">
+        <button class="btn btn-primary" @onclick="ShowQuickToast">Quick (2 seconds)</button>
+        <button class="btn btn-secondary" @onclick="ShowSlowToast">Slow (10 seconds)</button>
+        <button class="btn btn-warning" @onclick="ShowPermanentToast">No Auto-Close</button>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="toast-translucent" Title="Translucent Toast" Description="Use translucent toasts for a modern glass-like effect." SourceCode="@_toastTranslucentCode">
+    <div class="d-flex flex-wrap gap-2">
+        <button class="btn btn-primary" @onclick="ShowTranslucentToast">Show Translucent Toast</button>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="toast-non-closable" Title="Non-Closable Toast" Description="Remove the close button from a toast." SourceCode="@_toastNonClosableCode">
+    <div class="d-flex flex-wrap gap-2">
+        <button class="btn btn-primary" @onclick="ShowNonClosableToast">Show Non-Closable Toast</button>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="toast-callback" Title="Toast Callback" Description="Execute code when a toast is closed." SourceCode="@_toastCallbackCode">
+    <div class="d-flex flex-wrap gap-2">
+        <button class="btn btn-primary" @onclick="ShowToastWithCallback">Show Toast with Callback</button>
+        @if (_callbackTriggered)
+        {
+            <span class="badge bg-success">Callback triggered!</span>
+        }
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="toast-clear" Title="Clear All Toasts" Description="Remove all active toasts at once." SourceCode="@_toastClearCode">
+    <div class="d-flex flex-wrap gap-2">
+        <button class="btn btn-primary" @onclick="ShowMultipleToasts">Show Multiple Toasts</button>
+        <button class="btn btn-danger" @onclick="ClearAllToasts">Clear All</button>
+    </div>
+</ComponentDemo>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h3 class="card-title">Setup</h3>
+    </div>
+    <div class="card-body">
+        <p>To use toasts in your application:</p>
+        <ol>
+            <li>Add <code>services.AddTablazor()</code> to your service configuration</li>
+            <li>Add <code>&lt;TabToastContainer /&gt;</code> to your main layout</li>
+            <li>Inject <code>TabToastService</code> where needed</li>
+        </ol>
+        <CodeBlock Language="razor" Code="@_setupCode" />
+    </div>
+</div>
+
+@code {
+    private bool _callbackTriggered;
+
+    private void ShowBasicToast()
+    {
+        ToastService.Show("This is a basic toast message.");
+    }
+
+    private void ShowSuccessToast()
+    {
+        ToastService.ShowSuccess("Operation completed successfully!");
+    }
+
+    private void ShowErrorToast()
+    {
+        ToastService.ShowError("An error occurred while processing your request.");
+    }
+
+    private void ShowWarningToast()
+    {
+        ToastService.ShowWarning("Please review the changes before saving.");
+    }
+
+    private void ShowInfoToast()
+    {
+        ToastService.ShowInfo("Your session will expire in 5 minutes.");
+    }
+
+    private void ShowTitledToast()
+    {
+        ToastService.Show("Notification", "This toast has a title in the header.");
+    }
+
+    private void ShowColorToast(TabColors color, string name)
+    {
+        ToastService.Show(new ToastOptions
+        {
+            Title = name,
+            Message = $"This is a {name.ToLower()} colored toast.",
+            Color = color
+        });
+    }
+
+    private void ShowToastWithIcon()
+    {
+        ToastService.Show(new ToastOptions
+        {
+            Title = "Success",
+            Message = "Your changes have been saved.",
+            Color = TabColors.Success,
+            Icon = TabIcons.Filled.CircleCheck
+        });
+    }
+
+    private void ShowQuickToast()
+    {
+        ToastService.Show(new ToastOptions
+        {
+            Title = "Quick Toast",
+            Message = "This will disappear in 2 seconds.",
+            AutoCloseDelay = 2000
+        });
+    }
+
+    private void ShowSlowToast()
+    {
+        ToastService.Show(new ToastOptions
+        {
+            Title = "Slow Toast",
+            Message = "This will stay for 10 seconds.",
+            AutoCloseDelay = 10000
+        });
+    }
+
+    private void ShowPermanentToast()
+    {
+        ToastService.Show(new ToastOptions
+        {
+            Title = "Permanent Toast",
+            Message = "This toast will not auto-close. Click the X to dismiss.",
+            Color = TabColors.Warning,
+            AutoCloseDelay = 0
+        });
+    }
+
+    private void ShowTranslucentToast()
+    {
+        ToastService.Show(new ToastOptions
+        {
+            Title = "Translucent",
+            Message = "This toast has a translucent background.",
+            Translucent = true
+        });
+    }
+
+    private void ShowNonClosableToast()
+    {
+        ToastService.Show(new ToastOptions
+        {
+            Title = "Processing",
+            Message = "Please wait while we process your request...",
+            Closable = false,
+            AutoCloseDelay = 3000
+        });
+    }
+
+    private void ShowToastWithCallback()
+    {
+        _callbackTriggered = false;
+
+        ToastService.Show(new ToastOptions
+        {
+            Title = "Callback Toast",
+            Message = "Close me to trigger the callback!",
+            Color = TabColors.Info,
+            OnClose = () =>
+            {
+                _callbackTriggered = true;
+                InvokeAsync(StateHasChanged);
+            }
+        });
+    }
+
+    private void ShowMultipleToasts()
+    {
+        ToastService.ShowSuccess("First toast");
+        ToastService.ShowInfo("Second toast");
+        ToastService.ShowWarning("Third toast");
+    }
+
+    private void ClearAllToasts()
+    {
+        ToastService.Clear();
+    }
+
+    private const string _basicToastCode =
+@"@inject TabToastService ToastService
+
+<button @onclick=""ShowToast"">Show Toast</button>
+
+@code {
+    private void ShowToast()
+    {
+        ToastService.Show(""This is a basic toast message."");
+    }
+}";
+
+    private const string _toastWithTitleCode =
+@"ToastService.Show(""Notification"", ""This toast has a title in the header."");";
+
+    private const string _toastColorsCode =
+@"ToastService.Show(new ToastOptions
+{
+    Title = ""Primary"",
+    Message = ""This is a primary colored toast."",
+    Color = TabColors.Primary
+});";
+
+    private const string _toastWithIconCode =
+@"@using Tablazor.Icons
+
+ToastService.Show(new ToastOptions
+{
+    Title = ""Success"",
+    Message = ""Your changes have been saved."",
+    Color = TabColors.Success,
+    Icon = TabIcons.Filled.CircleCheck
+});";
+
+    private const string _toastAutoCloseCode =
+@"// Quick toast (2 seconds)
+ToastService.Show(new ToastOptions
+{
+    Title = ""Quick"",
+    Message = ""Disappears in 2 seconds."",
+    AutoCloseDelay = 2000
+});
+
+// No auto-close (0 or negative)
+ToastService.Show(new ToastOptions
+{
+    Title = ""Permanent"",
+    Message = ""Close manually."",
+    AutoCloseDelay = 0
+});";
+
+    private const string _toastTranslucentCode =
+@"ToastService.Show(new ToastOptions
+{
+    Title = ""Translucent"",
+    Message = ""Glass-like background."",
+    Translucent = true
+});";
+
+    private const string _toastNonClosableCode =
+@"ToastService.Show(new ToastOptions
+{
+    Title = ""Processing"",
+    Message = ""Please wait..."",
+    Closable = false,
+    AutoCloseDelay = 3000
+});";
+
+    private const string _toastCallbackCode =
+@"ToastService.Show(new ToastOptions
+{
+    Title = ""Callback Toast"",
+    Message = ""Close me!"",
+    OnClose = () =>
+    {
+        // Execute code when toast is closed
+        Console.WriteLine(""Toast was closed!"");
+    }
+});";
+
+    private const string _toastClearCode =
+@"// Clear all active toasts
+ToastService.Clear();";
+
+    private const string _setupCode =
+@"// In Program.cs
+services.AddTablazor();
+
+// In MainLayout.razor
+<TabToastContainer Position=""ToastPosition.TopRight"" />
+
+// In any component
+@inject TabToastService ToastService";
+}

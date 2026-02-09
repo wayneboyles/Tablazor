@@ -1,0 +1,206 @@
+@page "/components/breadcrumbs"
+@page "/components/breadcrumbs/{*pageRoute}"
+@rendermode InteractiveServer
+@using Tablazor.Icons
+
+<PageTitle>Breadcrumbs - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Breadcrumbs</h1>
+    <p class="text-muted">
+        Breadcrumbs provide navigation context by showing the user's location within the site hierarchy.
+        They can be auto-generated from the URL or manually defined.
+    </p>
+</div>
+
+<ComponentDemo Id="auto-breadcrumbs" Title="Auto-Generated Breadcrumbs" Description="Breadcrumbs automatically generated from the current URL path. Navigate to nested routes to see them update." SourceCode="@_autoCode">
+    <TabBreadcrumbs />
+    <div class="mt-3">
+        <span class="text-muted me-2">Try navigating:</span>
+        <a href="/components/breadcrumbs/products" class="btn btn-sm btn-outline-primary me-1">Products</a>
+        <a href="/components/breadcrumbs/products/electronics" class="btn btn-sm btn-outline-primary me-1">Electronics</a>
+        <a href="/components/breadcrumbs/products/electronics/phones" class="btn btn-sm btn-outline-primary">Phones</a>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="static-breadcrumbs" Title="Static Breadcrumbs" Description="Manually defined breadcrumb items using the Items parameter." SourceCode="@_staticCode">
+    <TabBreadcrumbs Items="@_staticItems" AutoGenerate="false" />
+</ComponentDemo>
+
+<ComponentDemo Id="child-content-breadcrumbs" Title="Child Content Breadcrumbs" Description="Breadcrumbs defined using child TabBreadcrumbItem components for maximum flexibility." SourceCode="@_childContentCode">
+    <TabBreadcrumbs AutoGenerate="false">
+        <TabBreadcrumbItem Text="Home" Href="/" Icon="@TabIcons.Filled.Home" />
+        <TabBreadcrumbItem Text="Library" Href="/library" />
+        <TabBreadcrumbItem Text="Data" IsActive="true" />
+    </TabBreadcrumbs>
+</ComponentDemo>
+
+<ComponentDemo Id="separator-styles" Title="Separator Styles" Description="Different separator styles: default (slash), arrows, and dots." SourceCode="@_separatorCode">
+    <div class="mb-3">
+        <strong class="text-muted d-block mb-2">Default (Slash):</strong>
+        <TabBreadcrumbs Items="@_separatorItems" AutoGenerate="false" Separator="BreadcrumbSeparator.Default" />
+    </div>
+    <div class="mb-3">
+        <strong class="text-muted d-block mb-2">Arrows:</strong>
+        <TabBreadcrumbs Items="@_separatorItems" AutoGenerate="false" Separator="BreadcrumbSeparator.Arrows" />
+    </div>
+    <div>
+        <strong class="text-muted d-block mb-2">Dots:</strong>
+        <TabBreadcrumbs Items="@_separatorItems" AutoGenerate="false" Separator="BreadcrumbSeparator.Dots" />
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="custom-home" Title="Custom Home Item" Description="Customize the home breadcrumb text, URL, and icon when using auto-generation." SourceCode="@_customHomeCode">
+    <TabBreadcrumbs
+        HomeText="Dashboard"
+        HomeHref="/dashboard"
+        HomeIcon="@TabIcons.Filled.Dashboard" />
+</ComponentDemo>
+
+<ComponentDemo Id="no-home" Title="Without Home Item" Description="Auto-generated breadcrumbs without the home item." SourceCode="@_noHomeCode">
+    <TabBreadcrumbs ShowHome="false" />
+</ComponentDemo>
+
+<ComponentDemo Id="custom-transformer" Title="Custom Segment Transformer" Description="Use a custom function to transform URL segments into display text." SourceCode="@_transformerCode">
+    <TabBreadcrumbs SegmentTransformer="@CustomTransformer" />
+</ComponentDemo>
+
+<ComponentDemo Id="excluded-segments" Title="Excluded Segments" Description="Exclude specific URL segments (like IDs) from the breadcrumb trail." SourceCode="@_excludedCode">
+    <p class="text-muted mb-2">URL: /components/breadcrumbs/products/123/details (123 is excluded)</p>
+    <TabBreadcrumbs ExcludedSegments="@_excludedSegments" />
+    <div class="mt-2">
+        <a href="/components/breadcrumbs/products/123/details" class="btn btn-sm btn-outline-primary">Navigate to test URL</a>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="click-handler" Title="Click Event Handler" Description="Handle breadcrumb item clicks with a custom callback." SourceCode="@_clickHandlerCode">
+    <TabBreadcrumbs Items="@_clickableItems" AutoGenerate="false" OnItemClick="HandleBreadcrumbClick" />
+    @if (!string.IsNullOrEmpty(_clickedItem))
+    {
+        <div class="alert alert-info mt-2 mb-0">
+            Clicked: @_clickedItem
+        </div>
+    }
+</ComponentDemo>
+
+@code {
+    private string? _clickedItem;
+    
+    [Parameter]
+    public string? PageRoute { get; set; }
+
+    private readonly List<BreadcrumbItem> _staticItems = new()
+    {
+        new("Home", "/"),
+        new("Products", "/products"),
+        new("Electronics", "/products/electronics"),
+        new("Smartphones", isActive: true)
+    };
+
+    private readonly List<BreadcrumbItem> _separatorItems = new()
+    {
+        new("Home", "/"),
+        new("Category", "/category"),
+        new("Subcategory", "/category/sub"),
+        new("Current Page", isActive: true)
+    };
+
+    private readonly List<BreadcrumbItem> _clickableItems = new()
+    {
+        new("Home", "/"),
+        new("Products", "/products"),
+        new("Current", isActive: true)
+    };
+
+    private readonly string[] _excludedSegments = { "123", "456", "789" };
+
+    private string CustomTransformer(string segment)
+    {
+        return segment switch
+        {
+            "breadcrumbs" => "Breadcrumbs Demo",
+            "products" => "All Products",
+            "electronics" => "Electronics & Gadgets",
+            _ => System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(segment.Replace("-", " "))
+        };
+    }
+
+    private void HandleBreadcrumbClick(BreadcrumbItem item)
+    {
+        _clickedItem = $"{item.Text} ({item.Href ?? "no link"})";
+    }
+
+    private const string _autoCode =
+@"<TabBreadcrumbs />";
+
+    private const string _staticCode =
+@"<TabBreadcrumbs Items=""@items"" AutoGenerate=""false"" />
+
+@code {
+    private List<BreadcrumbItem> items = new()
+    {
+        new(""Home"", ""/""),
+        new(""Products"", ""/products""),
+        new(""Electronics"", ""/products/electronics""),
+        new(""Smartphones"", isActive: true)
+    };
+}";
+
+    private const string _childContentCode =
+@"<TabBreadcrumbs AutoGenerate=""false"">
+    <TabBreadcrumbItem Text=""Home"" Href=""/"" Icon=""@TabIcons.Home"" />
+    <TabBreadcrumbItem Text=""Library"" Href=""/library"" />
+    <TabBreadcrumbItem Text=""Data"" IsActive=""true"" />
+</TabBreadcrumbs>";
+
+    private const string _separatorCode =
+@"@* Default (Slash) *@
+<TabBreadcrumbs Items=""@items"" Separator=""BreadcrumbSeparator.Default"" />
+
+@* Arrows *@
+<TabBreadcrumbs Items=""@items"" Separator=""BreadcrumbSeparator.Arrows"" />
+
+@* Dots *@
+<TabBreadcrumbs Items=""@items"" Separator=""BreadcrumbSeparator.Dots"" />";
+
+    private const string _customHomeCode =
+@"<TabBreadcrumbs
+    HomeText=""Dashboard""
+    HomeHref=""/dashboard""
+    HomeIcon=""@TabIcons.Dashboard"" />";
+
+    private const string _noHomeCode =
+@"<TabBreadcrumbs ShowHome=""false"" />";
+
+    private const string _transformerCode =
+@"<TabBreadcrumbs SegmentTransformer=""@CustomTransformer"" />
+
+@code {
+    private string CustomTransformer(string segment)
+    {
+        return segment switch
+        {
+            ""products"" => ""All Products"",
+            ""electronics"" => ""Electronics & Gadgets"",
+            _ => segment.Replace(""-"", "" "").ToTitleCase()
+        };
+    }
+}";
+
+    private const string _excludedCode =
+@"<TabBreadcrumbs ExcludedSegments=""@excludedSegments"" />
+
+@code {
+    private string[] excludedSegments = { ""123"", ""456"" };
+}";
+
+    private const string _clickHandlerCode =
+@"<TabBreadcrumbs Items=""@items"" OnItemClick=""HandleClick"" />
+
+@code {
+    private void HandleClick(BreadcrumbItem item)
+    {
+        Console.WriteLine($""Clicked: {item.Text}"");
+    }
+}";
+}

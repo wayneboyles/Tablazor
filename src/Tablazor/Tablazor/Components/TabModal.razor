@@ -1,0 +1,46 @@
+@inherits TabBaseComponent
+
+@if (Visible && _isOpen)
+{
+    <div class="modal-backdrop @(_isShowing ? "show" : "") @(EnableAnimation ? "fade" : "")"></div>
+    <div @ref="Element"
+         id="@_modalId"
+         class="@GetCssClass()"
+         style="display: block; @Style"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="@($"{_modalId}-title")"
+         aria-modal="true"
+         @onkeydown="HandleKeyDownAsync"
+         @onclick="HandleBackdropClickAsync"
+         @attributes="AdditionalAttributes">
+        <div class="@BuildDialogCssClass()" role="document" @onclick:stopPropagation="true">
+            <div class="modal-content">
+                @if (!string.IsNullOrWhiteSpace(Title))
+                {
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="@($"{_modalId}-title")">@Title</h5>
+                        @if (ShowCloseButton)
+                        {
+                            <button type="button"
+                                    class="btn-close"
+                                    aria-label="Close"
+                                    @onclick="HandleCloseAsync">
+                            </button>
+                        }
+                    </div>
+                }
+                @if (ChildContent is not null)
+                {
+                    @ChildContent
+                }
+                @if (FooterContent is not null)
+                {
+                    <div class="modal-footer">
+                        @FooterContent
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

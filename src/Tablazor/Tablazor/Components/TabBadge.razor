@@ -1,0 +1,17 @@
+﻿@inherits TabBaseComponent
+
+@if (Visible)
+{
+    @if (string.IsNullOrWhiteSpace(Href))
+    {
+        <span @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+            @ChildContent
+        </span>
+    }
+    else
+    {
+        <a @ref="Element" href="@Href" id="@GetId()" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+            @ChildContent
+        </a>
+    }
+}

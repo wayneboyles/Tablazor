@@ -1,0 +1,11 @@
+@inherits TabBaseComponent
+
+@if (Visible && _toasts.Count > 0)
+{
+    <div @ref="Element" id="@GetId()" class="@GetCssClass()" style="@GetStyleString()" aria-live="polite" aria-atomic="true" @attributes="AdditionalAttributes">
+        @foreach (var toast in _toasts)
+        {
+            <TabToast @key="toast.Id" Toast="toast" EnableAnimation="EnableAnimation" OnCloseRequested="HandleToastCloseRequested" />
+        }
+    </div>
+}

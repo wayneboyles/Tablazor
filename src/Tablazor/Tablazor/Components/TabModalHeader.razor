@@ -1,0 +1,16 @@
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    <div @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+        @ChildContent
+        @if (ShowCloseButton)
+        {
+            <button type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                    @onclick="HandleCloseAsync">
+            </button>
+        }
+    </div>
+}

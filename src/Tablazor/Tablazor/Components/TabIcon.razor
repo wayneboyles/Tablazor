@@ -1,0 +1,25 @@
+﻿@using Tablazor.Icons
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    @if (Color == TabColors.Default)
+    {
+        @RenderIcon()
+    }
+    else
+    {
+        <span class="@GetContainerCssClass()">
+            @RenderIcon()
+        </span>
+    }
+}
+
+@code {
+
+    private RenderFragment RenderIcon() => __builder =>
+    {
+        @((MarkupString) TabIconsRenderer.Render(Icon, size: Size, strokeWidth: StrokeWidth, cssClass: GetCssClass()))
+    };
+
+}

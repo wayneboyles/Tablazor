@@ -1,0 +1,30 @@
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    <ol @ref="Element" id="@GetId()" class="@GetCssClass()" style="@GetStyleString()" aria-label="breadcrumb" @attributes="AdditionalAttributes">
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+        else if (HasItems)
+        {
+            @foreach (var item in BreadcrumbItems)
+            {
+                <TabBreadcrumbItem Text="@item.Text" Href="@item.Href" Icon="@item.Icon" IsActive="@item.IsActive" OnClick="@(() => HandleItemClick(item))" />
+            }
+        }
+    </ol>
+}
+
+@code {
+    
+    private async Task HandleItemClick(BreadcrumbItem item)
+    {
+        if (OnItemClick.HasDelegate)
+        {
+            await OnItemClick.InvokeAsync(item);
+        }
+    }
+    
+}

@@ -1,0 +1,38 @@
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    @switch (Level)
+    {
+        case 1:
+            <h1 @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+                @ChildContent
+            </h1>
+            break;
+        case 2:
+            <h2 @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+                @ChildContent
+            </h2>
+            break;
+        case 3:
+            <h3 @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+                @ChildContent
+            </h3>
+            break;
+        case 4:
+            <h4 @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+                @ChildContent
+            </h4>
+            break;
+        case 6:
+            <h6 @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+                @ChildContent
+            </h6>
+            break;
+        default:
+            <h5 @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+                @ChildContent
+            </h5>
+            break;
+    }
+}

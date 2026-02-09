@@ -1,0 +1,25 @@
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    @if (!string.IsNullOrWhiteSpace(Href))
+    {
+        <a @ref="Element" id="@GetId()" href="@Href" target="@Target" class="@GetCssClass()" style="@Style" @onclick="HandleClickAsync" @onclick:preventDefault="@Disabled" @attributes="AdditionalAttributes">
+            @if (!string.IsNullOrWhiteSpace(Icon))
+            {
+                <TabIcon Icon="@Icon" CssClass="dropdown-item-icon" />
+            }
+            @ChildContent
+        </a>
+    }
+    else
+    {
+        <button @ref="Element" id="@GetId()" type="button" class="@GetCssClass()" style="@Style" disabled="@Disabled" @onclick="HandleClickAsync" @attributes="AdditionalAttributes">
+            @if (!string.IsNullOrWhiteSpace(Icon))
+            {
+                <TabIcon Icon="@Icon" CssClass="dropdown-item-icon" />
+            }
+            @ChildContent
+        </button>
+    }
+}

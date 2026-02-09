@@ -1,0 +1,15 @@
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    <span @ref="Element" id="@_countupId" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+        @if (ChildContent is not null)
+        {
+            @ChildContent(FormattedValue)
+        }
+        else
+        {
+            @FormattedValue
+        }
+    </span>
+}

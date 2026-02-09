@@ -1,0 +1,222 @@
+﻿@inject IJSRuntime JsRuntime
+@implements IAsyncDisposable
+
+<div class="card mb-4" id="@Id">
+    @if (!string.IsNullOrEmpty(Title))
+    {
+        <div class="card-header">
+            <h3 class="card-title">@Title</h3>
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(Description))
+    {
+        <div class="card-body py-3">
+            <p class="text-muted mb-0">@Description</p>
+        </div>
+    }
+
+    <div class="card-body">
+        <div class="demo-preview" id="@_demoId">
+            @ChildContent
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link @(_activeTab == "source" ? "active" : "")" @onclick="@(() => SetActiveTab("source"))" type="button" role="tab">
+                    Razor Source
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link @(_activeTab == "html" ? "active" : "")" @onclick="@(() => SetActiveTab("html"))" type="button" role="tab">
+                    Rendered HTML
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card-body p-0">
+        @if (_activeTab == "source")
+        {
+            <CodeBlock Code="@SourceCode" Language="razor" />
+        }
+        else if (_activeTab == "html")
+        {
+            @if (_isExtracting)
+            {
+                <div class="text-center py-4">
+                    <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+                    <span class="ms-2 text-muted">Extracting HTML...</span>
+                </div>
+            }
+            else
+            {
+                <CodeBlock Code="@_extractedHtml" Language="html" />
+            }
+        }
+    </div>
+</div>
+
+@code {
+
+    private bool _isExtracting;
+    private IJSObjectReference? _module;
+    private string _activeTab = "source";
+    private string _extractedHtml = string.Empty;
+    private readonly string _demoId = $"demo-{Guid.NewGuid():N}";
+    
+    [Parameter]
+    public string? Id { get; set; }
+
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public string? Description { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string SourceCode { get; set; } = string.Empty;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./Components/Shared/ComponentDemo.razor.js");
+        }
+    }
+
+    private async Task SetActiveTab(string tab)
+    {
+        _activeTab = tab;
+
+        if (tab == "html" && string.IsNullOrEmpty(_extractedHtml))
+        {
+            await ExtractHtml();
+        }
+    }
+
+    private async Task ExtractHtml()
+    {
+        if (_module == null) return;
+
+        try
+        {
+            _isExtracting = true;
+            StateHasChanged();
+
+            await Task.Delay(50); // Allow DOM to settle
+
+            var html = await _module.InvokeAsync<string>("extractHtml", _demoId);
+
+            if (!string.IsNullOrEmpty(html))
+            {
+                _extractedHtml = FormatHtml(CleanBlazorAttributes(html));
+            }
+        }
+        catch (Exception ex)
+        {
+            _extractedHtml = $"<!-- Error extracting HTML: {ex.Message} -->";
+        }
+        finally
+        {
+            _isExtracting = false;
+            StateHasChanged();
+        }
+    }
+
+    private static string CleanBlazorAttributes(string html)
+    {
+        // Remove Blazor internal attributes
+        html = System.Text.RegularExpressions.Regex.Replace(html, @"\s*_bl_[a-z0-9]+=""[^""]*""", "");
+        html = System.Text.RegularExpressions.Regex.Replace(html, @"\s*b-[a-z0-9]+", "");
+        html = System.Text.RegularExpressions.Regex.Replace(html, @"<!--!-->", "");
+        html = System.Text.RegularExpressions.Regex.Replace(html, @"\s*blazor:[a-z]+=""[^""]*""", "");
+        return html.Trim();
+    }
+
+    private static string FormatHtml(string html)
+    {
+        var lines = new List<string>();
+        var indent = 0;
+        var i = 0;
+
+        while (i < html.Length)
+        {
+            while (i < html.Length && char.IsWhiteSpace(html[i])) i++;
+            if (i >= html.Length) break;
+
+            if (html[i] == '<')
+            {
+                var tagEnd = html.IndexOf('>', i);
+                if (tagEnd == -1) break;
+
+                var tag = html.Substring(i, tagEnd - i + 1);
+
+                if (tag.StartsWith("</"))
+                {
+                    indent = Math.Max(0, indent - 1);
+                    lines.Add(new string(' ', indent * 2) + tag);
+                }
+                else if (tag.EndsWith("/>") || IsVoidElement(tag))
+                {
+                    lines.Add(new string(' ', indent * 2) + tag);
+                }
+                else
+                {
+                    lines.Add(new string(' ', indent * 2) + tag);
+                    indent++;
+                }
+
+                i = tagEnd + 1;
+            }
+            else
+            {
+                var nextTag = html.IndexOf('<', i);
+                if (nextTag == -1) nextTag = html.Length;
+
+                var text = html.Substring(i, nextTag - i).Trim();
+                if (!string.IsNullOrEmpty(text))
+                {
+                    lines.Add(new string(' ', indent * 2) + text);
+                }
+
+                i = nextTag;
+            }
+        }
+
+        return string.Join("\n", lines);
+    }
+
+    private static bool IsVoidElement(string tag)
+    {
+        var voidElements = new[] { "area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr" };
+        var match = System.Text.RegularExpressions.Regex.Match(tag, @"<(\w+)");
+
+        return match.Success && voidElements.Contains(match.Groups[1].Value.ToLower());
+    }
+    
+    /// <summary>
+    /// Performs application-defined tasks associated with freeing, releasing, or
+    /// resetting unmanaged resources asynchronously.</summary>
+    /// <returns>A task that represents the asynchronous dispose operation.</returns>
+    public async ValueTask DisposeAsync()
+    {
+        if (_module != null)
+        {
+            try
+            {
+                await _module.DisposeAsync();
+            }
+            catch
+            {
+                // Ignore disposal errors
+            }
+        }
+    }
+
+}

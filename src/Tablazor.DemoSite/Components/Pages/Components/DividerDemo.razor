@@ -1,0 +1,125 @@
+@page "/components/divider"
+@rendermode InteractiveServer
+
+<PageTitle>Divider - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Divider</h1>
+    <p class="text-muted">
+        Dividers are horizontal rules with centered text labels, useful for separating content sections.
+    </p>
+</div>
+
+<ComponentDemo
+    Id="basic-divider"
+    Title="Basic Divider"
+    Description="A simple divider with centered text."
+    SourceCode="@_basicDividerCode">
+    <p>Content above the divider</p>
+    <TabDivider Text="OR" />
+    <p>Content below the divider</p>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="divider-alignment"
+    Title="Text Alignment"
+    Description="Control the alignment of the divider text using the Alignment parameter."
+    SourceCode="@_dividerAlignmentCode">
+    <div class="mb-3">
+        <TabDivider Text="Left aligned" Alignment="TextAlignment.Left" />
+    </div>
+    <div class="mb-3">
+        <TabDivider Text="Center aligned (default)" />
+    </div>
+    <div>
+        <TabDivider Text="Right aligned" Alignment="TextAlignment.Right" />
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="divider-colors"
+    Title="Colored Dividers"
+    Description="Apply different colors to the divider text using the Color parameter."
+    SourceCode="@_dividerColorsCode">
+    <div class="mb-3">
+        <TabDivider Text="Primary" Color="TabColors.Primary" />
+    </div>
+    <div class="mb-3">
+        <TabDivider Text="Success" Color="TabColors.Success" />
+    </div>
+    <div class="mb-3">
+        <TabDivider Text="Warning" Color="TabColors.Warning" />
+    </div>
+    <div class="mb-3">
+        <TabDivider Text="Danger" Color="TabColors.Danger" />
+    </div>
+    <div>
+        <TabDivider Text="Info" Color="TabColors.Info" />
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="divider-practical"
+    Title="Practical Example"
+    Description="A common use case showing a login form with social login options separated by a divider."
+    SourceCode="@_dividerPracticalCode">
+    <div class="card" style="max-width: 400px;">
+        <div class="card-body">
+            <h3 class="card-title">Sign In</h3>
+            <div class="mb-3">
+                <label class="form-label">Email address</label>
+                <input type="email" class="form-control" placeholder="Enter email">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" placeholder="Password">
+            </div>
+            <button class="btn btn-primary w-100">Sign in</button>
+            <TabDivider Text="or continue with" />
+            <div class="d-grid gap-2">
+                <button class="btn btn-outline-secondary">Google</button>
+                <button class="btn btn-outline-secondary">GitHub</button>
+            </div>
+        </div>
+    </div>
+</ComponentDemo>
+
+@code {
+    private const string _basicDividerCode =
+@"<p>Content above the divider</p>
+<TabDivider Text=""OR"" />
+<p>Content below the divider</p>";
+
+    private const string _dividerAlignmentCode =
+@"<TabDivider Text=""Left aligned"" Alignment=""TextAlignment.Left"" />
+<TabDivider Text=""Center aligned (default)"" />
+<TabDivider Text=""Right aligned"" Alignment=""TextAlignment.Right"" />";
+
+    private const string _dividerColorsCode =
+@"<TabDivider Text=""Primary"" Color=""TabColors.Primary"" />
+<TabDivider Text=""Success"" Color=""TabColors.Success"" />
+<TabDivider Text=""Warning"" Color=""TabColors.Warning"" />
+<TabDivider Text=""Danger"" Color=""TabColors.Danger"" />
+<TabDivider Text=""Info"" Color=""TabColors.Info"" />";
+
+    private const string _dividerPracticalCode =
+@"<div class=""card"" style=""max-width: 400px;"">
+    <div class=""card-body"">
+        <h3 class=""card-title"">Sign In</h3>
+        <div class=""mb-3"">
+            <label class=""form-label"">Email address</label>
+            <input type=""email"" class=""form-control"" placeholder=""Enter email"">
+        </div>
+        <div class=""mb-3"">
+            <label class=""form-label"">Password</label>
+            <input type=""password"" class=""form-control"" placeholder=""Password"">
+        </div>
+        <button class=""btn btn-primary w-100"">Sign in</button>
+        <TabDivider Text=""or continue with"" />
+        <div class=""d-grid gap-2"">
+            <button class=""btn btn-outline-secondary"">Google</button>
+            <button class=""btn btn-outline-secondary"">GitHub</button>
+        </div>
+    </div>
+</div>";
+}

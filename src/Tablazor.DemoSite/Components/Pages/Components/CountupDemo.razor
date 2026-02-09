@@ -1,0 +1,422 @@
+@page "/components/countup"
+@rendermode InteractiveServer
+
+<PageTitle>Countup - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Countup</h1>
+    <p class="text-muted">
+        Animated number counters that count up (or down) from a start value to an end value.
+        Inspired by countUp.js but implemented in pure Blazor with minimal JavaScript.
+    </p>
+</div>
+
+<ComponentDemo Id="basic-countup" Title="Basic Countup" Description="A simple countup animation that starts automatically." SourceCode="@_basicCode">
+    <div class="display-4 text-primary">
+        <TabCountup EndValue="1000" />
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="countup-formatting" Title="Number Formatting" Description="Format numbers with decimal places, separators, prefix and suffix." SourceCode="@_formattingCode">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-muted mb-2">Currency</div>
+                    <div class="display-5 text-success">
+                        <TabCountup EndValue="12345.67m" DecimalPlaces="2" Prefix="$" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-muted mb-2">Percentage</div>
+                    <div class="display-5 text-info">
+                        <TabCountup EndValue="87.5m" DecimalPlaces="1" Suffix="%" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-muted mb-2">Large Number</div>
+                    <div class="display-5 text-warning">
+                        <TabCountup EndValue="9876543" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="countup-easing" Title="Easing Functions" Description="Different easing functions control how the animation accelerates and decelerates." SourceCode="@_easingCode">
+    <div class="row g-3">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-muted mb-2">Linear</div>
+                    <div class="h2">
+                        <TabCountup @ref="_linearRef" EndValue="100" Easing="CountupEasing.Linear" AutoStart="false" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-muted mb-2">Ease Out Expo</div>
+                    <div class="h2">
+                        <TabCountup @ref="_expoRef" EndValue="100" Easing="CountupEasing.EaseOutExpo" AutoStart="false" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-muted mb-2">Ease Out Bounce</div>
+                    <div class="h2">
+                        <TabCountup @ref="_bounceRef" EndValue="100" Easing="CountupEasing.EaseOutBounce" AutoStart="false" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-muted mb-2">Ease Out Elastic</div>
+                    <div class="h2">
+                        <TabCountup @ref="_elasticRef" EndValue="100" Easing="CountupEasing.EaseOutElastic" AutoStart="false" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3">
+        <button class="btn btn-primary" @onclick="StartAllEasingDemos">Start All</button>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="countup-duration" Title="Custom Duration" Description="Control how long the animation takes to complete." SourceCode="@_durationCode">
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-muted mb-2">Fast (1 second)</div>
+                    <div class="h2">
+                        <TabCountup @ref="_fastRef" EndValue="500" Duration="1000" AutoStart="false" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-muted mb-2">Normal (2 seconds)</div>
+                    <div class="h2">
+                        <TabCountup @ref="_normalRef" EndValue="500" Duration="2000" AutoStart="false" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-muted mb-2">Slow (5 seconds)</div>
+                    <div class="h2">
+                        <TabCountup @ref="_slowRef" EndValue="500" Duration="5000" AutoStart="false" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3">
+        <button class="btn btn-primary" @onclick="StartAllDurationDemos">Start All</button>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="countup-controls" Title="Programmatic Control" Description="Start, pause, reset, and update the countup programmatically." SourceCode="@_controlsCode">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <div class="display-3 text-center">
+                <TabCountup @ref="_controlledRef" EndValue="1000" Duration="5000" AutoStart="false" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="btn-list">
+                <button class="btn btn-success" @onclick="StartControlled">
+                    Start
+                </button>
+                <button class="btn btn-warning" @onclick="PauseResumeControlled">
+                    Pause/Resume
+                </button>
+                <button class="btn btn-secondary" @onclick="ResetControlled">
+                    Reset
+                </button>
+                <button class="btn btn-info" @onclick="UpdateControlled">
+                    Update to 5000
+                </button>
+            </div>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="countup-callbacks" Title="Event Callbacks" Description="Execute code when the animation starts, updates, or completes." SourceCode="@_callbacksCode">
+    <div class="row align-items-center">
+        <div class="col-md-4">
+            <div class="display-4 text-center">
+                <TabCountup @ref="_callbackRef"
+                            EndValue="100"
+                            Duration="2000"
+                            AutoStart="false"
+                            OnStart="HandleStart"
+                            OnComplete="HandleComplete"
+                            OnUpdate="HandleUpdate" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary" @onclick="StartCallback">Start Animation</button>
+        </div>
+        <div class="col-md-4">
+            <div class="text-muted small">
+                <div>Status: <strong>@_status</strong></div>
+                <div>Last Value: <strong>@_lastValue</strong></div>
+            </div>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="countup-countdown" Title="Countdown" Description="Count down by setting a start value higher than the end value." SourceCode="@_countdownCode">
+    <div class="display-4 text-center text-danger">
+        <TabCountup StartValue="60" EndValue="0" Duration="3000" Suffix=" seconds" />
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="countup-custom-separators" Title="Custom Separators" Description="Use custom thousands and decimal separators for different locales." SourceCode="@_separatorsCode">
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-muted mb-2">US Format (default)</div>
+                    <div class="display-5">
+                        <TabCountup EndValue="1234567.89m" DecimalPlaces="2" Separator="," DecimalSeparator="." />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-muted mb-2">European Format</div>
+                    <div class="display-5">
+                        <TabCountup EndValue="1234567.89m" DecimalPlaces="2" Separator="." DecimalSeparator="," />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="countup-template" Title="Custom Template" Description="Use a custom template to render the value." SourceCode="@_templateCode">
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <TabCountup EndValue="42" Duration="2000">
+                        <div class="display-1 fw-bold">@context</div>
+                        <div class="text-white-50">Active Users</div>
+                    </TabCountup>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <TabCountup EndValue="98.7m" DecimalPlaces="1" Suffix="%" Duration="2000">
+                        <div class="display-1 fw-bold">@context</div>
+                        <div class="text-white-50">Uptime</div>
+                    </TabCountup>
+                </div>
+            </div>
+        </div>
+    </div>
+</ComponentDemo>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h3 class="card-title">Setup</h3>
+    </div>
+    <div class="card-body">
+        <p>The TabCountup component is ready to use out of the box:</p>
+        <CodeBlock Language="razor" Code="@_setupCode" />
+    </div>
+</div>
+
+@code {
+    private TabCountup? _linearRef;
+    private TabCountup? _expoRef;
+    private TabCountup? _bounceRef;
+    private TabCountup? _elasticRef;
+    private TabCountup? _fastRef;
+    private TabCountup? _normalRef;
+    private TabCountup? _slowRef;
+    private TabCountup? _controlledRef;
+    private TabCountup? _callbackRef;
+
+    private string _status = "Idle";
+    private string _lastValue = "0";
+
+    private async Task StartAllEasingDemos()
+    {
+        if (_linearRef is not null) _ = _linearRef.StartAsync();
+        if (_expoRef is not null) _ = _expoRef.StartAsync();
+        if (_bounceRef is not null) _ = _bounceRef.StartAsync();
+        if (_elasticRef is not null) _ = _elasticRef.StartAsync();
+    }
+
+    private async Task StartAllDurationDemos()
+    {
+        if (_fastRef is not null) _ = _fastRef.StartAsync();
+        if (_normalRef is not null) _ = _normalRef.StartAsync();
+        if (_slowRef is not null) _ = _slowRef.StartAsync();
+    }
+
+    private async Task StartControlled()
+    {
+        if (_controlledRef is not null)
+        {
+            await _controlledRef.StartAsync();
+        }
+    }
+
+    private async Task PauseResumeControlled()
+    {
+        if (_controlledRef is not null)
+        {
+            await _controlledRef.PauseResumeAsync();
+        }
+    }
+
+    private async Task ResetControlled()
+    {
+        if (_controlledRef is not null)
+        {
+            await _controlledRef.ResetAsync();
+        }
+    }
+
+    private async Task UpdateControlled()
+    {
+        if (_controlledRef is not null)
+        {
+            await _controlledRef.UpdateAsync(5000);
+        }
+    }
+
+    private async Task StartCallback()
+    {
+        if (_callbackRef is not null)
+        {
+            await _callbackRef.StartAsync();
+        }
+    }
+
+    private void HandleStart()
+    {
+        _status = "Running";
+    }
+
+    private void HandleComplete()
+    {
+        _status = "Complete";
+    }
+
+    private void HandleUpdate(decimal value)
+    {
+        _lastValue = value.ToString("F0");
+    }
+
+    private const string _basicCode =
+@"<TabCountup EndValue=""1000"" />";
+
+    private const string _formattingCode =
+@"<!-- Currency -->
+<TabCountup EndValue=""12345.67m"" DecimalPlaces=""2"" Prefix=""$"" />
+
+<!-- Percentage -->
+<TabCountup EndValue=""87.5m"" DecimalPlaces=""1"" Suffix=""%"" />
+
+<!-- Large number with grouping -->
+<TabCountup EndValue=""9876543"" />";
+
+    private const string _easingCode =
+@"<TabCountup EndValue=""100"" Easing=""CountupEasing.Linear"" />
+<TabCountup EndValue=""100"" Easing=""CountupEasing.EaseOutExpo"" />
+<TabCountup EndValue=""100"" Easing=""CountupEasing.EaseOutBounce"" />
+<TabCountup EndValue=""100"" Easing=""CountupEasing.EaseOutElastic"" />";
+
+    private const string _durationCode =
+@"<TabCountup EndValue=""500"" Duration=""1000"" /> <!-- 1 second -->
+<TabCountup EndValue=""500"" Duration=""2000"" /> <!-- 2 seconds (default) -->
+<TabCountup EndValue=""500"" Duration=""5000"" /> <!-- 5 seconds -->";
+
+    private const string _controlsCode =
+@"<TabCountup @ref=""countupRef"" EndValue=""1000"" Duration=""5000"" AutoStart=""false"" />
+
+<button @onclick=""() => countupRef.StartAsync()"">Start</button>
+<button @onclick=""() => countupRef.PauseResumeAsync()"">Pause/Resume</button>
+<button @onclick=""() => countupRef.ResetAsync()"">Reset</button>
+<button @onclick=""() => countupRef.UpdateAsync(5000)"">Update to 5000</button>";
+
+    private const string _callbacksCode =
+@"<TabCountup EndValue=""100""
+            OnStart=""HandleStart""
+            OnComplete=""HandleComplete""
+            OnUpdate=""HandleUpdate"" />
+
+@code {
+    private void HandleStart() => Console.WriteLine(""Started!"");
+    private void HandleComplete() => Console.WriteLine(""Complete!"");
+    private void HandleUpdate(decimal value) => Console.WriteLine($""Value: {value}"");
+}";
+
+    private const string _countdownCode =
+@"<!-- Count down from 60 to 0 -->
+<TabCountup StartValue=""60"" EndValue=""0"" Duration=""3000"" Suffix="" seconds"" />";
+
+    private const string _separatorsCode =
+@"<!-- US Format: 1,234,567.89 -->
+<TabCountup EndValue=""1234567.89m"" DecimalPlaces=""2"" Separator="","" DecimalSeparator=""."" />
+
+<!-- European Format: 1.234.567,89 -->
+<TabCountup EndValue=""1234567.89m"" DecimalPlaces=""2"" Separator=""."" DecimalSeparator="","" />";
+
+    private const string _templateCode =
+@"<TabCountup EndValue=""42"" Duration=""2000"">
+    <div class=""display-1 fw-bold"">@context</div>
+    <div class=""text-muted"">Active Users</div>
+</TabCountup>";
+
+    private const string _setupCode =
+@"<!-- Basic usage -->
+<TabCountup EndValue=""1000"" />
+
+<!-- With all options -->
+<TabCountup StartValue=""0""
+            EndValue=""1000""
+            Duration=""2000""
+            DecimalPlaces=""0""
+            UseGrouping=""true""
+            Separator="",""
+            DecimalSeparator="".""
+            Prefix=""$""
+            Suffix="" USD""
+            UseEasing=""true""
+            Easing=""CountupEasing.EaseOutExpo""
+            AutoStart=""true""
+            OnStart=""HandleStart""
+            OnComplete=""HandleComplete"" />";
+}
