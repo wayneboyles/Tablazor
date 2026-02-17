@@ -38,8 +38,7 @@
     
     <!-- Assembly Versions -->
     <PropertyGroup>
-        <VersionPrefix>0.5.1</VersionPrefix>
-        <VersionSuffix>beta</VersionSuffix>
+        <VersionPrefix>0.6.0</VersionPrefix>
         <AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
         <FileVersion>$(VersionPrefix)</FileVersion>
     </PropertyGroup>
