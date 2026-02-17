@@ -1,0 +1,61 @@
+@inherits TabBaseComponent
+
+@if (Visible && _isOpen)
+{
+    <div class="modal-backdrop show"></div>
+    <div @ref="Element" id="@_dialogId" class="@GetCssClass()" style="display: block; @Style" tabindex="-1" role="alertdialog"
+         aria-labelledby="@($"{_dialogId}-title")" aria-describedby="@($"{_dialogId}-message")" aria-modal="true"
+         @onkeydown="HandleKeyDownAsync" @attributes="AdditionalAttributes">
+
+        <div class="@BuildDialogCssClass()" role="document" @onclick:stopPropagation="true">
+            <div class="modal-content">
+                @if (Color != TabColors.Default)
+                {
+                    <div class="modal-status bg-@Color.GetCssClassName()"></div>
+                }
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="@($"{_dialogId}-title")">@Title</h5>
+                </div>
+                
+                <div class="modal-body" id="@($"{_dialogId}-message")">
+                    @if (MessageContent is not null)
+                    {
+                        @MessageContent
+                    }
+                    else if (!string.IsNullOrWhiteSpace(Message))
+                    {
+                        <p>@Message</p>
+                    }
+                </div>
+                
+                <div class="modal-footer">
+                    @if (Buttons.HasFlag(DialogButtons.Yes))
+                    {
+                        <button type="button" class="btn btn-primary" @onclick="() => Close(DialogResult.Yes)">
+                            @YesText
+                        </button>
+                    }
+                    @if (Buttons.HasFlag(DialogButtons.No))
+                    {
+                        <button type="button" class="btn btn-secondary" @onclick="() => Close(DialogResult.No)">
+                            @NoText
+                        </button>
+                    }
+                    @if (Buttons.HasFlag(DialogButtons.Ok))
+                    {
+                        <button type="button" class="btn btn-primary" @onclick="() => Close(DialogResult.Ok)">
+                            @OkText
+                        </button>
+                    }
+                    @if (Buttons.HasFlag(DialogButtons.Cancel))
+                    {
+                        <button type="button" class="btn btn-secondary" @onclick="() => Close(DialogResult.Cancel)">
+                            @CancelText
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

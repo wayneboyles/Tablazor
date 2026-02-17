@@ -1,0 +1,450 @@
+@page "/components/dialog"
+@rendermode InteractiveServer
+
+<PageTitle>Dialog - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Dialog</h1>
+    <p class="text-muted">
+        Dialogs are simple message boxes with predefined button configurations. Unlike modals, they provide an awaitable
+        <code>ShowAsync</code> method that returns a <code>DialogResult</code> indicating which button was clicked.
+    </p>
+</div>
+
+<ComponentDemo Id="basic-dialog" Title="Basic Dialog" Description="A simple OK dialog that displays a message and waits for the user to acknowledge it." SourceCode="@_basicDialogCode">
+    <div class="d-flex flex-wrap align-items-center gap-3">
+        <TabButton Color="TabColors.Primary" OnClick="@ShowBasicDialogAsync">Open Basic Dialog</TabButton>
+        <span class="text-muted">Result: <strong>@_basicResult</strong></span>
+    </div>
+    <TabDialog @ref="_basicDialog" Title="Information" Message="This is a basic dialog with an OK button." />
+</ComponentDemo>
+
+<ComponentDemo Id="confirmation-dialog" Title="Confirmation Dialog" Description="A Yes/No dialog for confirming actions. The returned DialogResult tells you which button was clicked." SourceCode="@_confirmationDialogCode">
+    <div class="d-flex flex-wrap align-items-center gap-3">
+        <TabButton Color="TabColors.Primary" OnClick="@ShowConfirmationDialogAsync">Confirm Action</TabButton>
+        <span class="text-muted">Result: <strong>@_confirmResult</strong></span>
+    </div>
+    <TabDialog @ref="_confirmDialog" Title="Confirm" Message="Are you sure you want to proceed with this action?" Buttons="DialogButtons.YesNo" />
+</ComponentDemo>
+
+<ComponentDemo Id="yes-no-cancel-dialog" Title="Yes / No / Cancel Dialog" Description="A three-button dialog for operations where the user may want to save, discard, or cancel." SourceCode="@_yesNoCancelDialogCode">
+    <div class="d-flex flex-wrap align-items-center gap-3">
+        <TabButton Color="TabColors.Primary" OnClick="@ShowYesNoCancelDialogAsync">Save Changes?</TabButton>
+        <span class="text-muted">Result: <strong>@_yesNoCancelResult</strong></span>
+    </div>
+    <TabDialog @ref="_yesNoCancelDialog" Title="Unsaved Changes" Message="You have unsaved changes. Do you want to save them before closing?" Buttons="DialogButtons.YesNoCancel" />
+</ComponentDemo>
+
+<ComponentDemo Id="ok-cancel-dialog" Title="OK / Cancel Dialog" Description="A two-button dialog for actions that can be confirmed or cancelled." SourceCode="@_okCancelDialogCode">
+    <div class="d-flex flex-wrap align-items-center gap-3">
+        <TabButton Color="TabColors.Primary" OnClick="@ShowOkCancelDialogAsync">Submit Form</TabButton>
+        <span class="text-muted">Result: <strong>@_okCancelResult</strong></span>
+    </div>
+    <TabDialog @ref="_okCancelDialog" Title="Submit" Message="Are you ready to submit this form?" Buttons="DialogButtons.OkCancel" />
+</ComponentDemo>
+
+<ComponentDemo Id="custom-button-text" Title="Custom Button Text" Description="Override the default button labels with custom text using the OkText, CancelText, YesText, and NoText parameters." SourceCode="@_customButtonTextCode">
+    <div class="d-flex flex-wrap align-items-center gap-3">
+        <TabButton Color="TabColors.Danger" OnClick="@ShowCustomTextDialogAsync">Delete Item</TabButton>
+        <span class="text-muted">Result: <strong>@_customTextResult</strong></span>
+    </div>
+    <TabDialog @ref="_customTextDialog"
+               Title="Delete Item"
+               Message="This item will be permanently deleted. This action cannot be undone."
+               Buttons="DialogButtons.YesNo"
+               YesText="Delete"
+               NoText="Keep"
+               Color="TabColors.Danger" />
+</ComponentDemo>
+
+<ComponentDemo Id="colored-dialogs" Title="Colored Status Bar" Description="Use the Color parameter to display a colored status bar at the top of the dialog, indicating the nature of the message." SourceCode="@_coloredDialogsCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabButton Color="TabColors.Danger" OnClick="@ShowDangerDialogAsync">Danger</TabButton>
+        <TabButton Color="TabColors.Warning" OnClick="@ShowWarningDialogAsync">Warning</TabButton>
+        <TabButton Color="TabColors.Success" OnClick="@ShowSuccessDialogAsync">Success</TabButton>
+        <TabButton Color="TabColors.Info" OnClick="@ShowInfoDialogAsync">Info</TabButton>
+    </div>
+    <div class="mt-2">
+        <span class="text-muted">Last result: <strong>@_coloredResult</strong></span>
+    </div>
+    <TabDialog @ref="_dangerDialog" Title="Error" Message="An error occurred while processing your request. Please try again." Buttons="DialogButtons.OkCancel" Color="TabColors.Danger" />
+    <TabDialog @ref="_warningDialog" Title="Warning" Message="This action may have unintended side effects. Do you want to continue?" Buttons="DialogButtons.YesNo" Color="TabColors.Warning" />
+    <TabDialog @ref="_successDialog" Title="Success" Message="Your changes have been saved successfully." Color="TabColors.Success" />
+    <TabDialog @ref="_infoDialog" Title="Information" Message="A new version of the application is available. Please refresh to update." Color="TabColors.Info" />
+</ComponentDemo>
+
+<ComponentDemo Id="dialog-sizes" Title="Different Sizes" Description="Control the dialog width using the Size parameter with ModalSize values." SourceCode="@_dialogSizesCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabButton Color="TabColors.Secondary" OnClick="@ShowSmallDialogAsync">Small (Default)</TabButton>
+        <TabButton Color="TabColors.Primary" OnClick="@ShowDefaultSizeDialogAsync">Default Size</TabButton>
+        <TabButton Color="TabColors.Info" OnClick="@ShowLargeDialogAsync">Large</TabButton>
+    </div>
+    <TabDialog @ref="_smallSizeDialog" Title="Small Dialog" Message="This is a small dialog (the default size for TabDialog)." Size="ModalSize.Small" />
+    <TabDialog @ref="_defaultSizeDialog" Title="Default Size Dialog" Message="This is a default-sized dialog, which is wider than the small size." Size="ModalSize.Default" />
+    <TabDialog @ref="_largeSizeDialog" Title="Large Dialog" Message="This is a large dialog with more room for content." Size="ModalSize.Large" />
+</ComponentDemo>
+
+<ComponentDemo Id="rich-content-dialog" Title="Rich Content" Description="Use the MessageContent render fragment instead of the Message string parameter to display rich HTML content in the dialog body." SourceCode="@_richContentDialogCode">
+    <div class="d-flex flex-wrap align-items-center gap-3">
+        <TabButton Color="TabColors.Primary" OnClick="@ShowRichContentDialogAsync">Open Rich Content Dialog</TabButton>
+        <span class="text-muted">Result: <strong>@_richContentResult</strong></span>
+    </div>
+    <TabDialog @ref="_richContentDialog" Title="Terms of Service" Buttons="DialogButtons.YesNo" YesText="I Agree" NoText="Decline" Color="TabColors.Primary">
+        <MessageContent>
+            <p>Please review the following terms before continuing:</p>
+            <ul>
+                <li>You agree to use this service responsibly.</li>
+                <li>Your data will be stored securely.</li>
+                <li>You can delete your account at any time.</li>
+            </ul>
+            <div class="alert alert-warning mb-0">
+                <strong>Note:</strong> By clicking "I Agree", you accept these terms.
+            </div>
+        </MessageContent>
+    </TabDialog>
+</ComponentDemo>
+
+<ComponentDemo Id="event-callback-dialog" Title="Event Callback" Description="Use the OnResult callback to respond to the dialog result without using the awaitable ShowAsync pattern." SourceCode="@_eventCallbackCode">
+    <div class="d-flex flex-wrap align-items-center gap-3">
+        <TabButton Color="TabColors.Primary" OnClick="@ShowEventCallbackDialogAsync">Open Dialog</TabButton>
+        <span class="text-muted">Last event: <strong>@_eventCallbackResult</strong></span>
+    </div>
+    <TabDialog @ref="_eventCallbackDialog"
+               Title="Feedback"
+               Message="Was this information helpful?"
+               Buttons="DialogButtons.YesNo"
+               OnResult="@HandleDialogResult" />
+</ComponentDemo>
+
+@code {
+    // Basic dialog
+    private TabDialog _basicDialog = default!;
+    private string _basicResult = "None";
+
+    // Confirmation dialog
+    private TabDialog _confirmDialog = default!;
+    private string _confirmResult = "None";
+
+    // Yes/No/Cancel dialog
+    private TabDialog _yesNoCancelDialog = default!;
+    private string _yesNoCancelResult = "None";
+
+    // OK/Cancel dialog
+    private TabDialog _okCancelDialog = default!;
+    private string _okCancelResult = "None";
+
+    // Custom button text
+    private TabDialog _customTextDialog = default!;
+    private string _customTextResult = "None";
+
+    // Colored dialogs
+    private TabDialog _dangerDialog = default!;
+    private TabDialog _warningDialog = default!;
+    private TabDialog _successDialog = default!;
+    private TabDialog _infoDialog = default!;
+    private string _coloredResult = "None";
+
+    // Size dialogs
+    private TabDialog _smallSizeDialog = default!;
+    private TabDialog _defaultSizeDialog = default!;
+    private TabDialog _largeSizeDialog = default!;
+
+    // Rich content dialog
+    private TabDialog _richContentDialog = default!;
+    private string _richContentResult = "None";
+
+    // Event callback dialog
+    private TabDialog _eventCallbackDialog = default!;
+    private string _eventCallbackResult = "None";
+
+    private async Task ShowBasicDialogAsync()
+    {
+        var result = await _basicDialog.ShowAsync();
+        _basicResult = result.ToString();
+    }
+
+    private async Task ShowConfirmationDialogAsync()
+    {
+        var result = await _confirmDialog.ShowAsync();
+        _confirmResult = result.ToString();
+    }
+
+    private async Task ShowYesNoCancelDialogAsync()
+    {
+        var result = await _yesNoCancelDialog.ShowAsync();
+        _yesNoCancelResult = result.ToString();
+    }
+
+    private async Task ShowOkCancelDialogAsync()
+    {
+        var result = await _okCancelDialog.ShowAsync();
+        _okCancelResult = result.ToString();
+    }
+
+    private async Task ShowCustomTextDialogAsync()
+    {
+        var result = await _customTextDialog.ShowAsync();
+        _customTextResult = result.ToString();
+    }
+
+    private async Task ShowDangerDialogAsync()
+    {
+        var result = await _dangerDialog.ShowAsync();
+        _coloredResult = $"Danger: {result}";
+    }
+
+    private async Task ShowWarningDialogAsync()
+    {
+        var result = await _warningDialog.ShowAsync();
+        _coloredResult = $"Warning: {result}";
+    }
+
+    private async Task ShowSuccessDialogAsync()
+    {
+        var result = await _successDialog.ShowAsync();
+        _coloredResult = $"Success: {result}";
+    }
+
+    private async Task ShowInfoDialogAsync()
+    {
+        var result = await _infoDialog.ShowAsync();
+        _coloredResult = $"Info: {result}";
+    }
+
+    private async Task ShowSmallDialogAsync()
+    {
+        await _smallSizeDialog.ShowAsync();
+    }
+
+    private async Task ShowDefaultSizeDialogAsync()
+    {
+        await _defaultSizeDialog.ShowAsync();
+    }
+
+    private async Task ShowLargeDialogAsync()
+    {
+        await _largeSizeDialog.ShowAsync();
+    }
+
+    private async Task ShowRichContentDialogAsync()
+    {
+        var result = await _richContentDialog.ShowAsync();
+        _richContentResult = result.ToString();
+    }
+
+    private async Task ShowEventCallbackDialogAsync()
+    {
+        await _eventCallbackDialog.ShowAsync();
+    }
+
+    private void HandleDialogResult(DialogResult result)
+    {
+        _eventCallbackResult = $"OnResult fired: {result} at {DateTime.Now:HH:mm:ss}";
+    }
+
+    private const string _basicDialogCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@ShowDialogAsync"">
+    Open Basic Dialog
+</TabButton>
+
+<TabDialog @ref=""_dialog""
+           Title=""Information""
+           Message=""This is a basic dialog with an OK button."" />
+
+@code {
+    private TabDialog _dialog = default!;
+    private string _result = ""None"";
+
+    private async Task ShowDialogAsync()
+    {
+        var result = await _dialog.ShowAsync();
+        _result = result.ToString();
+    }
+}";
+
+    private const string _confirmationDialogCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@ShowDialogAsync"">
+    Confirm Action
+</TabButton>
+
+<TabDialog @ref=""_dialog""
+           Title=""Confirm""
+           Message=""Are you sure you want to proceed?""
+           Buttons=""DialogButtons.YesNo"" />
+
+@code {
+    private TabDialog _dialog = default!;
+
+    private async Task ShowDialogAsync()
+    {
+        var result = await _dialog.ShowAsync();
+        if (result == DialogResult.Yes)
+        {
+            // User confirmed
+        }
+    }
+}";
+
+    private const string _yesNoCancelDialogCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@ShowDialogAsync"">
+    Save Changes?
+</TabButton>
+
+<TabDialog @ref=""_dialog""
+           Title=""Unsaved Changes""
+           Message=""Do you want to save changes before closing?""
+           Buttons=""DialogButtons.YesNoCancel"" />
+
+@code {
+    private TabDialog _dialog = default!;
+
+    private async Task ShowDialogAsync()
+    {
+        var result = await _dialog.ShowAsync();
+        // result is Yes, No, or Cancel
+    }
+}";
+
+    private const string _okCancelDialogCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@ShowDialogAsync"">
+    Submit Form
+</TabButton>
+
+<TabDialog @ref=""_dialog""
+           Title=""Submit""
+           Message=""Are you ready to submit this form?""
+           Buttons=""DialogButtons.OkCancel"" />
+
+@code {
+    private TabDialog _dialog = default!;
+
+    private async Task ShowDialogAsync()
+    {
+        var result = await _dialog.ShowAsync();
+        if (result == DialogResult.Ok)
+        {
+            // Submit the form
+        }
+    }
+}";
+
+    private const string _customButtonTextCode =
+@"<TabButton Color=""TabColors.Danger"" OnClick=""@ShowDialogAsync"">
+    Delete Item
+</TabButton>
+
+<TabDialog @ref=""_dialog""
+           Title=""Delete Item""
+           Message=""This item will be permanently deleted.""
+           Buttons=""DialogButtons.YesNo""
+           YesText=""Delete""
+           NoText=""Keep""
+           Color=""TabColors.Danger"" />
+
+@code {
+    private TabDialog _dialog = default!;
+
+    private async Task ShowDialogAsync()
+    {
+        var result = await _dialog.ShowAsync();
+        if (result == DialogResult.Yes)
+        {
+            // Delete the item
+        }
+    }
+}";
+
+    private const string _coloredDialogsCode =
+@"<TabButton Color=""TabColors.Danger"" OnClick=""@ShowDangerAsync"">Danger</TabButton>
+<TabButton Color=""TabColors.Warning"" OnClick=""@ShowWarningAsync"">Warning</TabButton>
+<TabButton Color=""TabColors.Success"" OnClick=""@ShowSuccessAsync"">Success</TabButton>
+<TabButton Color=""TabColors.Info"" OnClick=""@ShowInfoAsync"">Info</TabButton>
+
+<TabDialog @ref=""_dangerDialog"" Title=""Error""
+           Message=""An error occurred."" Buttons=""DialogButtons.OkCancel""
+           Color=""TabColors.Danger"" />
+
+<TabDialog @ref=""_warningDialog"" Title=""Warning""
+           Message=""This action may have side effects.""
+           Buttons=""DialogButtons.YesNo"" Color=""TabColors.Warning"" />
+
+<TabDialog @ref=""_successDialog"" Title=""Success""
+           Message=""Changes saved successfully.""
+           Color=""TabColors.Success"" />
+
+<TabDialog @ref=""_infoDialog"" Title=""Information""
+           Message=""A new version is available.""
+           Color=""TabColors.Info"" />";
+
+    private const string _dialogSizesCode =
+@"<TabButton OnClick=""@ShowSmallAsync"">Small (Default)</TabButton>
+<TabButton OnClick=""@ShowDefaultAsync"">Default Size</TabButton>
+<TabButton OnClick=""@ShowLargeAsync"">Large</TabButton>
+
+<TabDialog @ref=""_smallDialog"" Title=""Small""
+           Message=""Small dialog (default)."" Size=""ModalSize.Small"" />
+
+<TabDialog @ref=""_defaultDialog"" Title=""Default Size""
+           Message=""Default-sized dialog."" Size=""ModalSize.Default"" />
+
+<TabDialog @ref=""_largeDialog"" Title=""Large""
+           Message=""Large dialog."" Size=""ModalSize.Large"" />";
+
+    private const string _richContentDialogCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@ShowDialogAsync"">
+    Open Rich Content Dialog
+</TabButton>
+
+<TabDialog @ref=""_dialog"" Title=""Terms of Service""
+           Buttons=""DialogButtons.YesNo""
+           YesText=""I Agree"" NoText=""Decline""
+           Color=""TabColors.Primary"">
+    <MessageContent>
+        <p>Please review the following terms:</p>
+        <ul>
+            <li>You agree to use this service responsibly.</li>
+            <li>Your data will be stored securely.</li>
+            <li>You can delete your account at any time.</li>
+        </ul>
+        <div class=""alert alert-warning mb-0"">
+            <strong>Note:</strong> By clicking ""I Agree"", you accept these terms.
+        </div>
+    </MessageContent>
+</TabDialog>
+
+@code {
+    private TabDialog _dialog = default!;
+
+    private async Task ShowDialogAsync()
+    {
+        var result = await _dialog.ShowAsync();
+        // result is Yes or No
+    }
+}";
+
+    private const string _eventCallbackCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@ShowDialogAsync"">
+    Open Dialog
+</TabButton>
+
+<TabDialog @ref=""_dialog""
+           Title=""Feedback""
+           Message=""Was this information helpful?""
+           Buttons=""DialogButtons.YesNo""
+           OnResult=""@HandleDialogResult"" />
+
+@code {
+    private TabDialog _dialog = default!;
+    private string _result = ""None"";
+
+    private async Task ShowDialogAsync()
+    {
+        await _dialog.ShowAsync();
+    }
+
+    private void HandleDialogResult(DialogResult result)
+    {
+        _result = $""OnResult fired: {result}"";
+    }
+}";
+}
