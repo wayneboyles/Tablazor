@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <Import Project="../../common.props" />
 
@@ -38,7 +38,7 @@
     
     <!-- Assembly Versions -->
     <PropertyGroup>
-        <VersionPrefix>0.6.0</VersionPrefix>
+        <VersionPrefix>0.6.1</VersionPrefix>
         <AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
         <FileVersion>$(VersionPrefix)</FileVersion>
     </PropertyGroup>
@@ -57,20 +57,20 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.3"/>
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.12"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.13"/>
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.23"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.24"/>
     </ItemGroup>
     
     <!-- Common Packages -->
     <ItemGroup>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.102" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.103" PrivateAssets="All" />
     </ItemGroup>
 
 </Project>
