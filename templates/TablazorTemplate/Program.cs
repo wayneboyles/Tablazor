@@ -6,6 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+// Add Tablazor Services
+builder.Services.AddTablazor();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

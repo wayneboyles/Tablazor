@@ -1,0 +1,24 @@
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    <aside @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#@_sidebarId" aria-controls="@_sidebarId" aria-expanded="false" aria-label="Toggle sidebar navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            @if (Brand is not null)
+            {
+                <div class="navbar-brand navbar-brand-autodark">
+                    @Brand
+                </div>
+            }
+            @if (NavContent is not null)
+            {
+                <div class="collapse navbar-collapse" id="@_sidebarId">
+                    @NavContent
+                </div>
+            }
+        </div>
+    </aside>
+}

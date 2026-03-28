@@ -1,0 +1,138 @@
+@page "/components/placeholder"
+@rendermode InteractiveServer
+
+<PageTitle>Placeholder - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Placeholder</h1>
+    <p class="text-muted">
+        Placeholders are purely CSS-based skeleton loaders used to indicate that content is loading.
+        They require no JavaScript and are fully accessible when combined with <code>aria-hidden</code>.
+    </p>
+</div>
+
+<ComponentDemo Id="basic-placeholder" Title="Basic Placeholder" Description="Individual placeholder spans at different column widths." SourceCode="@_basicCode">
+    <TabPlaceholderContainer Animation="PlaceholderAnimation.Glow">
+        <TabPlaceholder Columns="12" />
+        <TabPlaceholder Columns="8" />
+        <TabPlaceholder Columns="6" />
+        <TabPlaceholder Columns="4" />
+        <TabPlaceholder Columns="2" />
+    </TabPlaceholderContainer>
+</ComponentDemo>
+
+<ComponentDemo Id="placeholder-sizes" Title="Sizes" Description="Placeholders are available in four sizes: ExtraSmall, Small, Default, and Large." SourceCode="@_sizesCode">
+    <TabPlaceholderContainer Animation="PlaceholderAnimation.Glow">
+        <TabPlaceholder Columns="12" Size="PlaceholderSize.ExtraSmall" />
+        <TabPlaceholder Columns="12" Size="PlaceholderSize.Small" />
+        <TabPlaceholder Columns="12" />
+        <TabPlaceholder Columns="12" Size="PlaceholderSize.Large" />
+    </TabPlaceholderContainer>
+</ComponentDemo>
+
+<ComponentDemo Id="placeholder-colors" Title="Colors" Description="Apply background colors using the Color parameter." SourceCode="@_colorsCode">
+    <TabPlaceholderContainer>
+        <TabPlaceholder Columns="12" Color="TabColors.Primary" />
+        <TabPlaceholder Columns="12" Color="TabColors.Success" />
+        <TabPlaceholder Columns="12" Color="TabColors.Danger" />
+        <TabPlaceholder Columns="12" Color="TabColors.Warning" />
+        <TabPlaceholder Columns="12" Color="TabColors.Info" />
+    </TabPlaceholderContainer>
+</ComponentDemo>
+
+<ComponentDemo Id="placeholder-animations" Title="Animations" Description="Use Glow for a pulsing opacity effect or Wave for a shimmer sweep. The animation class is applied to the container, not the individual spans." SourceCode="@_animationsCode">
+    <div class="row">
+        <div class="col-6">
+            <p class="text-muted mb-1"><strong>Glow</strong></p>
+            <TabPlaceholderContainer Animation="PlaceholderAnimation.Glow">
+                <TabPlaceholder Columns="12" />
+                <TabPlaceholder Columns="8" />
+                <TabPlaceholder Columns="10" />
+            </TabPlaceholderContainer>
+        </div>
+        <div class="col-6">
+            <p class="text-muted mb-1"><strong>Wave</strong></p>
+            <TabPlaceholderContainer Animation="PlaceholderAnimation.Wave">
+                <TabPlaceholder Columns="12" />
+                <TabPlaceholder Columns="8" />
+                <TabPlaceholder Columns="10" />
+            </TabPlaceholderContainer>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="placeholder-skeleton-card" Title="Skeleton Card" Description="A realistic skeleton loader that mimics a loading card with a title, body text, and a disabled button placeholder." SourceCode="@_skeletonCardCode">
+    <div class="card" style="max-width: 400px;">
+        <div class="card-body">
+            <TabPlaceholderContainer Tag="p" Animation="PlaceholderAnimation.Glow" CssClass="card-title h5">
+                <TabPlaceholder Columns="6" />
+            </TabPlaceholderContainer>
+            <TabPlaceholderContainer Tag="p" Animation="PlaceholderAnimation.Glow" CssClass="card-text">
+                <TabPlaceholder Columns="7" />
+                <TabPlaceholder Columns="4" />
+                <TabPlaceholder Columns="8" />
+                <TabPlaceholder Columns="5" />
+            </TabPlaceholderContainer>
+            <TabPlaceholder Columns="6" Color="TabColors.Primary" CssClass="btn btn-primary disabled" />
+        </div>
+    </div>
+</ComponentDemo>
+
+@code {
+    private const string _basicCode =
+@"<TabPlaceholderContainer Animation=""PlaceholderAnimation.Glow"">
+    <TabPlaceholder Columns=""12"" />
+    <TabPlaceholder Columns=""8"" />
+    <TabPlaceholder Columns=""6"" />
+    <TabPlaceholder Columns=""4"" />
+    <TabPlaceholder Columns=""2"" />
+</TabPlaceholderContainer>";
+
+    private const string _sizesCode =
+@"<TabPlaceholderContainer Animation=""PlaceholderAnimation.Glow"">
+    <TabPlaceholder Columns=""12"" Size=""PlaceholderSize.ExtraSmall"" />
+    <TabPlaceholder Columns=""12"" Size=""PlaceholderSize.Small"" />
+    <TabPlaceholder Columns=""12"" />
+    <TabPlaceholder Columns=""12"" Size=""PlaceholderSize.Large"" />
+</TabPlaceholderContainer>";
+
+    private const string _colorsCode =
+@"<TabPlaceholderContainer>
+    <TabPlaceholder Columns=""12"" Color=""TabColors.Primary"" />
+    <TabPlaceholder Columns=""12"" Color=""TabColors.Success"" />
+    <TabPlaceholder Columns=""12"" Color=""TabColors.Danger"" />
+    <TabPlaceholder Columns=""12"" Color=""TabColors.Warning"" />
+    <TabPlaceholder Columns=""12"" Color=""TabColors.Info"" />
+</TabPlaceholderContainer>";
+
+    private const string _animationsCode =
+@"<!-- Glow animation -->
+<TabPlaceholderContainer Animation=""PlaceholderAnimation.Glow"">
+    <TabPlaceholder Columns=""12"" />
+    <TabPlaceholder Columns=""8"" />
+    <TabPlaceholder Columns=""10"" />
+</TabPlaceholderContainer>
+
+<!-- Wave animation -->
+<TabPlaceholderContainer Animation=""PlaceholderAnimation.Wave"">
+    <TabPlaceholder Columns=""12"" />
+    <TabPlaceholder Columns=""8"" />
+    <TabPlaceholder Columns=""10"" />
+</TabPlaceholderContainer>";
+
+    private const string _skeletonCardCode =
+@"<div class=""card"">
+    <div class=""card-body"">
+        <TabPlaceholderContainer Tag=""p"" Animation=""PlaceholderAnimation.Glow"" CssClass=""card-title h5"">
+            <TabPlaceholder Columns=""6"" />
+        </TabPlaceholderContainer>
+        <TabPlaceholderContainer Tag=""p"" Animation=""PlaceholderAnimation.Glow"" CssClass=""card-text"">
+            <TabPlaceholder Columns=""7"" />
+            <TabPlaceholder Columns=""4"" />
+            <TabPlaceholder Columns=""8"" />
+            <TabPlaceholder Columns=""5"" />
+        </TabPlaceholderContainer>
+        <TabPlaceholder Columns=""6"" Color=""TabColors.Primary"" CssClass=""btn btn-primary disabled"" />
+    </div>
+</div>";
+}

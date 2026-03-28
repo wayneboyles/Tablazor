@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11505.172 d18.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tablazor", "Tablazor\Tablazor.csproj", "{B9D7F24F-781E-47BF-A92E-5411EF4498ED}"
 EndProject
@@ -13,13 +13,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TablazorTemplate", "..\templates\TablazorTemplate\TablazorTemplate.csproj", "{0BBDE006-F61B-47DB-9497-CC6C5504C7C5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0912C156-A2E9-4432-827F-0B6EBFB9A70A}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B9D7F24F-781E-47BF-A92E-5411EF4498ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -39,7 +41,13 @@ Global
 		{0BBDE006-F61B-47DB-9497-CC6C5504C7C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BBDE006-F61B-47DB-9497-CC6C5504C7C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0BBDE006-F61B-47DB-9497-CC6C5504C7C5} = {BDDD20B6-A7BE-4CBA-8579-29CF175A745C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {99330F9B-1303-4040-B900-791A929BE90A}
 	EndGlobalSection
 EndGlobal

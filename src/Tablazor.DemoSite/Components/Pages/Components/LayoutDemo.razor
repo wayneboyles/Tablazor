@@ -1,0 +1,481 @@
+@page "/components/layout"
+@rendermode InteractiveServer
+
+<PageTitle>Layout - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Layout</h1>
+    <p class="text-muted">
+        The layout component family provides the structural building blocks for Tabler-styled pages.
+        Use these components to compose horizontal navbar layouts, vertical sidebar layouts, and everything in between.
+    </p>
+</div>
+
+<ComponentDemo
+    Id="horizontal-layout"
+    Title="Horizontal Navbar Layout"
+    Description="The standard layout with a horizontal top navigation bar. Use TabLayout as the page root, TabNavbar for the top bar, TabPageWrapper to contain the content area, TabPageBody for the main content, and TabFooter for the page footer."
+    SourceCode="@_horizontalLayoutCode">
+    <div class="layout-preview">
+        <div class="layout-preview-navbar">
+            <div class="layout-preview-brand">Brand</div>
+            <div class="layout-preview-nav">Nav Links</div>
+            <div class="layout-preview-right">User</div>
+        </div>
+        <div class="layout-preview-body">
+            <div class="layout-preview-content">Page Body Content</div>
+        </div>
+        <div class="layout-preview-footer">Footer</div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="sidebar-layout"
+    Title="Vertical Sidebar Layout"
+    Description="A layout with a vertical sidebar for primary navigation. The sidebar replaces the horizontal navbar. An optional secondary TabNavbar inside TabPageWrapper can provide a top bar for user menus and utilities."
+    SourceCode="@_sidebarLayoutCode">
+    <div class="layout-preview layout-preview-with-sidebar">
+        <div class="layout-preview-sidebar">
+            <div class="layout-preview-brand">Brand</div>
+            <div class="layout-preview-sidenav">
+                <div>Home</div>
+                <div>Dashboard</div>
+                <div>Settings</div>
+            </div>
+        </div>
+        <div class="layout-preview-main">
+            <div class="layout-preview-topbar">User Menu</div>
+            <div class="layout-preview-content">Page Body Content</div>
+            <div class="layout-preview-footer">Footer</div>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="navbar-variants"
+    Title="Navbar Variants"
+    Description="TabNavbar supports several modifier parameters. Dark applies a dark color scheme, Transparent removes the background, Overlap makes the navbar overlap the page content for hero-style headers, and Sticky keeps the navbar fixed at the top of the viewport while scrolling."
+    SourceCode="@_navbarVariantsCode">
+    <div class="d-flex flex-column gap-2">
+        <div class="layout-preview-navbar">Default Navbar</div>
+        <div class="layout-preview-navbar layout-preview-navbar-dark">Dark Navbar</div>
+        <div class="layout-preview-navbar layout-preview-navbar-transparent">Transparent Navbar</div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="sidebar-variants"
+    Title="Sidebar Variants"
+    Description="TabSidebar supports Dark for a dark color scheme and Condensed (navbar-vertical-sm) for a narrow sidebar that shows only icons, expanding on hover."
+    SourceCode="@_sidebarVariantsCode">
+    <div class="d-flex gap-3">
+        <div class="layout-preview-sidebar-standalone">
+            <div class="layout-preview-brand">Brand</div>
+            <div class="layout-preview-sidenav">
+                <div>Home</div>
+                <div>Dashboard</div>
+                <div>Reports</div>
+            </div>
+        </div>
+        <div class="layout-preview-sidebar-standalone layout-preview-sidebar-dark">
+            <div class="layout-preview-brand">Brand</div>
+            <div class="layout-preview-sidenav">
+                <div>Home</div>
+                <div>Dashboard</div>
+                <div>Reports</div>
+            </div>
+        </div>
+        <div class="layout-preview-sidebar-standalone layout-preview-sidebar-condensed">
+            <div class="layout-preview-brand">B</div>
+            <div class="layout-preview-sidenav">
+                <div>H</div>
+                <div>D</div>
+                <div>R</div>
+            </div>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="page-body-container"
+    Title="Page Body with Container"
+    Description="TabPageBody optionally wraps its child content in a responsive container. When ContainerSize is null (the default), no container div is added, allowing you to control the container yourself. When set, the content is automatically wrapped."
+    SourceCode="@_pageBodyContainerCode">
+    <div class="d-flex flex-column gap-2">
+        <div class="bg-light border rounded p-2">
+            <div class="text-muted small mb-1">ContainerSize not set (no container wrapper)</div>
+            <div class="border border-dashed p-2 rounded">Content fills page-body directly</div>
+        </div>
+        <div class="bg-light border rounded p-2">
+            <div class="text-muted small mb-1">ContainerSize="ContainerSize.ExtraLarge" (container-xl)</div>
+            <div class="container-xl border border-dashed p-2 rounded">Content wrapped in container-xl</div>
+        </div>
+        <div class="bg-light border rounded p-2">
+            <div class="text-muted small mb-1">ContainerSize="ContainerSize.Fluid" (container-fluid)</div>
+            <div class="container-fluid border border-dashed p-2 rounded">Content wrapped in container-fluid</div>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="footer-variants"
+    Title="Footer Variants"
+    Description="TabFooter always wraps its content in a responsive container. Use Transparent to remove the footer background, which blends it seamlessly with the page body."
+    SourceCode="@_footerVariantsCode">
+    <div class="d-flex flex-column gap-2">
+        <div class="layout-preview-footer-standalone">
+            Default Footer
+        </div>
+        <div class="layout-preview-footer-standalone layout-preview-footer-transparent">
+            Transparent Footer
+        </div>
+    </div>
+</ComponentDemo>
+
+<style>
+    .layout-preview {
+        border: 1px solid var(--tblr-border-color);
+        border-radius: var(--tblr-border-radius);
+        overflow: hidden;
+        font-size: 0.75rem;
+        background: var(--tblr-bg-surface);
+    }
+
+    .layout-preview-navbar {
+        background: var(--tblr-navbar-bg, #fff);
+        border-bottom: 1px solid var(--tblr-border-color);
+        padding: 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .layout-preview-brand {
+        font-weight: 600;
+        color: var(--tblr-primary);
+    }
+
+    .layout-preview-nav {
+        flex: 1;
+        color: var(--tblr-muted);
+    }
+
+    .layout-preview-right {
+        color: var(--tblr-muted);
+    }
+
+    .layout-preview-body {
+        padding: 1rem;
+        min-height: 80px;
+        background: var(--tblr-bg-surface-secondary, #f4f6fa);
+    }
+
+    .layout-preview-content {
+        color: var(--tblr-muted);
+        text-align: center;
+        padding: 0.5rem;
+    }
+
+    .layout-preview-footer {
+        background: var(--tblr-bg-surface);
+        border-top: 1px solid var(--tblr-border-color);
+        padding: 0.5rem 1rem;
+        color: var(--tblr-muted);
+        font-size: 0.7rem;
+    }
+
+    .layout-preview-with-sidebar {
+        display: flex;
+        height: 160px;
+    }
+
+    .layout-preview-sidebar {
+        width: 100px;
+        background: var(--tblr-bg-surface);
+        border-right: 1px solid var(--tblr-border-color);
+        padding: 0.5rem;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .layout-preview-sidenav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        color: var(--tblr-muted);
+    }
+
+    .layout-preview-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .layout-preview-topbar {
+        background: var(--tblr-bg-surface);
+        border-bottom: 1px solid var(--tblr-border-color);
+        padding: 0.35rem 0.75rem;
+        color: var(--tblr-muted);
+        font-size: 0.7rem;
+    }
+
+    .layout-preview-navbar-dark {
+        background: #1a1a2e;
+        color: #fff;
+        border-color: #2d2d4e;
+    }
+
+    .layout-preview-navbar-dark .layout-preview-brand,
+    .layout-preview-navbar-dark .layout-preview-nav,
+    .layout-preview-navbar-dark .layout-preview-right {
+        color: rgba(255,255,255,0.8);
+    }
+
+    .layout-preview-navbar-transparent {
+        background: transparent;
+        color: inherit;
+    }
+
+    .layout-preview-sidebar-standalone {
+        width: 100px;
+        background: var(--tblr-bg-surface);
+        border: 1px solid var(--tblr-border-color);
+        border-radius: var(--tblr-border-radius);
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    .layout-preview-sidebar-dark {
+        background: #1a1a2e;
+        border-color: #2d2d4e;
+    }
+
+    .layout-preview-sidebar-dark .layout-preview-brand,
+    .layout-preview-sidebar-dark .layout-preview-sidenav {
+        color: rgba(255,255,255,0.8);
+    }
+
+    .layout-preview-sidebar-condensed {
+        width: 40px;
+        align-items: center;
+    }
+
+    .layout-preview-footer-standalone {
+        border: 1px solid var(--tblr-border-color);
+        border-radius: var(--tblr-border-radius);
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+        color: var(--tblr-muted);
+        background: var(--tblr-bg-surface);
+    }
+
+    .layout-preview-footer-transparent {
+        background: transparent;
+        border-style: dashed;
+    }
+</style>
+
+@code {
+    private const string _horizontalLayoutCode =
+@"<TabLayout>
+    <TabNavbar ContainerSize=""ContainerSize.ExtraLarge"">
+        <Brand>
+            <a href=""/"" class=""navbar-brand navbar-brand-autodark"">
+                My Application
+            </a>
+        </Brand>
+        <NavContent>
+            <ul class=""navbar-nav"">
+                <li class=""nav-item"">
+                    <a class=""nav-link"" href=""/"">Home</a>
+                </li>
+                <li class=""nav-item"">
+                    <a class=""nav-link"" href=""/dashboard"">Dashboard</a>
+                </li>
+            </ul>
+        </NavContent>
+        <RightContent>
+            <div class=""nav-item"">
+                <a href=""#"" class=""nav-link"">User Name</a>
+            </div>
+        </RightContent>
+    </TabNavbar>
+
+    <TabPageWrapper>
+        <TabPageBody ContainerSize=""ContainerSize.ExtraLarge"">
+            <div class=""row row-deck row-cards"">
+                <!-- page content here -->
+            </div>
+        </TabPageBody>
+
+        <TabFooter ContainerSize=""ContainerSize.ExtraLarge"">
+            <p class=""text-muted"">Copyright &copy; 2024 My Application</p>
+        </TabFooter>
+    </TabPageWrapper>
+</TabLayout>";
+
+    private const string _sidebarLayoutCode =
+@"<TabLayout>
+    <TabSidebar>
+        <Brand>
+            <a href=""/"" class=""navbar-brand navbar-brand-autodark"">
+                My Application
+            </a>
+        </Brand>
+        <NavContent>
+            <ul class=""navbar-nav pt-lg-3"">
+                <li class=""nav-item"">
+                    <a class=""nav-link"" href=""/"">
+                        <span class=""nav-link-title"">Home</span>
+                    </a>
+                </li>
+                <li class=""nav-item"">
+                    <a class=""nav-link"" href=""/dashboard"">
+                        <span class=""nav-link-title"">Dashboard</span>
+                    </a>
+                </li>
+            </ul>
+        </NavContent>
+    </TabSidebar>
+
+    <TabPageWrapper>
+        <!-- Optional secondary navbar at top for user menus -->
+        <TabNavbar ContainerSize=""ContainerSize.ExtraLarge"">
+            <RightContent>
+                <div class=""nav-item"">
+                    <a href=""#"" class=""nav-link"">User Name</a>
+                </div>
+            </RightContent>
+        </TabNavbar>
+
+        <TabPageBody ContainerSize=""ContainerSize.ExtraLarge"">
+            <div class=""row row-deck row-cards"">
+                <!-- page content here -->
+            </div>
+        </TabPageBody>
+
+        <TabFooter ContainerSize=""ContainerSize.ExtraLarge"">
+            <p class=""text-muted"">Copyright &copy; 2024 My Application</p>
+        </TabFooter>
+    </TabPageWrapper>
+</TabLayout>";
+
+    private const string _navbarVariantsCode =
+@"<!-- Default navbar -->
+<TabNavbar>
+    <Brand><a href=""/"" class=""navbar-brand"">Brand</a></Brand>
+</TabNavbar>
+
+<!-- Dark navbar -->
+<TabNavbar Dark=""true"">
+    <Brand><a href=""/"" class=""navbar-brand"">Brand</a></Brand>
+</TabNavbar>
+
+<!-- Transparent navbar (overlays page content) -->
+<TabNavbar Transparent=""true"">
+    <Brand><a href=""/"" class=""navbar-brand"">Brand</a></Brand>
+</TabNavbar>
+
+<!-- Overlap navbar (for hero-style colored page headers) -->
+<TabNavbar Overlap=""true"">
+    <Brand><a href=""/"" class=""navbar-brand"">Brand</a></Brand>
+</TabNavbar>
+
+<!-- Sticky navbar (stays fixed while scrolling) -->
+<TabNavbar Sticky=""true"">
+    <Brand><a href=""/"" class=""navbar-brand"">Brand</a></Brand>
+</TabNavbar>";
+
+    private const string _sidebarVariantsCode =
+@"<!-- Default sidebar -->
+<TabSidebar>
+    <Brand><a href=""/"" class=""navbar-brand"">Brand</a></Brand>
+    <NavContent>
+        <ul class=""navbar-nav pt-lg-3"">
+            <li class=""nav-item""><a class=""nav-link"" href=""/"">Home</a></li>
+        </ul>
+    </NavContent>
+</TabSidebar>
+
+<!-- Dark sidebar -->
+<TabSidebar Dark=""true"">
+    <Brand><a href=""/"" class=""navbar-brand"">Brand</a></Brand>
+    <NavContent>
+        <ul class=""navbar-nav pt-lg-3"">
+            <li class=""nav-item""><a class=""nav-link"" href=""/"">Home</a></li>
+        </ul>
+    </NavContent>
+</TabSidebar>
+
+<!-- Condensed sidebar (narrow, icon-only on desktop) -->
+<TabSidebar Condensed=""true"">
+    <Brand><a href=""/"" class=""navbar-brand"">Brand</a></Brand>
+    <NavContent>
+        <ul class=""navbar-nav pt-lg-3"">
+            <li class=""nav-item""><a class=""nav-link"" href=""/"">Home</a></li>
+        </ul>
+    </NavContent>
+</TabSidebar>";
+
+    private const string _pageBodyContainerCode =
+@"<!-- No container wrapper — content fills page-body directly -->
+<TabPageBody>
+    <div class=""container-xl"">
+        <!-- Manage your own container -->
+    </div>
+</TabPageBody>
+
+<!-- Automatic container-xl wrapper (most common) -->
+<TabPageBody ContainerSize=""ContainerSize.ExtraLarge"">
+    <div class=""row row-deck row-cards"">
+        <!-- content -->
+    </div>
+</TabPageBody>
+
+<!-- Fluid container — full width -->
+<TabPageBody ContainerSize=""ContainerSize.Fluid"">
+    <div class=""row"">
+        <!-- full-width content -->
+    </div>
+</TabPageBody>
+
+<!-- Available ContainerSize values:
+     ContainerSize.Fluid          → container-fluid
+     ContainerSize.Small          → container-sm
+     ContainerSize.Medium         → container-md
+     ContainerSize.Large          → container-lg
+     ContainerSize.ExtraLarge     → container-xl
+     ContainerSize.ExtraExtraLarge → container-xxl -->";
+
+    private const string _footerVariantsCode =
+@"<!-- Default footer with container-xl -->
+<TabFooter>
+    <div class=""row align-items-center flex-row-reverse"">
+        <div class=""col-auto ms-auto"">
+            <ul class=""list-inline list-inline-dots mb-0"">
+                <li class=""list-inline-item""><a href=""/terms"" class=""link-secondary"">Terms</a></li>
+                <li class=""list-inline-item""><a href=""/privacy"" class=""link-secondary"">Privacy</a></li>
+            </ul>
+        </div>
+        <div class=""col-12 col-lg-auto mt-3 mt-lg-0"">
+            Copyright &copy; 2024 My Application
+        </div>
+    </div>
+</TabFooter>
+
+<!-- Transparent footer (no background) -->
+<TabFooter Transparent=""true"">
+    <p class=""text-muted"">Copyright &copy; 2024 My Application</p>
+</TabFooter>
+
+<!-- Footer with fluid container -->
+<TabFooter ContainerSize=""ContainerSize.Fluid"">
+    <p class=""text-muted"">Full-width footer content</p>
+</TabFooter>";
+}

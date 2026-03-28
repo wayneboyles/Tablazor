@@ -1,0 +1,559 @@
+@page "/components/dynamicform"
+@rendermode InteractiveServer
+@using System.ComponentModel.DataAnnotations
+@using Tablazor.Attributes
+@using Tablazor.Icons
+@using Tablazor.Models
+
+<PageTitle>Dynamic Form - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Dynamic Form</h1>
+    <p class="text-muted">
+        <code>TabDynamicForm</code> reflects on any model class at runtime to auto-generate a fully featured
+        form — inputs, labels, validation messages, and layout — driven entirely by data-annotation and
+        Tablazor attributes on the model properties.
+    </p>
+</div>
+
+<ComponentDemo Id="basic-form"
+               Title="Basic Form"
+               Description="A minimal form with a card wrapper and submit/cancel buttons. Fields and their types are inferred automatically from the model's CLR types and data-annotation attributes."
+               SourceCode="@_basicFormCode">
+    <TabDynamicForm TModel="BasicModel"
+                    Model="_basicModel"
+                    CardTitle="User Registration"
+                    CardSubtitle="Please fill in your details"
+                    ShowCancelButton="true"
+                    OnValidSubmit="@(_ => _basicResult = "Form submitted successfully!")"
+                    OnInvalidSubmit="@(_ => _basicResult = "Please fix the validation errors.")" />
+    @if (!string.IsNullOrEmpty(_basicResult))
+    {
+        <div class="alert @(_basicResult.Contains("success") ? "alert-success" : "alert-danger") mt-3">
+            @_basicResult
+        </div>
+    }
+</ComponentDemo>
+
+<ComponentDemo Id="field-types"
+               Title="Field Types"
+               Description="TabDynamicForm auto-detects CLR types (string, int, bool, DateTime, DateOnly, enum) and renders the matching input. Use [TabField(FieldType = ...)] to override the detected type."
+               SourceCode="@_fieldTypesCode">
+    <TabDynamicForm TModel="FieldTypesModel"
+                    Model="_fieldTypesModel"
+                    CardTitle="All Field Types"
+                    ShowSubmitButton="false"
+                    ShowCancelButton="false" />
+</ComponentDemo>
+
+<ComponentDemo Id="icon-addons"
+               Title="Icon Add-ons"
+               Description="Use IconLeft and IconRight on [TabField] to prepend or append a Tabler icon inside an input-group wrapper."
+               SourceCode="@_iconAddonsCode">
+    <TabDynamicForm TModel="IconModel"
+                    Model="_iconModel"
+                    CardTitle="Contact Details"
+                    ShowSubmitButton="false" />
+</ComponentDemo>
+
+<ComponentDemo Id="sections-layout"
+               Title="Sections &amp; Same-Row Layout"
+               Description="Use [TabSection] to visually group fields under a heading with an optional description. Use [SameRow] to place multiple fields side-by-side using Bootstrap grid columns."
+               SourceCode="@_sectionsCode">
+    <TabDynamicForm TModel="SectionsModel"
+                    Model="_sectionsModel"
+                    CardTitle="Employee Profile"
+                    ShowValidationSummary="true"
+                    SubmitButtonText="Save Profile"
+                    SubmitButtonIcon="ti ti-device-floppy" />
+</ComponentDemo>
+
+<ComponentDemo Id="collapsible-sections"
+               Title="Collapsible Sections"
+               Description="Add Collapsible = true to a [TabSection] to make it expandable/collapsible by clicking the heading. Use InitiallyCollapsed = true to start a section collapsed."
+               SourceCode="@_collapsibleCode">
+    <TabDynamicForm TModel="CollapsibleModel"
+                    Model="_collapsibleModel"
+                    CardTitle="Application Settings"
+                    ShowSubmitButton="false" />
+</ComponentDemo>
+
+<ComponentDemo Id="label-positions"
+               Title="Label Positions"
+               Description="The LabelPosition parameter controls label placement for all fields globally. Use [TabField(LabelPosition = ...)] to override for individual fields."
+               SourceCode="@_labelPositionCode">
+    <div class="row g-3">
+        <div class="col-12 col-lg-4">
+            <TabDynamicForm TModel="LabelPositionModel"
+                            Model="_labelTopModel"
+                            CardTitle="Top (default)"
+                            LabelPosition="LabelPosition.Top"
+                            ShowSubmitButton="false" />
+        </div>
+        <div class="col-12 col-lg-4">
+            <TabDynamicForm TModel="LabelPositionModel"
+                            Model="_labelLeftModel"
+                            CardTitle="Left"
+                            LabelPosition="LabelPosition.Left"
+                            LabelColumns="4"
+                            ShowSubmitButton="false" />
+        </div>
+        <div class="col-12 col-lg-4">
+            <TabDynamicForm TModel="LabelPositionModel"
+                            Model="_labelFloatingModel"
+                            CardTitle="Floating"
+                            LabelPosition="LabelPosition.Floating"
+                            ShowSubmitButton="false" />
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="readonly-form"
+               Title="Read-Only Form"
+               Description="Set ReadOnly=true to render the entire form as non-editable. Useful for detail or review pages where the user should only view data."
+               SourceCode="@_readOnlyCode">
+    <TabDynamicForm TModel="BasicModel"
+                    Model="_readOnlyModel"
+                    CardTitle="Account Details"
+                    ReadOnly="true"
+                    ShowSubmitButton="false"
+                    ShowCancelButton="false" />
+</ComponentDemo>
+
+<ComponentDemo Id="no-card"
+               Title="Without Card Wrapper"
+               Description="Set ShowCard=false to render fields without a card container. Useful for embedding forms inside your own layout or existing cards."
+               SourceCode="@_noCardCode">
+    <div class="p-4 border rounded">
+        <h4 class="mb-4">Quick Edit</h4>
+        <TabDynamicForm TModel="LabelPositionModel"
+                        Model="_noCardModel"
+                        ShowCard="false"
+                        SubmitButtonText="Save Changes"
+                        SubmitButtonIcon="ti ti-device-floppy"
+                        ShowCancelButton="true"
+                        CancelButtonText="Discard" />
+    </div>
+</ComponentDemo>
+
+@code {
+
+    // ── Basic form ──────────────────────────────────────────────────────────
+
+    private BasicModel _basicModel = new();
+    private string _basicResult = string.Empty;
+
+    public class BasicModel
+    {
+        [Required, MaxLength(100)]
+        [TabField(Label = "Full Name", Placeholder = "e.g. Jane Smith", IconLeft = TabIcons.Filled.Function)]
+        public string? Name { get; set; }
+
+        [Required, EmailAddress]
+        [TabField(Label = "Email Address", Placeholder = "you@example.com", IconLeft = TabIcons.Filled.Mail, FieldType = TabFieldType.Email, HelpText = "Enter your email address")]
+        public string? Email { get; set; }
+
+        [Required, MinLength(8)]
+        [TabField(Label = "Password", FieldType = TabFieldType.Password, HelpText = "Minimum 8 characters.")]
+        public string? Password { get; set; }
+
+        [TabField(Label = "Agree to Terms", FieldType = TabFieldType.Checkbox)]
+        public bool AgreeToTerms { get; set; }
+    }
+
+    // ── Field types ─────────────────────────────────────────────────────────
+
+    private FieldTypesModel _fieldTypesModel = new();
+
+    public class FieldTypesModel
+    {
+        [TabField(Label = "Text", Placeholder = "Plain text")]
+        public string? TextValue { get; set; }
+
+        [TabField(Label = "Email", FieldType = TabFieldType.Email, Placeholder = "email@example.com")]
+        public string? EmailValue { get; set; }
+
+        [TabField(Label = "Password", FieldType = TabFieldType.Password)]
+        public string? PasswordValue { get; set; }
+
+        [TabField(Label = "Number", FieldType = TabFieldType.Number, Min = "0", Max = "100", Step = "1")]
+        public int NumberValue { get; set; }
+
+        [TabField(Label = "Date")]
+        public DateOnly DateValue { get; set; } = DateOnly.FromDateTime(DateTime.Today);
+
+        [TabField(Label = "Textarea", FieldType = TabFieldType.Textarea, Rows = 3, Placeholder = "Enter a longer description...")]
+        public string? TextareaValue { get; set; }
+
+        [TabField(Label = "Checkbox")]
+        public bool CheckboxValue { get; set; }
+
+        [TabField(Label = "Toggle Switch", FieldType = TabFieldType.Toggle)]
+        public bool ToggleValue { get; set; }
+
+        [TabField(Label = "Range Slider", FieldType = TabFieldType.Range, Min = "0", Max = "100", Step = "5")]
+        public int RangeValue { get; set; } = 50;
+
+        [TabField(Label = "Color Picker", FieldType = TabFieldType.Color)]
+        public string? ColorValue { get; set; } = "#206bc4";
+
+        [TabField(Label = "Priority (enum → select)")]
+        public Priority PriorityValue { get; set; }
+    }
+
+    public enum Priority { Low, Medium, High, Critical }
+
+    // ── Icon add-ons ────────────────────────────────────────────────────────
+
+    private IconModel _iconModel = new();
+
+    public class IconModel
+    {
+        [Required]
+        [TabField(Label = "Full Name", IconLeft = "ti ti-user", Placeholder = "Your name")]
+        public string? Name { get; set; }
+
+        [Required, EmailAddress]
+        [TabField(Label = "Email", FieldType = TabFieldType.Email, IconLeft = "ti ti-mail", Placeholder = "you@example.com")]
+        public string? Email { get; set; }
+
+        [TabField(Label = "Phone", FieldType = TabFieldType.Tel, IconLeft = "ti ti-phone", Placeholder = "+1 (555) 000-0000")]
+        public string? Phone { get; set; }
+
+        [TabField(Label = "Website", FieldType = TabFieldType.Url, IconLeft = "ti ti-world", Placeholder = "https://")]
+        public string? Website { get; set; }
+    }
+
+    // ── Sections & layout ───────────────────────────────────────────────────
+
+    private SectionsModel _sectionsModel = new();
+
+    public class SectionsModel
+    {
+        [Required, MaxLength(50)]
+        [TabSection("Personal Details", Description = "Basic identity information")]
+        [SameRow("name", order: 0, columnSpan: 6)]
+        public string? FirstName { get; set; }
+
+        [Required, MaxLength(50)]
+        [TabField(Label = "Last Name")]
+        [SameRow("name", order: 1, columnSpan: 6)]
+        public string? LastName { get; set; }
+
+        [TabField(Label = "Date of Birth")]
+        public DateOnly DateOfBirth { get; set; } = DateOnly.FromDateTime(DateTime.Today.AddYears(-25));
+
+        [Required, EmailAddress]
+        [TabSection("Contact Information", Description = "How we can reach you")]
+        [TabField(Label = "Email", FieldType = TabFieldType.Email, IconLeft = "ti ti-mail")]
+        public string? Email { get; set; }
+
+        [TabField(Label = "Phone", FieldType = TabFieldType.Tel, IconLeft = "ti ti-phone", Placeholder = "+1 (555) 000-0000")]
+        public string? Phone { get; set; }
+
+        [Required]
+        [TabSection("Employment")]
+        [TabField(Label = "Job Title", Placeholder = "e.g. Software Engineer")]
+        public string? JobTitle { get; set; }
+
+        [TabField(Label = "Department")]
+        public string? Department { get; set; }
+
+        [TabField(Label = "Start Date")]
+        public DateOnly StartDate { get; set; } = DateOnly.FromDateTime(DateTime.Today);
+    }
+
+    // ── Collapsible sections ─────────────────────────────────────────────────
+
+    private CollapsibleModel _collapsibleModel = new();
+
+    public class CollapsibleModel
+    {
+        [TabSection("General", Description = "Common application settings")]
+        [TabField(Label = "Display Name")]
+        public string? DisplayName { get; set; } = "My Application";
+
+        [TabField(Label = "Language")]
+        public string? Language { get; set; } = "English";
+
+        [TabSection("Notifications", Description = "Control when you receive alerts", Collapsible = true)]
+        [TabField(Label = "Email Notifications", FieldType = TabFieldType.Toggle)]
+        public bool EmailNotifications { get; set; } = true;
+
+        [TabField(Label = "Push Notifications", FieldType = TabFieldType.Toggle)]
+        public bool PushNotifications { get; set; }
+
+        [TabSection("Advanced", Description = "For advanced users only", Collapsible = true, InitiallyCollapsed = true)]
+        [TabField(Label = "Debug Mode", FieldType = TabFieldType.Toggle)]
+        public bool DebugMode { get; set; }
+
+        [TabField(Label = "API Endpoint", Placeholder = "https://api.example.com")]
+        public string? ApiEndpoint { get; set; }
+    }
+
+    // ── Label positions ──────────────────────────────────────────────────────
+
+    private LabelPositionModel _labelTopModel = new();
+    private LabelPositionModel _labelLeftModel = new();
+    private LabelPositionModel _labelFloatingModel = new();
+
+    public class LabelPositionModel
+    {
+        [TabField(Placeholder = "First name")]
+        public string? FirstName { get; set; }
+
+        [TabField(Placeholder = "Last name")]
+        public string? LastName { get; set; }
+
+        [TabField(Label = "Email", FieldType = TabFieldType.Email, Placeholder = "you@example.com")]
+        public string? Email { get; set; }
+    }
+
+    // ── Read-only ────────────────────────────────────────────────────────────
+
+    private BasicModel _readOnlyModel = new()
+    {
+        Name = "Jane Smith",
+        Email = "jane.smith@example.com",
+        Password = "supersecret",
+        AgreeToTerms = true
+    };
+
+    // ── No card ──────────────────────────────────────────────────────────────
+
+    private LabelPositionModel _noCardModel = new();
+
+    // ── Code strings ─────────────────────────────────────────────────────────
+
+    private const string _basicFormCode = """
+<TabDynamicForm TModel="RegistrationModel"
+                Model="_model"
+                CardTitle="User Registration"
+                CardSubtitle="Please fill in your details"
+                ShowCancelButton="true"
+                OnValidSubmit="HandleValidSubmit"
+                OnInvalidSubmit="HandleInvalidSubmit" />
+
+@code {
+    private RegistrationModel _model = new();
+
+    private void HandleValidSubmit(EditContext ctx) { /* save data */ }
+    private void HandleInvalidSubmit(EditContext ctx) { /* show errors */ }
+
+    public class RegistrationModel
+    {
+        [Required, MaxLength(100)]
+        [TabField(Label = "Full Name", Placeholder = "e.g. Jane Smith", IconLeft = "ti ti-user")]
+        public string? Name { get; set; }
+
+        [Required, EmailAddress]
+        [TabField(Label = "Email Address", Placeholder = "you@example.com",
+                  IconLeft = "ti ti-mail", FieldType = TabFieldType.Email)]
+        public string? Email { get; set; }
+
+        [Required, MinLength(8)]
+        [TabField(Label = "Password", FieldType = TabFieldType.Password,
+                  HelpText = "Minimum 8 characters.")]
+        public string? Password { get; set; }
+
+        [TabField(Label = "Agree to Terms", FieldType = TabFieldType.Checkbox)]
+        public bool AgreeToTerms { get; set; }
+    }
+}
+""";
+
+    private const string _fieldTypesCode = """
+<TabDynamicForm TModel="FieldTypesModel"
+                Model="_model"
+                CardTitle="All Field Types"
+                ShowSubmitButton="false" />
+
+@code {
+    private FieldTypesModel _model = new();
+
+    public class FieldTypesModel
+    {
+        [TabField(Label = "Text")]
+        public string? TextValue { get; set; }
+
+        [TabField(Label = "Email", FieldType = TabFieldType.Email)]
+        public string? EmailValue { get; set; }
+
+        [TabField(Label = "Password", FieldType = TabFieldType.Password)]
+        public string? PasswordValue { get; set; }
+
+        [TabField(Label = "Number", FieldType = TabFieldType.Number, Min = "0", Max = "100")]
+        public int NumberValue { get; set; }
+
+        // DateOnly auto-detected -> date picker
+        [TabField(Label = "Date")]
+        public DateOnly DateValue { get; set; }
+
+        [TabField(Label = "Textarea", FieldType = TabFieldType.Textarea, Rows = 3)]
+        public string? TextareaValue { get; set; }
+
+        // bool auto-detected -> checkbox
+        [TabField(Label = "Checkbox")]
+        public bool CheckboxValue { get; set; }
+
+        [TabField(Label = "Toggle Switch", FieldType = TabFieldType.Toggle)]
+        public bool ToggleValue { get; set; }
+
+        [TabField(Label = "Range Slider", FieldType = TabFieldType.Range, Min = "0", Max = "100")]
+        public int RangeValue { get; set; } = 50;
+
+        [TabField(Label = "Color Picker", FieldType = TabFieldType.Color)]
+        public string? ColorValue { get; set; } = "#206bc4";
+
+        // enum auto-detected -> select
+        [TabField(Label = "Priority")]
+        public Priority PriorityValue { get; set; }
+    }
+
+    public enum Priority { Low, Medium, High, Critical }
+}
+""";
+
+    private const string _iconAddonsCode = """
+<TabDynamicForm TModel="ContactModel" Model="_model" CardTitle="Contact Details" />
+
+@code {
+    public class ContactModel
+    {
+        [Required]
+        [TabField(Label = "Full Name", IconLeft = "ti ti-user")]
+        public string? Name { get; set; }
+
+        [Required, EmailAddress]
+        [TabField(Label = "Email", FieldType = TabFieldType.Email, IconLeft = "ti ti-mail")]
+        public string? Email { get; set; }
+
+        [TabField(Label = "Phone", FieldType = TabFieldType.Tel, IconLeft = "ti ti-phone")]
+        public string? Phone { get; set; }
+
+        [TabField(Label = "Website", FieldType = TabFieldType.Url, IconLeft = "ti ti-world")]
+        public string? Website { get; set; }
+    }
+}
+""";
+
+    private const string _sectionsCode = """
+<TabDynamicForm TModel="EmployeeModel"
+                Model="_model"
+                CardTitle="Employee Profile"
+                ShowValidationSummary="true"
+                SubmitButtonText="Save Profile"
+                SubmitButtonIcon="ti ti-device-floppy" />
+
+@code {
+    private EmployeeModel _model = new();
+
+    public class EmployeeModel
+    {
+        [Required, MaxLength(50)]
+        [TabSection("Personal Details", Description = "Basic identity information")]
+        [SameRow("name", order: 0, columnSpan: 6)]
+        public string? FirstName { get; set; }
+
+        [Required, MaxLength(50)]
+        [TabField(Label = "Last Name")]
+        [SameRow("name", order: 1, columnSpan: 6)]
+        public string? LastName { get; set; }
+
+        [TabField(Label = "Date of Birth")]
+        public DateOnly DateOfBirth { get; set; }
+
+        [Required, EmailAddress]
+        [TabSection("Contact Information", Description = "How we can reach you")]
+        [TabField(Label = "Email", FieldType = TabFieldType.Email, IconLeft = "ti ti-mail")]
+        public string? Email { get; set; }
+
+        [TabField(Label = "Phone", FieldType = TabFieldType.Tel, IconLeft = "ti ti-phone")]
+        public string? Phone { get; set; }
+
+        [Required]
+        [TabSection("Employment")]
+        [TabField(Label = "Job Title")]
+        public string? JobTitle { get; set; }
+
+        [TabField(Label = "Department")]
+        public string? Department { get; set; }
+    }
+}
+""";
+
+    private const string _collapsibleCode = """
+<TabDynamicForm TModel="SettingsModel" Model="_model" CardTitle="Application Settings" />
+
+@code {
+    public class SettingsModel
+    {
+        [TabSection("General", Description = "Common application settings")]
+        [TabField(Label = "Display Name")]
+        public string? DisplayName { get; set; }
+
+        // Collapsible section — starts expanded
+        [TabSection("Notifications", Description = "Control when you receive alerts",
+                    Collapsible = true)]
+        [TabField(Label = "Email Notifications", FieldType = TabFieldType.Toggle)]
+        public bool EmailNotifications { get; set; }
+
+        // Collapsible section — starts collapsed
+        [TabSection("Advanced", Description = "For advanced users only",
+                    Collapsible = true, InitiallyCollapsed = true)]
+        [TabField(Label = "Debug Mode", FieldType = TabFieldType.Toggle)]
+        public bool DebugMode { get; set; }
+
+        [TabField(Label = "API Endpoint", Placeholder = "https://api.example.com")]
+        public string? ApiEndpoint { get; set; }
+    }
+}
+""";
+
+    private const string _labelPositionCode = """
+@* Top labels (default) *@
+<TabDynamicForm TModel="NameModel" Model="_model"
+                LabelPosition="LabelPosition.Top" CardTitle="Top" />
+
+@* Left labels *@
+<TabDynamicForm TModel="NameModel" Model="_model"
+                LabelPosition="LabelPosition.Left" LabelColumns="4" CardTitle="Left" />
+
+@* Floating labels *@
+<TabDynamicForm TModel="NameModel" Model="_model"
+                LabelPosition="LabelPosition.Floating" CardTitle="Floating" />
+
+@code {
+    public class NameModel
+    {
+        [TabField(Placeholder = "First name")]
+        public string? FirstName { get; set; }
+
+        [TabField(Placeholder = "Last name")]
+        public string? LastName { get; set; }
+
+        [TabField(Label = "Email", FieldType = TabFieldType.Email, Placeholder = "you@example.com")]
+        public string? Email { get; set; }
+    }
+}
+""";
+
+    private const string _readOnlyCode = """
+<TabDynamicForm TModel="MyModel"
+                Model="_model"
+                CardTitle="Account Details"
+                ReadOnly="true"
+                ShowSubmitButton="false"
+                ShowCancelButton="false" />
+""";
+
+    private const string _noCardCode = """
+<TabDynamicForm TModel="MyModel"
+                Model="_model"
+                ShowCard="false"
+                SubmitButtonText="Save Changes"
+                SubmitButtonIcon="ti ti-device-floppy"
+                ShowCancelButton="true"
+                CancelButtonText="Discard" />
+""";
+}

@@ -1,0 +1,77 @@
+﻿@inherits TabBaseComponent
+@typeparam TModel where TModel : class, new()
+
+@if (Visible)
+{
+    if (_sections is not null && Model is not null)
+    {
+        @if (ShowCard)
+        {
+            <div class="card @CardCssClass">
+                
+                @* Card Header *@
+                
+                @if (CardHeaderContent is not null || !string.IsNullOrWhiteSpace(CardTitle))
+                {
+                    <div class="card-header">
+                        @if (CardHeaderContent is not null)
+                        {
+                            @CardHeaderContent
+                        }
+                        else
+                        {
+                            <div class="card-title">@CardTitle</div>
+                            @if (!string.IsNullOrWhiteSpace(CardSubtitle))
+                            {
+                                <p class="card-subtitle text-muted">@CardSubtitle</p>
+                            }
+                        }
+                    </div>
+                }
+                
+                @* Card Body *@
+                
+                <div class="card-body @CardBodyCssClass">
+                    @RenderFormContent()
+                </div>
+                
+                @* Card footer *@
+                @if (ShowSubmitButton || ShowCancelButton || FooterContent is not null)
+                {
+                    <div class="card-footer">
+                        @if (FooterContent is not null)
+                        {
+                            @FooterContent
+                        }
+                        else
+                        {
+                            @RenderActionButtons()
+                        }
+                    </div>
+                }
+                
+            </div>
+        }
+        else
+        {
+            @* No Card *@
+            
+            @RenderFormContent()
+
+            @if (ShowSubmitButton || ShowCancelButton || FooterContent is not null)
+            {
+                <div class="@(string.IsNullOrWhiteSpace(NoCardFooterCssClass) ? "mt-3" : NoCardFooterCssClass)">
+                    @if (FooterContent is not null)
+                    {
+                        @FooterContent
+                    }
+                    else
+                    {
+                        @RenderActionButtons()
+                    }
+                </div>
+            }
+        }
+    }
+}
+

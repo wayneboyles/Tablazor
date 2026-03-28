@@ -1,0 +1,405 @@
+@page "/components/ribbon"
+@rendermode InteractiveServer
+@using Tablazor.Icons
+
+<PageTitle>Ribbon - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Ribbon</h1>
+    <p class="text-muted">
+        Ribbons are decorative labels that attach to a corner or edge of a card or container to highlight featured, new, or promoted content.
+        The parent container must have <code>position-relative</code> applied.
+    </p>
+</div>
+
+<ComponentDemo
+    Id="basic-ribbon"
+    Title="Basic Ribbon"
+    Description="A simple ribbon with a color and text label placed in the top-right corner by default."
+    SourceCode="@_basicRibbonCode">
+    <div class="card position-relative" style="min-height: 80px;">
+        <TabRibbon Color="TabColors.Primary">NEW</TabRibbon>
+        <div class="card-body">
+            <p class="text-muted mb-0">Card with a ribbon in the top-right corner.</p>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="ribbon-positions"
+    Title="Ribbon Positions"
+    Description="Ribbons can be placed at any corner or edge of their parent container using the Position parameter."
+    SourceCode="@_ribbonPositionsCode">
+    <div class="row row-cards">
+        <div class="col-sm-6 col-lg-3">
+            <div class="card position-relative" style="min-height: 80px;">
+                <TabRibbon Color="TabColors.Primary" Position="RibbonPosition.TopEnd">TopEnd</TabRibbon>
+                <div class="card-body">
+                    <p class="text-muted small mb-0">TopEnd (default)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="card position-relative" style="min-height: 80px;">
+                <TabRibbon Color="TabColors.Primary" Position="RibbonPosition.TopStart">TopStart</TabRibbon>
+                <div class="card-body">
+                    <p class="text-muted small mb-0">TopStart</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="card position-relative" style="min-height: 80px;">
+                <TabRibbon Color="TabColors.Primary" Position="RibbonPosition.BottomEnd">BottomEnd</TabRibbon>
+                <div class="card-body">
+                    <p class="text-muted small mb-0">BottomEnd</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="card position-relative" style="min-height: 80px;">
+                <TabRibbon Color="TabColors.Primary" Position="RibbonPosition.BottomStart">BottomStart</TabRibbon>
+                <div class="card-body">
+                    <p class="text-muted small mb-0">BottomStart</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="card position-relative" style="min-height: 80px;">
+                <TabRibbon Color="TabColors.Secondary" Position="RibbonPosition.Top">Top</TabRibbon>
+                <div class="card-body">
+                    <p class="text-muted small mb-0">Top</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="card position-relative" style="min-height: 80px;">
+                <TabRibbon Color="TabColors.Secondary" Position="RibbonPosition.Bottom">Bottom</TabRibbon>
+                <div class="card-body">
+                    <p class="text-muted small mb-0">Bottom</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="card position-relative" style="min-height: 80px;">
+                <TabRibbon Color="TabColors.Secondary" Position="RibbonPosition.Start">Start</TabRibbon>
+                <div class="card-body">
+                    <p class="text-muted small mb-0">Start</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="card position-relative" style="min-height: 80px;">
+                <TabRibbon Color="TabColors.Secondary" Position="RibbonPosition.End">End</TabRibbon>
+                <div class="card-body">
+                    <p class="text-muted small mb-0">End</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="ribbon-colors"
+    Title="Ribbon Colors"
+    Description="Ribbons support the full Tablazor color palette via the Color parameter."
+    SourceCode="@_ribbonColorsCode">
+    <div class="row row-cards">
+        <div class="col-sm-6 col-lg-4">
+            <div class="card position-relative" style="min-height: 80px;">
+                <TabRibbon Color="TabColors.Primary">Primary</TabRibbon>
+                <div class="card-body">
+                    <p class="text-muted small mb-0">Primary</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+            <div class="card position-relative" style="min-height: 80px;">
+                <TabRibbon Color="TabColors.Success">Success</TabRibbon>
+                <div class="card-body">
+                    <p class="text-muted small mb-0">Success</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+            <div class="card position-relative" style="min-height: 80px;">
+                <TabRibbon Color="TabColors.Danger">Danger</TabRibbon>
+                <div class="card-body">
+                    <p class="text-muted small mb-0">Danger</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+            <div class="card position-relative" style="min-height: 80px;">
+                <TabRibbon Color="TabColors.Warning">Warning</TabRibbon>
+                <div class="card-body">
+                    <p class="text-muted small mb-0">Warning</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+            <div class="card position-relative" style="min-height: 80px;">
+                <TabRibbon Color="TabColors.Info">Info</TabRibbon>
+                <div class="card-body">
+                    <p class="text-muted small mb-0">Info</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+            <div class="card position-relative" style="min-height: 80px;">
+                <TabRibbon Color="TabColors.Dark">Dark</TabRibbon>
+                <div class="card-body">
+                    <p class="text-muted small mb-0">Dark</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="ribbon-bookmark"
+    Title="Bookmark Ribbon"
+    Description="The Bookmark variant adds a triangular notch to the bottom of the ribbon, giving it a classic bookmark shape."
+    SourceCode="@_ribbonBookmarkCode">
+    <div class="row row-cards">
+        <div class="col-sm-6 col-lg-4">
+            <div class="card position-relative" style="min-height: 100px;">
+                <TabRibbon Color="TabColors.Primary" Bookmark="true">NEW</TabRibbon>
+                <div class="card-body">
+                    <p class="text-muted small mb-0">Bookmark ribbon, top-right</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+            <div class="card position-relative" style="min-height: 100px;">
+                <TabRibbon Color="TabColors.Success" Position="RibbonPosition.TopStart" Bookmark="true">SALE</TabRibbon>
+                <div class="card-body">
+                    <p class="text-muted small mb-0">Bookmark ribbon, top-left</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+            <div class="card position-relative" style="min-height: 100px;">
+                <TabRibbon Color="TabColors.Danger" Position="RibbonPosition.TopEnd" Bookmark="true">HOT</TabRibbon>
+                <div class="card-body">
+                    <p class="text-muted small mb-0">Bookmark ribbon, danger color</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="ribbon-icon"
+    Title="Ribbon with Icon"
+    Description="Ribbons can display a Tabler icon using the Icon parameter instead of (or alongside) text content."
+    SourceCode="@_ribbonIconCode">
+    <div class="row row-cards">
+        <div class="col-sm-6 col-lg-4">
+            <div class="card position-relative" style="min-height: 80px;">
+                <TabRibbon Color="TabColors.Yellow" Icon="@TabIcons.Filled.Star" />
+                <div class="card-body">
+                    <p class="text-muted small mb-0">Star icon ribbon</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+            <div class="card position-relative" style="min-height: 80px;">
+                <TabRibbon Color="TabColors.Red" Position="RibbonPosition.TopStart" Icon="@TabIcons.Filled.Flame" />
+                <div class="card-body">
+                    <p class="text-muted small mb-0">Flame icon ribbon, top-left</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+            <div class="card position-relative" style="min-height: 80px;">
+                <TabRibbon Color="TabColors.Green" Bookmark="true" Icon="@TabIcons.Outline.Award" />
+                <div class="card-body">
+                    <p class="text-muted small mb-0">Bookmark icon ribbon</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="ribbon-in-card"
+    Title="Ribbon Inside a Card"
+    Description="A practical example of ribbons used inside cards to highlight products or featured items."
+    SourceCode="@_ribbonCardCode">
+    <div class="row row-cards">
+        <div class="col-sm-6 col-lg-4">
+            <div class="card position-relative">
+                <TabRibbon Color="TabColors.Red" Bookmark="true">SALE</TabRibbon>
+                <div class="card-body">
+                    <h4 class="card-title">Product Name</h4>
+                    <p class="text-muted">A short product description goes here.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="h3 mb-0">$29.99</span>
+                        <button class="btn btn-primary btn-sm">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+            <div class="card position-relative">
+                <TabRibbon Color="TabColors.Green" Position="RibbonPosition.TopStart">NEW</TabRibbon>
+                <div class="card-body">
+                    <h4 class="card-title">New Arrival</h4>
+                    <p class="text-muted">Just added to our collection.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="h3 mb-0">$49.99</span>
+                        <button class="btn btn-success btn-sm">View</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+            <div class="card position-relative">
+                <TabRibbon Color="TabColors.Yellow" Icon="@TabIcons.Filled.Star" Bookmark="true" />
+                <div class="card-body">
+                    <h4 class="card-title">Featured Item</h4>
+                    <p class="text-muted">Our most popular product this month.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="h3 mb-0">$19.99</span>
+                        <button class="btn btn-warning btn-sm">Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ComponentDemo>
+
+@code {
+    private const string _basicRibbonCode =
+@"<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Primary"">NEW</TabRibbon>
+    <div class=""card-body"">
+        Card content here.
+    </div>
+</div>";
+
+    private const string _ribbonPositionsCode =
+@"<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Primary"" Position=""RibbonPosition.TopEnd"">TopEnd</TabRibbon>
+</div>
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Primary"" Position=""RibbonPosition.TopStart"">TopStart</TabRibbon>
+</div>
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Primary"" Position=""RibbonPosition.BottomEnd"">BottomEnd</TabRibbon>
+</div>
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Primary"" Position=""RibbonPosition.BottomStart"">BottomStart</TabRibbon>
+</div>
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Secondary"" Position=""RibbonPosition.Top"">Top</TabRibbon>
+</div>
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Secondary"" Position=""RibbonPosition.Bottom"">Bottom</TabRibbon>
+</div>
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Secondary"" Position=""RibbonPosition.Start"">Start</TabRibbon>
+</div>
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Secondary"" Position=""RibbonPosition.End"">End</TabRibbon>
+</div>";
+
+    private const string _ribbonColorsCode =
+@"<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Primary"">Primary</TabRibbon>
+</div>
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Success"">Success</TabRibbon>
+</div>
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Danger"">Danger</TabRibbon>
+</div>
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Warning"">Warning</TabRibbon>
+</div>
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Info"">Info</TabRibbon>
+</div>
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Dark"">Dark</TabRibbon>
+</div>";
+
+    private const string _ribbonBookmarkCode =
+@"<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Primary"" Bookmark=""true"">NEW</TabRibbon>
+</div>
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Success"" Position=""RibbonPosition.TopStart"" Bookmark=""true"">SALE</TabRibbon>
+</div>
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Danger"" Position=""RibbonPosition.TopEnd"" Bookmark=""true"">HOT</TabRibbon>
+</div>";
+
+    private const string _ribbonIconCode =
+@"@using Tablazor.Icons
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Yellow"" Icon=""@TabIcons.Filled.Star"" />
+</div>
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Red"" Position=""RibbonPosition.TopStart"" Icon=""@TabIcons.Filled.Flame"" />
+</div>
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Green"" Bookmark=""true"" Icon=""@TabIcons.Outline.Award"" />
+</div>";
+
+    private const string _ribbonCardCode =
+@"@using Tablazor.Icons
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Red"" Bookmark=""true"">SALE</TabRibbon>
+    <div class=""card-body"">
+        <h4 class=""card-title"">Product Name</h4>
+        <p class=""text-muted"">A short product description goes here.</p>
+        <div class=""d-flex justify-content-between align-items-center"">
+            <span class=""h3 mb-0"">$29.99</span>
+            <button class=""btn btn-primary btn-sm"">Buy Now</button>
+        </div>
+    </div>
+</div>
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Green"" Position=""RibbonPosition.TopStart"">NEW</TabRibbon>
+    <div class=""card-body"">
+        <h4 class=""card-title"">New Arrival</h4>
+        <p class=""text-muted"">Just added to our collection.</p>
+        <div class=""d-flex justify-content-between align-items-center"">
+            <span class=""h3 mb-0"">$49.99</span>
+            <button class=""btn btn-success btn-sm"">View</button>
+        </div>
+    </div>
+</div>
+
+<div class=""card position-relative"">
+    <TabRibbon Color=""TabColors.Yellow"" Icon=""@TabIcons.Filled.Star"" Bookmark=""true"" />
+    <div class=""card-body"">
+        <h4 class=""card-title"">Featured Item</h4>
+        <p class=""text-muted"">Our most popular product this month.</p>
+        <div class=""d-flex justify-content-between align-items-center"">
+            <span class=""h3 mb-0"">$19.99</span>
+            <button class=""btn btn-warning btn-sm"">Details</button>
+        </div>
+    </div>
+</div>";
+}

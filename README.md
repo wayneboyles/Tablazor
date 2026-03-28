@@ -121,6 +121,7 @@ You're ready to go.
 | `TabIcon` | 4,000+ Tabler SVG icons with size and animation support |
 | `TabModal` | Full modal dialog with header, body, and footer regions |
 | `TabPageHeader` | Page-level header with title, subtitle, and actions |
+| `TabRibbon` | Ribbon component to decorate components such as `TabCard` |
 | `TabToast` | Toast notification messages |
 | `TabToastContainer` | Container that manages toast positioning and lifecycle |
 

@@ -4,6 +4,20 @@ using System.Threading.Tasks;
 
 namespace Tablazor;
 
+/// <summary>
+/// Defines a sequential test collection for tests that depend on the IdBuilder static counter.
+/// Tests in this collection will not run in parallel with each other, preventing race conditions
+/// when other test classes advance the shared counter via component renders.
+/// </summary>
+[CollectionDefinition("IdBuilder", DisableParallelization = true)]
+public class IdBuilderCollection { }
+
+/// <summary>
+/// Tests for IdBuilder must run sequentially because IdBuilder uses a static counter.
+/// The [Collection] attribute isolates this class so it doesn't run in parallel with
+/// other test classes that also call IdBuilder methods indirectly via component renders.
+/// </summary>
+[Collection("IdBuilder")]
 public class IdBuilderTests : IDisposable
 {
     public IdBuilderTests()

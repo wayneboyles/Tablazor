@@ -1,0 +1,17 @@
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    <main @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+        @if (ContainerSize.HasValue)
+        {
+            <div class="container-@ContainerSize.Value.GetCssClassName()">
+                @ChildContent
+            </div>
+        }
+        else
+        {
+            @ChildContent
+        }
+    </main>
+}

@@ -1,0 +1,10 @@
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    <footer @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+        <div class="container-@ContainerSize.GetCssClassName()">
+            @ChildContent
+        </div>
+    </footer>
+}

@@ -7,4 +7,8 @@
         <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Tablazor" Version="0.6.1" />
+    </ItemGroup>
+
 </Project>

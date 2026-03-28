@@ -1,0 +1,23 @@
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    @if (Tag == "p")
+    {
+        <p @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" aria-hidden="@(AriaHidden ? "true" : null)" @attributes="AdditionalAttributes">
+            @ChildContent
+        </p>
+    }
+    else if (Tag == "span")
+    {
+        <span @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" aria-hidden="@(AriaHidden ? "true" : null)" @attributes="AdditionalAttributes">
+            @ChildContent
+        </span>
+    }
+    else
+    {
+        <div @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" aria-hidden="@(AriaHidden ? "true" : null)" @attributes="AdditionalAttributes">
+            @ChildContent
+        </div>
+    }
+}

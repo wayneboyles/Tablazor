@@ -1,0 +1,6 @@
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    <span @ref="Element" id="@GetId()" class="@GetCssClass()" style="@GetStyleString()" @attributes="AdditionalAttributes"></span>
+}

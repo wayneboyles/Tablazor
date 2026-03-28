@@ -1,0 +1,12 @@
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    <div @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+        @if (!string.IsNullOrEmpty(Icon))
+        {
+            <TabIcon Icon="@Icon" />
+        }
+        @ChildContent
+    </div>
+}
