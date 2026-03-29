@@ -257,6 +257,9 @@ public partial class TabDynamicForm<TModel> : TabBaseComponent where TModel : cl
 
     private void HandleValidationStateChanged(object? sender, ValidationStateChangedEventArgs e) => StateHasChanged();
 
+    /// <summary>
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// </summary>
     public override void Dispose()
     {
         if (_editContext is not null)

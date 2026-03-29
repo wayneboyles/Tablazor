@@ -16,6 +16,11 @@ public class FormGroupAttribute : Attribute
     /// </summary>
     public int Order { get; set; }
 
+    /// <summary>
+    /// Creates a new instance of the <see cref="FormGroupAttribute"/> class
+    /// </summary>
+    /// <param name="groupName">The group name</param>
+    /// <exception cref="ArgumentNullException"></exception>
     public FormGroupAttribute(string groupName)
     {
         GroupName = groupName ?? throw new ArgumentNullException(nameof(groupName));

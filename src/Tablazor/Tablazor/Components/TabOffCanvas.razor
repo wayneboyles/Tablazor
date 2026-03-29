@@ -1,0 +1,50 @@
+@inherits TabBaseComponent
+
+@if (Visible && _isOpen)
+{
+    @if (ShowBackdrop)
+    {
+        <div class="offcanvas-backdrop @(EnableAnimation ? "fade" : "") @(_isShowing ? "show" : "")"
+             @onclick="HandleBackdropClickAsync">
+        </div>
+    }
+
+    <div @ref="Element" id="@_offCanvasId" class="@GetCssClass()" style="@Style" tabindex="-1" role="dialog" aria-labelledby="@($"{_offCanvasId}-title")" aria-modal="true" @onkeydown="HandleKeyDownAsync" @attributes="AdditionalAttributes">
+
+        @if (HeaderContent is not null)
+        {
+            <div class="offcanvas-header">
+                @HeaderContent
+            </div>
+        }
+        else if (!string.IsNullOrWhiteSpace(Title) || ShowCloseButton)
+        {
+            <div class="offcanvas-header">
+                @if (!string.IsNullOrWhiteSpace(Title))
+                {
+                    <h5 class="offcanvas-title" id="@($"{_offCanvasId}-title")">@Title</h5>
+                }
+                @if (ShowCloseButton)
+                {
+                    <button type="button"
+                            class="btn-close ms-auto"
+                            aria-label="Close"
+                            @onclick="HandleCloseAsync">
+                    </button>
+                }
+            </div>
+        }
+
+        <div class="offcanvas-body">
+            @ChildContent
+        </div>
+
+        @if (FooterContent is not null)
+        {
+            <div class="offcanvas-footer p-3 border-top">
+                @FooterContent
+            </div>
+        }
+
+    </div>
+}

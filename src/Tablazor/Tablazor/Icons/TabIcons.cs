@@ -5,11 +5,14 @@
 //     Filled Icons: 1000
 // </auto-generated>
 
+using System.Diagnostics;
+
 namespace Tablazor.Icons;
 
 /// <summary>
 /// Static class containing Tabler Icons SVG path data
 /// </summary>
+[DebuggerStepThrough]
 public static class TabIcons   
 {
     /// <summary>

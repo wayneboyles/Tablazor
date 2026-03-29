@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Tablazor.Enums;
+using Tablazor.Models;
 using Tablazor.Services;
 
 namespace Tablazor.Components;
@@ -16,8 +17,8 @@ public partial class TabToast : TabBaseComponent
 {
     private bool _isVisible;
     private bool _isShowing;
-    private CancellationTokenSource? _autoCloseCts;
     private string _toastId = string.Empty;
+    private CancellationTokenSource? _autoCloseCts;
 
     /// <summary>
     /// Gets or sets the toast instance when used with <see cref="TabToastService"/>.

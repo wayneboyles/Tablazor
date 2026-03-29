@@ -8,13 +8,19 @@ namespace Tablazor.Models;
 /// </summary>
 public sealed class SelectOption
 {
-    /// <summary>The value submitted to the model when this option is selected.</summary>
+    /// <summary>
+    /// The value submitted to the model when this option is selected.
+    /// </summary>
     public string Value { get; set; } = string.Empty;
 
-    /// <summary>The human-readable text displayed to the user.</summary>
+    /// <summary>
+    /// The human-readable text displayed to the user.
+    /// </summary>
     public string Text { get; set; } = string.Empty;
 
-    /// <summary>When <c>true</c>, the option is visible but cannot be selected.</summary>
+    /// <summary>
+    /// When <c>true</c>, the option is visible but cannot be selected.
+    /// </summary>
     public bool Disabled { get; set; }
 
     /// <summary>
@@ -24,10 +30,14 @@ public sealed class SelectOption
     /// </summary>
     public string? Group { get; set; }
 
-    /// <summary>Initializes an empty <see cref="SelectOption"/>.</summary>
+    /// <summary>
+    /// Initializes an empty <see cref="SelectOption"/>.
+    /// </summary>
     public SelectOption() { }
 
-    /// <summary>Initializes a <see cref="SelectOption"/> with the specified value and display text.</summary>
+    /// <summary>
+    /// Initializes a <see cref="SelectOption"/> with the specified value and display text
+    /// </summary>
     public SelectOption(string value, string text, bool disabled = false, string? group = null)
     {
         Value = value;
@@ -36,7 +46,9 @@ public sealed class SelectOption
         Group = group;
     }
 
-    /// <summary>Convenience factory: creates options where value and text are the same string.</summary>
+    /// <summary>
+    /// Convenience factory: creates options where value and text are the same string.
+    /// </summary>
     public static SelectOption From(string valueAndText) => new(valueAndText, valueAndText);
 
     /// <summary>

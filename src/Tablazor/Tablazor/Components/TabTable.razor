@@ -1,0 +1,145 @@
+@typeparam TItem
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    <CascadingValue Value="this">
+        @ColumnDefinitions
+    </CascadingValue>
+
+    @if (WrapInCard)
+    {
+        <div class="card">
+            @if (!string.IsNullOrEmpty(Title) || HeaderContent is not null)
+            {
+                <div class="card-header">
+                    @if (HeaderContent is not null)
+                    {
+                        @HeaderContent
+                    }
+                    else
+                    {
+                        <h3 class="card-title">@Title</h3>
+                    }
+                </div>
+            }
+            <div class="@(Responsive ? "table-responsive" : string.Empty)">
+                @RenderTable()
+            </div>
+        </div>
+    }
+    else
+    {
+        @if (Responsive)
+        {
+            <div class="table-responsive">
+                @RenderTable()
+            </div>
+        }
+        else
+        {
+            @RenderTable()
+        }
+    }
+}
+
+@code {
+    private RenderFragment RenderTable() =>
+        @<table @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+            <thead>
+                <tr>
+                    @if (Selectable)
+                    {
+                        <th style="width: 1%">
+                            <input type="checkbox" class="form-check-input m-0 align-middle" checked="@IsAllSelected()" @onchange="ToggleSelectAll" />
+                        </th>
+                    }
+                    @foreach (var col in _columns)
+                    {
+                        <th class="@col.Align.GetCssClassName() @(col.Sortable ? "cursor-pointer user-select-none" : string.Empty)" style="@(col.Width is not null ? $"width:{col.Width}" : string.Empty)" @onclick="() => { if (col.Sortable) SortBy(col); }">
+                            @col.Title
+                            @if (col.Sortable)
+                            {
+                                @if (_sortColumn == col)
+                                {
+                                    @if (_sortAscending)
+                                    {
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-sm ms-1" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 15l6 -6l6 6"/>
+                                        </svg>
+                                    }
+                                    else
+                                    {
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-sm ms-1" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6"/>
+                                        </svg>
+                                    }
+                                }
+                                else
+                                {
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-sm ms-1 text-muted" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 -6l6 6"/><path d="M6 15l6 6l6 -6"/>
+                                    </svg>
+                                }
+                            }
+                        </th>
+                    }
+                    @if (RowActions is not null)
+                    {
+                        <th style="width: 1%"></th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @if (!_displayItems.Any())
+                {
+                    <tr>
+                        <td colspan="@GetColspan()" class="text-center text-muted py-4">
+                            @if (EmptyContent is not null)
+                            {
+                                @EmptyContent
+                            }
+                            else
+                            {
+                                <span>@EmptyText</span>
+                            }
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in _displayItems)
+                    {
+                        var isSelected = _selectedItems.Contains(item);
+                        <tr class="@(isSelected ? "table-active" : string.Empty) @(OnRowClick.HasDelegate ? "cursor-pointer" : string.Empty)" @onclick="() => HandleRowClick(item)">
+                            @if (Selectable)
+                            {
+                                <td>
+                                    <input type="checkbox" class="form-check-input m-0 align-middle" checked="@isSelected" @onchange="() => ToggleSelectItem(item)" @onclick:stopPropagation="true" />
+                                </td>
+                            }
+                            @foreach (var col in _columns)
+                            {
+                                <td class="@col.Align.GetCssClassName() @col.CellClass">
+                                    @if (col.CellTemplate is not null)
+                                    {
+                                        @col.CellTemplate(item)
+                                    }
+                                    else if (col.Field is not null)
+                                    {
+                                        @(col.Field(item)?.ToString())
+                                    }
+                                </td>
+                            }
+                            @if (RowActions is not null)
+                            {
+                                <td @onclick:stopPropagation="true">
+                                    @RowActions(item)
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>;
+}

@@ -1,0 +1,391 @@
+@page "/components/offcanvas"
+@rendermode InteractiveServer
+
+<PageTitle>Off-Canvas - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Off-Canvas</h1>
+    <p class="text-muted">
+        Off-canvas panels slide in from any edge of the viewport. Use them for navigation drawers,
+        filter sidebars, detail panes, or any content that should appear on demand without a full modal overlay.
+    </p>
+</div>
+
+<ComponentDemo Id="basic-offcanvas"
+               Title="Basic Off-Canvas"
+               Description="A simple panel that slides in from the right with a title and close button."
+               SourceCode="@_basicCode">
+    <TabButton Color="TabColors.Primary" OnClick="@(() => _basicOpen = true)">Open Panel</TabButton>
+
+    <TabOffCanvas @bind-IsOpen="@_basicOpen" Title="Basic Panel">
+        <p>This is a basic off-canvas panel. Click the X, press Escape, or click the backdrop to close it.</p>
+    </TabOffCanvas>
+</ComponentDemo>
+
+<ComponentDemo Id="placement"
+               Title="Placement"
+               Description="Use the Placement parameter to slide the panel in from any edge of the viewport."
+               SourceCode="@_placementCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabButton Color="TabColors.Primary" OnClick="@(() => _startOpen = true)">Start (Left)</TabButton>
+        <TabButton Color="TabColors.Primary" OnClick="@(() => _endOpen = true)">End (Right)</TabButton>
+        <TabButton Color="TabColors.Primary" OnClick="@(() => _topOpen = true)">Top</TabButton>
+        <TabButton Color="TabColors.Primary" OnClick="@(() => _bottomOpen = true)">Bottom</TabButton>
+    </div>
+
+    <TabOffCanvas @bind-IsOpen="@_startOpen" Title="Start Panel" Placement="OffCanvasPlacement.Start">
+        <p>This panel slides in from the <strong>left</strong> edge of the viewport.</p>
+    </TabOffCanvas>
+
+    <TabOffCanvas @bind-IsOpen="@_endOpen" Title="End Panel" Placement="OffCanvasPlacement.End">
+        <p>This panel slides in from the <strong>right</strong> edge of the viewport.</p>
+    </TabOffCanvas>
+
+    <TabOffCanvas @bind-IsOpen="@_topOpen" Title="Top Panel" Placement="OffCanvasPlacement.Top">
+        <p>This panel slides down from the <strong>top</strong> of the viewport.</p>
+    </TabOffCanvas>
+
+    <TabOffCanvas @bind-IsOpen="@_bottomOpen" Title="Bottom Panel" Placement="OffCanvasPlacement.Bottom">
+        <p>This panel slides up from the <strong>bottom</strong> of the viewport.</p>
+    </TabOffCanvas>
+</ComponentDemo>
+
+<ComponentDemo Id="with-footer"
+               Title="Footer Content"
+               Description="Use the FooterContent slot to render action buttons in a bar at the bottom of the panel, separated from the body by a border."
+               SourceCode="@_footerCode">
+    <TabButton Color="TabColors.Primary" OnClick="@(() => _footerOpen = true)">Open Panel with Footer</TabButton>
+
+    <TabOffCanvas @bind-IsOpen="@_footerOpen" Title="Edit Record" Placement="OffCanvasPlacement.End">
+        <ChildContent>
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" placeholder="Enter name" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" placeholder="Enter email" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Notes</label>
+                <textarea class="form-control" rows="4" placeholder="Optional notes..."></textarea>
+            </div>
+        </ChildContent>
+        <FooterContent>
+            <TabButton Color="TabColors.Primary" CssClass="me-2">Save Changes</TabButton>
+            <TabButton Color="TabColors.Secondary" OnClick="@(() => _footerOpen = false)">Cancel</TabButton>
+        </FooterContent>
+    </TabOffCanvas>
+</ComponentDemo>
+
+<ComponentDemo Id="custom-header"
+               Title="Custom Header"
+               Description="Use the HeaderContent slot to replace the default title and close button with any markup."
+               SourceCode="@_customHeaderCode">
+    <TabButton Color="TabColors.Primary" OnClick="@(() => _customHeaderOpen = true)">Open Custom Header Panel</TabButton>
+
+    <TabOffCanvas @bind-IsOpen="@_customHeaderOpen">
+        <HeaderContent>
+            <div class="d-flex align-items-center w-100">
+                <span class="avatar avatar-sm bg-primary-lt me-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+                    </svg>
+                </span>
+                <div>
+                    <div class="fw-medium">User Profile</div>
+                    <div class="text-muted small">jane.smith@example.com</div>
+                </div>
+                <button type="button" class="btn-close ms-auto" aria-label="Close" @onclick="@(() => _customHeaderOpen = false)"></button>
+            </div>
+        </HeaderContent>
+        <ChildContent>
+            <p>This off-canvas panel has a fully custom header with an avatar and subtitle instead of the default title/close button layout.</p>
+        </ChildContent>
+    </TabOffCanvas>
+</ComponentDemo>
+
+<ComponentDemo Id="no-backdrop"
+               Title="No Backdrop"
+               Description="Set ShowBackdrop=false to render the panel without a backdrop overlay, allowing interaction with the page content behind it."
+               SourceCode="@_noBackdropCode">
+    <TabButton Color="TabColors.Primary" OnClick="@(() => _noBackdropOpen = true)">Open Without Backdrop</TabButton>
+
+    <TabOffCanvas @bind-IsOpen="@_noBackdropOpen" Title="No Backdrop" ShowBackdrop="false" Placement="OffCanvasPlacement.End">
+        <p>There is no backdrop behind this panel. You can still interact with the page content while this is open.</p>
+        <p>Press <kbd>Escape</kbd> or click the close button to dismiss.</p>
+    </TabOffCanvas>
+</ComponentDemo>
+
+<ComponentDemo Id="static-backdrop"
+               Title="Static Backdrop"
+               Description="Set StaticBackdrop=true to prevent the panel from closing when the backdrop is clicked."
+               SourceCode="@_staticBackdropCode">
+    <TabButton Color="TabColors.Primary" OnClick="@(() => _staticBackdropOpen = true)">Open Static Backdrop Panel</TabButton>
+
+    <TabOffCanvas @bind-IsOpen="@_staticBackdropOpen" Title="Static Backdrop" StaticBackdrop="true">
+        <p>Clicking outside this panel will not close it. Use the close button or press <kbd>Escape</kbd>.</p>
+    </TabOffCanvas>
+</ComponentDemo>
+
+<ComponentDemo Id="two-way-binding"
+               Title="Two-Way Binding"
+               Description="@("Use @bind-IsOpen to bind panel visibility to a boolean variable and track it from the parent component.")"
+               SourceCode="@_twoWayBindingCode">
+    <div class="d-flex align-items-center gap-3">
+        <TabButton Color="TabColors.Primary" OnClick="@(() => _bindingOpen = true)">Open Panel</TabButton>
+        <span class="text-muted">Panel is currently: <strong>@(_bindingOpen ? "Open" : "Closed")</strong></span>
+    </div>
+
+    <TabOffCanvas @bind-IsOpen="@_bindingOpen" Title="Two-Way Binding Example">
+        <p>The panel state is bound to a variable. Close this panel and watch the status update above.</p>
+    </TabOffCanvas>
+</ComponentDemo>
+
+<ComponentDemo Id="event-callbacks"
+               Title="Event Callbacks"
+               Description="Use OnShown and OnHidden to run code when the panel finishes opening or closing."
+               SourceCode="@_eventCallbacksCode">
+    <div class="mb-3">
+        <TabButton Color="TabColors.Primary" OnClick="@(() => _eventsOpen = true)">Open Panel</TabButton>
+    </div>
+    <div class="alert alert-info mb-0">
+        <strong>Last Event:</strong> @_lastEvent
+    </div>
+
+    <TabOffCanvas @bind-IsOpen="@_eventsOpen"
+                  Title="Event Callbacks"
+                  OnShown="@HandleShown"
+                  OnHidden="@HandleHidden">
+        <p>Open and close this panel to see the event callbacks fire.</p>
+    </TabOffCanvas>
+</ComponentDemo>
+
+<ComponentDemo Id="no-animation"
+               Title="Disable Animation"
+               Description="Set EnableAnimation=false to show and hide the panel instantly without the slide animation."
+               SourceCode="@_noAnimationCode">
+    <TabButton Color="TabColors.Primary" OnClick="@(() => _noAnimationOpen = true)">Open Without Animation</TabButton>
+
+    <TabOffCanvas @bind-IsOpen="@_noAnimationOpen" Title="No Animation" EnableAnimation="false">
+        <p>This panel appears and disappears instantly without any slide animation.</p>
+    </TabOffCanvas>
+</ComponentDemo>
+
+<ComponentDemo Id="no-escape"
+               Title="Disable Escape Key"
+               Description="Set CloseOnEscape=false to prevent the Escape key from closing the panel."
+               SourceCode="@_noEscapeCode">
+    <TabButton Color="TabColors.Primary" OnClick="@(() => _noEscapeOpen = true)">Open Panel</TabButton>
+
+    <TabOffCanvas @bind-IsOpen="@_noEscapeOpen" Title="Escape Disabled" CloseOnEscape="false">
+        <p>Pressing <kbd>Escape</kbd> will not close this panel. Use the close button instead.</p>
+    </TabOffCanvas>
+</ComponentDemo>
+
+<ComponentDemo Id="programmatic"
+               Title="Programmatic Control"
+               Description="Use ShowAsync, HideAsync, and ToggleAsync on a component reference to control the panel from code."
+               SourceCode="@_programmaticCode">
+    <div class="d-flex flex-wrap gap-2">
+        <TabButton Color="TabColors.Success" OnClick="@(() => _refPanel.ShowAsync())">Show</TabButton>
+        <TabButton Color="TabColors.Danger" OnClick="@(() => _refPanel.HideAsync())">Hide</TabButton>
+        <TabButton Color="TabColors.Secondary" OnClick="@(() => _refPanel.ToggleAsync())">Toggle</TabButton>
+    </div>
+
+    <TabOffCanvas @ref="@_refPanel" Title="Programmatic Control">
+        <p>This panel is controlled via <code>@@ref</code> and the <code>ShowAsync</code>, <code>HideAsync</code>, and <code>ToggleAsync</code> methods.</p>
+    </TabOffCanvas>
+</ComponentDemo>
+
+@code {
+    // Basic
+    private bool _basicOpen;
+
+    // Placement
+    private bool _startOpen;
+    private bool _endOpen;
+    private bool _topOpen;
+    private bool _bottomOpen;
+
+    // Other
+    private bool _footerOpen;
+    private bool _customHeaderOpen;
+    private bool _noBackdropOpen;
+    private bool _staticBackdropOpen;
+    private bool _bindingOpen;
+    private bool _eventsOpen;
+    private bool _noAnimationOpen;
+    private bool _noEscapeOpen;
+
+    // Programmatic ref
+    private TabOffCanvas _refPanel = default!;
+
+    // Event tracking
+    private string _lastEvent = "None";
+
+    private void HandleShown() => _lastEvent = $"OnShown fired at {DateTime.Now:HH:mm:ss}";
+    private void HandleHidden() => _lastEvent = $"OnHidden fired at {DateTime.Now:HH:mm:ss}";
+
+    // ── Code strings ────────────────────────────────────────────────────────
+
+    private const string _basicCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _open = true)"">Open Panel</TabButton>
+
+<TabOffCanvas @bind-IsOpen=""@_open"" Title=""Basic Panel"">
+    <p>Panel body content goes here.</p>
+</TabOffCanvas>
+
+@code {
+    private bool _open;
+}";
+
+    private const string _placementCode =
+@"<TabButton OnClick=""@(() => _startOpen = true)"">Start (Left)</TabButton>
+<TabButton OnClick=""@(() => _endOpen = true)"">End (Right)</TabButton>
+<TabButton OnClick=""@(() => _topOpen = true)"">Top</TabButton>
+<TabButton OnClick=""@(() => _bottomOpen = true)"">Bottom</TabButton>
+
+<TabOffCanvas @bind-IsOpen=""@_startOpen""  Title=""Start""  Placement=""OffCanvasPlacement.Start"">...</TabOffCanvas>
+<TabOffCanvas @bind-IsOpen=""@_endOpen""    Title=""End""    Placement=""OffCanvasPlacement.End"">...</TabOffCanvas>
+<TabOffCanvas @bind-IsOpen=""@_topOpen""    Title=""Top""    Placement=""OffCanvasPlacement.Top"">...</TabOffCanvas>
+<TabOffCanvas @bind-IsOpen=""@_bottomOpen"" Title=""Bottom"" Placement=""OffCanvasPlacement.Bottom"">...</TabOffCanvas>
+
+@code {
+    private bool _startOpen, _endOpen, _topOpen, _bottomOpen;
+}";
+
+    private const string _footerCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _open = true)"">Open Panel with Footer</TabButton>
+
+<TabOffCanvas @bind-IsOpen=""@_open"" Title=""Edit Record"">
+    <div class=""mb-3"">
+        <label class=""form-label"">Name</label>
+        <input type=""text"" class=""form-control"" />
+    </div>
+    <div class=""mb-3"">
+        <label class=""form-label"">Email</label>
+        <input type=""email"" class=""form-control"" />
+    </div>
+    <FooterContent>
+        <TabButton Color=""TabColors.Primary"" CssClass=""me-2"">Save Changes</TabButton>
+        <TabButton Color=""TabColors.Secondary"" OnClick=""@(() => _open = false)"">Cancel</TabButton>
+    </FooterContent>
+</TabOffCanvas>
+
+@code {
+    private bool _open;
+}";
+
+    private const string _customHeaderCode =
+@"<TabOffCanvas @bind-IsOpen=""@_open"">
+    <HeaderContent>
+        <div class=""d-flex align-items-center w-100"">
+            <span class=""avatar avatar-sm bg-primary-lt me-2"">...</span>
+            <div>
+                <div class=""fw-medium"">User Profile</div>
+                <div class=""text-muted small"">jane.smith@example.com</div>
+            </div>
+            <button type=""button"" class=""btn-close ms-auto"" @onclick=""@(() => _open = false)""></button>
+        </div>
+    </HeaderContent>
+    <p>Body content here.</p>
+</TabOffCanvas>
+
+@code {
+    private bool _open;
+}";
+
+    private const string _noBackdropCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _open = true)"">Open Without Backdrop</TabButton>
+
+<TabOffCanvas @bind-IsOpen=""@_open"" Title=""No Backdrop"" ShowBackdrop=""false"">
+    <p>No overlay behind this panel — page content remains interactive.</p>
+</TabOffCanvas>
+
+@code {
+    private bool _open;
+}";
+
+    private const string _staticBackdropCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _open = true)"">Open Static Backdrop</TabButton>
+
+<TabOffCanvas @bind-IsOpen=""@_open"" Title=""Static Backdrop"" StaticBackdrop=""true"">
+    <p>Clicking outside will not close this panel.</p>
+</TabOffCanvas>
+
+@code {
+    private bool _open;
+}";
+
+    private const string _twoWayBindingCode =
+@"<div class=""d-flex align-items-center gap-3"">
+    <TabButton Color=""TabColors.Primary"" OnClick=""@(() => _open = true)"">Open Panel</TabButton>
+    <span>Panel is: <strong>@(_open ? ""Open"" : ""Closed"")</strong></span>
+</div>
+
+<TabOffCanvas @bind-IsOpen=""@_open"" Title=""Two-Way Binding"">
+    <p>Closing this panel updates the bound variable.</p>
+</TabOffCanvas>
+
+@code {
+    private bool _open;
+}";
+
+    private const string _eventCallbacksCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _open = true)"">Open Panel</TabButton>
+
+<div class=""alert alert-info"">
+    <strong>Last Event:</strong> @_lastEvent
+</div>
+
+<TabOffCanvas @bind-IsOpen=""@_open""
+              Title=""Event Callbacks""
+              OnShown=""@HandleShown""
+              OnHidden=""@HandleHidden"">
+    <p>Open and close to see the event callbacks fire.</p>
+</TabOffCanvas>
+
+@code {
+    private bool _open;
+    private string _lastEvent = ""None"";
+
+    private void HandleShown()  => _lastEvent = $""OnShown fired at {DateTime.Now:HH:mm:ss}"";
+    private void HandleHidden() => _lastEvent = $""OnHidden fired at {DateTime.Now:HH:mm:ss}"";
+}";
+
+    private const string _noAnimationCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _open = true)"">Open Without Animation</TabButton>
+
+<TabOffCanvas @bind-IsOpen=""@_open"" Title=""No Animation"" EnableAnimation=""false"">
+    <p>This panel appears and disappears instantly.</p>
+</TabOffCanvas>
+
+@code {
+    private bool _open;
+}";
+
+    private const string _noEscapeCode =
+@"<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _open = true)"">Open Panel</TabButton>
+
+<TabOffCanvas @bind-IsOpen=""@_open"" Title=""Escape Disabled"" CloseOnEscape=""false"">
+    <p>Pressing Escape will not close this panel.</p>
+</TabOffCanvas>
+
+@code {
+    private bool _open;
+}";
+
+    private const string _programmaticCode =
+@"<TabButton Color=""TabColors.Success""    OnClick=""@(() => _panel.ShowAsync())"">Show</TabButton>
+<TabButton Color=""TabColors.Danger""     OnClick=""@(() => _panel.HideAsync())"">Hide</TabButton>
+<TabButton Color=""TabColors.Secondary"" OnClick=""@(() => _panel.ToggleAsync())"">Toggle</TabButton>
+
+<TabOffCanvas @ref=""@_panel"" Title=""Programmatic Control"">
+    <p>Controlled via @@ref and ShowAsync / HideAsync / ToggleAsync.</p>
+</TabOffCanvas>
+
+@code {
+    private TabOffCanvas _panel = default!;
+}";
+}

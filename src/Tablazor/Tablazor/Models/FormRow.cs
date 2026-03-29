@@ -19,6 +19,8 @@ internal sealed class FormRow
     /// </summary>
     public List<FieldDescriptor> Fields { get; init; } = new();
 
-    /// <summary><c>true</c> when two or more fields share this row.</summary>
+    /// <summary>
+    /// <c>true</c> when two or more fields share this row.
+    /// </summary>
     public bool IsMultiColumn => Fields.Count > 1;
 }

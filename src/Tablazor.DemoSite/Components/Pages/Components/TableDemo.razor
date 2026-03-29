@@ -1,0 +1,329 @@
+@page "/components/table"
+@rendermode InteractiveServer
+
+<PageTitle>Table - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Table</h1>
+    <p class="text-muted">
+        Data tables with sortable columns, row selection, row actions, and custom cell templates.
+    </p>
+</div>
+
+<ComponentDemo Id="basic-table" Title="Basic Table" Description="A simple table with column definitions and data items." SourceCode="@_basicTableCode">
+    <TabTable Items="_users" Title="Users">
+        <ColumnDefinitions>
+            <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" Sortable="true" />
+            <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+            <TabTableColumn TItem="UserRow" Title="Role" Field="u => u.Role" />
+            <TabTableColumn TItem="UserRow" Title="Joined" Field="u => u.Joined.ToShortDateString()" />
+        </ColumnDefinitions>
+    </TabTable>
+</ComponentDemo>
+
+<ComponentDemo Id="table-status" Title="Status Badges" Description="Use CellTemplate to render custom content like status badges." SourceCode="@_statusTableCode">
+    <TabTable Items="_users" Title="Users with Status">
+        <ColumnDefinitions>
+            <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" Sortable="true" />
+            <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+            <TabTableColumn TItem="UserRow" Title="Status">
+                <CellTemplate Context="user">
+                    @if (user.IsActive)
+                    {
+                        <TabBadge Color="TabColors.Success">Active</TabBadge>
+                    }
+                    else
+                    {
+                        <TabBadge Color="TabColors.Secondary">Inactive</TabBadge>
+                    }
+                </CellTemplate>
+            </TabTableColumn>
+        </ColumnDefinitions>
+    </TabTable>
+</ComponentDemo>
+
+<ComponentDemo Id="table-actions" Title="Row Actions" Description="Add edit, delete, or any other per-row action buttons via RowActions." SourceCode="@_actionsTableCode">
+    <TabTable Items="_users" Title="Users">
+        <ColumnDefinitions>
+            <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" Sortable="true" />
+            <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+            <TabTableColumn TItem="UserRow" Title="Role" Field="u => u.Role" />
+        </ColumnDefinitions>
+        <RowActions Context="user">
+            <div class="btn-list flex-nowrap">
+                <button class="btn btn-sm" @onclick="() => EditUser(user)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" />
+                    </svg>
+                    Edit
+                </button>
+                <button class="btn btn-sm btn-danger" @onclick="() => DeleteUser(user)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                    </svg>
+                    Delete
+                </button>
+            </div>
+        </RowActions>
+    </TabTable>
+    @if (!string.IsNullOrEmpty(_actionMessage))
+    {
+        <div class="alert alert-info mt-3">@_actionMessage</div>
+    }
+</ComponentDemo>
+
+<ComponentDemo Id="table-selectable" Title="Row Selection" Description="Enable checkboxes with Selectable. Use OnSelectionChanged to react to selection changes." SourceCode="@_selectableTableCode">
+    <TabTable TItem="UserRow" Items="_users" Title="Select Users" Selectable="true" OnSelectionChanged="selected => OnSelectionChanged(selected)">
+        <ColumnDefinitions>
+            <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" Sortable="true" />
+            <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+            <TabTableColumn TItem="UserRow" Title="Role" Field="u => u.Role" />
+        </ColumnDefinitions>
+    </TabTable>
+    <div class="mt-3 text-muted">
+        Selected: @_selectedCount user(s)
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="table-striped" Title="Striped & Compact" Description="Use Striped for alternating row shading and Small for compact padding." SourceCode="@_stripedTableCode">
+    <TabTable Items="_users" Title="Striped Table" Striped="true" Small="true">
+        <ColumnDefinitions>
+            <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" />
+            <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+            <TabTableColumn TItem="UserRow" Title="Role" Field="u => u.Role" />
+            <TabTableColumn TItem="UserRow" Title="Joined" Field="u => u.Joined.ToShortDateString()" Align="TableColumnAlign.End" />
+        </ColumnDefinitions>
+    </TabTable>
+</ComponentDemo>
+
+<ComponentDemo Id="table-no-card" Title="Without Card Wrapper" Description="Set WrapInCard to false to render a plain table without the card." SourceCode="@_noCardTableCode">
+    <TabTable Items="_users" WrapInCard="false">
+        <ColumnDefinitions>
+            <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" Sortable="true" />
+            <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+            <TabTableColumn TItem="UserRow" Title="Role" Field="u => u.Role" />
+        </ColumnDefinitions>
+    </TabTable>
+</ComponentDemo>
+
+<ComponentDemo Id="table-empty" Title="Empty State" Description="When Items is empty, a configurable message is shown." SourceCode="@_emptyTableCode">
+    <TabTable Items="_emptyList" Title="No Results" EmptyText="No users found matching your search.">
+        <ColumnDefinitions>
+            <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" />
+            <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+        </ColumnDefinitions>
+    </TabTable>
+</ComponentDemo>
+
+<ComponentDemo Id="table-row-click" Title="Row Click Event" Description="Use OnRowClick to handle row click events." SourceCode="@_rowClickCode">
+    <TabTable TItem="UserRow" Items="_users" Title="Clickable Rows" OnRowClick="user => OnRowClick(user)" Hover="true">
+        <ColumnDefinitions>
+            <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" />
+            <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+            <TabTableColumn TItem="UserRow" Title="Role" Field="u => u.Role" />
+        </ColumnDefinitions>
+    </TabTable>
+    @if (_clickedUser is not null)
+    {
+        <div class="alert alert-info mt-3">Clicked: @_clickedUser.Name (@_clickedUser.Email)</div>
+    }
+</ComponentDemo>
+
+<ComponentDemo Id="table-custom-header" Title="Custom Header" Description="Use HeaderContent to render a fully custom card header with search or filter controls." SourceCode="@_customHeaderCode">
+    <TabTable Items="_filteredUsers" WrapInCard="true">
+        <HeaderContent>
+            <div class="card-title">Users</div>
+            <div class="card-options">
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" placeholder="Search..." @oninput="OnSearchInput" value="@_searchText" />
+                </div>
+            </div>
+        </HeaderContent>
+        <ColumnDefinitions>
+            <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" Sortable="true" />
+            <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+            <TabTableColumn TItem="UserRow" Title="Role" Field="u => u.Role" />
+        </ColumnDefinitions>
+    </TabTable>
+</ComponentDemo>
+
+@code {
+    private string _actionMessage = string.Empty;
+    private int _selectedCount;
+    private UserRow? _clickedUser;
+    private string _searchText = string.Empty;
+    private IEnumerable<UserRow> _filteredUsers = [];
+
+    private static readonly List<UserRow> _users =
+    [
+        new("Alice Johnson", "alice@example.com", "Admin", new DateTime(2022, 3, 15), true),
+        new("Bob Smith", "bob@example.com", "Editor", new DateTime(2023, 7, 1), true),
+        new("Carol Williams", "carol@example.com", "Viewer", new DateTime(2021, 11, 20), false),
+        new("David Brown", "david@example.com", "Editor", new DateTime(2024, 1, 9), true),
+        new("Eva Davis", "eva@example.com", "Admin", new DateTime(2023, 5, 14), false),
+    ];
+
+    private static readonly List<UserRow> _emptyList = [];
+
+    protected override void OnInitialized()
+    {
+        _filteredUsers = _users;
+    }
+
+    private void EditUser(UserRow user)
+        => _actionMessage = $"Edit clicked for: {user.Name}";
+
+    private void DeleteUser(UserRow user)
+        => _actionMessage = $"Delete clicked for: {user.Name}";
+
+    private void OnSelectionChanged(IEnumerable<UserRow> selected)
+        => _selectedCount = selected.Count();
+
+    private void OnRowClick(UserRow user)
+        => _clickedUser = user;
+
+    private void OnSearchInput(ChangeEventArgs e)
+    {
+        _searchText = e.Value?.ToString() ?? string.Empty;
+        ApplyFilter();
+    }
+
+    private void ApplyFilter()
+    {
+        if (string.IsNullOrWhiteSpace(_searchText))
+        {
+            _filteredUsers = _users;
+        }
+        else
+        {
+            var q = _searchText.Trim();
+            _filteredUsers = _users.Where(u =>
+                u.Name.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+                u.Email.Contains(q, StringComparison.OrdinalIgnoreCase) ||
+                u.Role.Contains(q, StringComparison.OrdinalIgnoreCase));
+        }
+    }
+
+    public record UserRow(string Name, string Email, string Role, DateTime Joined, bool IsActive);
+
+    // ── Code strings ──────────────────────────────────────────────────────────
+
+    private const string _basicTableCode = """
+        <TabTable Items="_users" Title="Users">
+            <ColumnDefinitions>
+                <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" Sortable="true" />
+                <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+                <TabTableColumn TItem="UserRow" Title="Role" Field="u => u.Role" />
+                <TabTableColumn TItem="UserRow" Title="Joined" Field="u => u.Joined.ToShortDateString()" />
+            </ColumnDefinitions>
+        </TabTable>
+        """;
+
+    private const string _statusTableCode = """
+        <TabTable Items="_users" Title="Users with Status">
+            <ColumnDefinitions>
+                <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" Sortable="true" />
+                <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+                <TabTableColumn TItem="UserRow" Title="Status">
+                    <CellTemplate Context="user">
+                        @if (user.IsActive)
+                        {
+                            <TabBadge Color="TabColors.Success">Active</TabBadge>
+                        }
+                        else
+                        {
+                            <TabBadge Color="TabColors.Secondary">Inactive</TabBadge>
+                        }
+                    </CellTemplate>
+                </TabTableColumn>
+            </ColumnDefinitions>
+        </TabTable>
+        """;
+
+    private const string _actionsTableCode = """
+        <TabTable Items="_users" Title="Users">
+            <ColumnDefinitions>
+                <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" Sortable="true" />
+                <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+                <TabTableColumn TItem="UserRow" Title="Role" Field="u => u.Role" />
+            </ColumnDefinitions>
+            <RowActions Context="user">
+                <div class="btn-list flex-nowrap">
+                    <button class="btn btn-sm" @onclick="() => EditUser(user)">Edit</button>
+                    <button class="btn btn-sm btn-danger" @onclick="() => DeleteUser(user)">Delete</button>
+                </div>
+            </RowActions>
+        </TabTable>
+        """;
+
+    private const string _selectableTableCode = """
+        <TabTable Items="_users" Title="Select Users" Selectable="true" OnSelectionChanged="selected => OnSelectionChanged(selected)">
+            <ColumnDefinitions>
+                <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" Sortable="true" />
+                <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+                <TabTableColumn TItem="UserRow" Title="Role" Field="u => u.Role" />
+            </ColumnDefinitions>
+        </TabTable>
+        """;
+
+    private const string _stripedTableCode = """
+        <TabTable Items="_users" Title="Striped Table" Striped="true" Small="true">
+            <ColumnDefinitions>
+                <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" />
+                <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+                <TabTableColumn TItem="UserRow" Title="Role" Field="u => u.Role" />
+                <TabTableColumn TItem="UserRow" Title="Joined" Field="u => u.Joined.ToShortDateString()" Align="TableColumnAlign.End" />
+            </ColumnDefinitions>
+        </TabTable>
+        """;
+
+    private const string _noCardTableCode = """
+        <TabTable Items="_users" WrapInCard="false">
+            <ColumnDefinitions>
+                <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" Sortable="true" />
+                <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+                <TabTableColumn TItem="UserRow" Title="Role" Field="u => u.Role" />
+            </ColumnDefinitions>
+        </TabTable>
+        """;
+
+    private const string _emptyTableCode = """
+        <TabTable Items="_emptyList" Title="No Results" EmptyText="No users found matching your search.">
+            <ColumnDefinitions>
+                <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" />
+                <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+            </ColumnDefinitions>
+        </TabTable>
+        """;
+
+    private const string _rowClickCode = """
+        <TabTable Items="_users" Title="Clickable Rows" OnRowClick="user => OnRowClick(user)" Hover="true">
+            <ColumnDefinitions>
+                <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" />
+                <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+                <TabTableColumn TItem="UserRow" Title="Role" Field="u => u.Role" />
+            </ColumnDefinitions>
+        </TabTable>
+
+        @code {
+            private void OnRowClick(UserRow user) => _clickedUser = user;
+        }
+        """;
+
+    private const string _customHeaderCode = """
+        <TabTable Items="_filteredUsers" WrapInCard="true">
+            <HeaderContent>
+                <div class="card-title">Users</div>
+                <div class="card-options">
+                    <input type="text" class="form-control form-control-sm" placeholder="Search..."
+                           @oninput="OnSearchInput" value="@_searchText" />
+                </div>
+            </HeaderContent>
+            <ColumnDefinitions>
+                <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" Sortable="true" />
+                <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+                <TabTableColumn TItem="UserRow" Title="Role" Field="u => u.Role" />
+            </ColumnDefinitions>
+        </TabTable>
+        """;
+}

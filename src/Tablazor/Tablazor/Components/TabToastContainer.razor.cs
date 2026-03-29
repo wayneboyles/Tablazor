@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Tablazor.Enums;
+using Tablazor.Models;
 using Tablazor.Services;
 
 namespace Tablazor.Components;
