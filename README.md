@@ -170,29 +170,6 @@ The demo site runs at `https://localhost:7170`.
 dotnet pack src/Tablazor/Tablazor.csproj -c Release -o ./nupkg
 ```
 
-## Project Structure
-
-```
-src/
-├── Tablazor/                    # Component library (multi-target: net8.0, net9.0, net10.0)
-│   ├── Tablazor/
-│   │   ├── Components/          # Razor components (.razor + .razor.cs code-behind)
-│   │   ├── Enums/               # TabColors, sizes, shapes, dialog results, etc.
-│   │   ├── Attributes/          # CssClassName, validation attributes
-│   │   ├── Icons/               # 4,000+ Tabler SVG icon definitions
-│   │   ├── Services/            # TabToastService, TabPageHeaderService
-│   │   ├── CssBuilder.cs        # Fluent CSS class builder
-│   │   ├── StyleBuilder.cs      # Fluent inline style builder
-│   │   └── TabBaseComponent.cs  # Base class for all components
-│   └── Microsoft/Extensions/
-│       └── DependencyInjection/ # AddTablazor() extension method
-├── Tablazor.DemoSite/           # Interactive demo and documentation site
-tests/
-└── Tablazor.Tests/              # Unit tests (xUnit + bUnit)
-templates/
-└── TablazorTemplate/            # dotnet new project template
-```
-
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
