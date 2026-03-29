@@ -1,0 +1,24 @@
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    <div @ref="Element" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+        <h2 class="accordion-header">
+            <button class="@GetButtonCssClass()" type="button" disabled="@Disabled" @onclick="HandleToggleAsync">
+                @if (HeaderContent is not null)
+                {
+                    @HeaderContent
+                }
+                else
+                {
+                    @Title
+                }
+            </button>
+        </h2>
+        <div class="@GetCollapseCssClass()">
+            <div class="accordion-body">
+                @ChildContent
+            </div>
+        </div>
+    </div>
+}

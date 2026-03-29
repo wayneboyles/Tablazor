@@ -143,6 +143,49 @@
     </div>
 </ComponentDemo>
 
+<ComponentDemo Id="table-bulk-actions" Title="Bulk Actions" Description="Use BulkActions to render a dropdown or buttons in the card header when rows are selected. The context receives the selected items." SourceCode="@_bulkActionsCode">
+    <TabTable TItem="UserRow" Items="_users" Title="Team Members" Selectable="true">
+        <ColumnDefinitions>
+            <TabTableColumn TItem="UserRow" Title="" AvatarField="u => u.AvatarUrl" AvatarColor="TabColors.Primary" Width="40px" />
+            <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" Sortable="true" />
+            <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+            <TabTableColumn TItem="UserRow" Title="Role" Field="u => u.Role" />
+            <TabTableColumn TItem="UserRow" Title="Status">
+                <CellTemplate Context="user">
+                    @if (user.IsActive)
+                    {
+                        <TabBadge Color="TabColors.Success">Active</TabBadge>
+                    }
+                    else
+                    {
+                        <TabBadge Color="TabColors.Danger">Inactive</TabBadge>
+                    }
+                </CellTemplate>
+            </TabTableColumn>
+        </ColumnDefinitions>
+        <BulkActions Context="selected">
+            <div class="btn-list">
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        Actions
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" @onclick="() => OnBulkActivate(selected)">Activate</a></li>
+                        <li><a class="dropdown-item" @onclick="() => OnBulkDeactivate(selected)">Deactivate</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item text-danger" @onclick="() => OnBulkDelete(selected)">Delete</a></li>
+                    </ul>
+                </div>
+                <button class="btn btn-sm" @onclick="() => OnBulkExport(selected)">Export</button>
+            </div>
+        </BulkActions>
+    </TabTable>
+    @if (!string.IsNullOrEmpty(_bulkMessage))
+    {
+        <div class="alert alert-info mt-3">@_bulkMessage</div>
+    }
+</ComponentDemo>
+
 <ComponentDemo Id="table-striped" Title="Striped &amp; Compact" Description="Use Striped for alternating row shading and Small for compact padding." SourceCode="@_stripedTableCode">
     <TabTable Items="_users" Title="Striped Table" Striped="true" Small="true">
         <ColumnDefinitions>
@@ -184,6 +227,7 @@
 
 @code {
     private string _message = string.Empty;
+    private string _bulkMessage = string.Empty;
     private int _selectedCount;
     private string _searchText = string.Empty;
     private IEnumerable<UserRow> _filteredUsers = [];
@@ -227,6 +271,17 @@
     private void OnDeleteUser(UserRow u) => _message = "Delete: " + u.Name;
 
     private void OnSelectionChanged(IEnumerable<UserRow> selected) => _selectedCount = selected.Count();
+
+    private void OnBulkAction(IEnumerable<UserRow> selected, string action)
+    {
+        var names = string.Join(", ", selected.Select(u => u.Name));
+        _bulkMessage = action + ": " + names;
+    }
+
+    private void OnBulkActivate(IEnumerable<UserRow> s) => OnBulkAction(s, "Activated");
+    private void OnBulkDeactivate(IEnumerable<UserRow> s) => OnBulkAction(s, "Deactivated");
+    private void OnBulkDelete(IEnumerable<UserRow> s) => OnBulkAction(s, "Deleted");
+    private void OnBulkExport(IEnumerable<UserRow> s) => OnBulkAction(s, "Exported");
 
     private void OnSearchInput(ChangeEventArgs e)
     {
@@ -389,6 +444,33 @@
                 <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" />
                 <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
             </ColumnDefinitions>
+        </TabTable>
+        """;
+
+    private const string _bulkActionsCode = """
+        <TabTable TItem="UserRow" Items="_users" Title="Team Members" Selectable="true">
+            <ColumnDefinitions>
+                <TabTableColumn TItem="UserRow" Title="Name" Field="u => u.Name" Sortable="true" />
+                <TabTableColumn TItem="UserRow" Title="Email" Field="u => u.Email" />
+                <TabTableColumn TItem="UserRow" Title="Role" Field="u => u.Role" />
+            </ColumnDefinitions>
+            <BulkActions Context="selected">
+                <div class="btn-list">
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-primary dropdown-toggle"
+                                type="button" data-bs-toggle="dropdown">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" @onclick="() => Activate(selected)">Activate</a></li>
+                            <li><a class="dropdown-item" @onclick="() => Deactivate(selected)">Deactivate</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item text-danger" @onclick="() => Delete(selected)">Delete</a></li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-sm" @onclick="() => Export(selected)">Export</button>
+                </div>
+            </BulkActions>
         </TabTable>
         """;
 

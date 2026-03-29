@@ -1,0 +1,288 @@
+@page "/components/accordion"
+@rendermode InteractiveServer
+@using Tablazor.Icons
+
+<PageTitle>Accordion - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Accordion</h1>
+    <p class="text-muted">
+        Collapsible panels with single or multi-expand modes, events, custom headers, and programmatic control.
+    </p>
+</div>
+
+<ComponentDemo Id="accordion-basic" Title="Basic" Description="By default only one panel can be open at a time. Set IsOpen on any item to expand it on first render." SourceCode="@_basicCode">
+    <TabAccordion>
+        <TabAccordionItem Title="What is Tablazor?" IsOpen="true">
+            <p class="mb-0">
+                Tablazor is a Blazor component library built on the Tabler design system.
+                It provides reusable, accessible UI components styled consistently using Tabler's CSS framework.
+            </p>
+        </TabAccordionItem>
+        <TabAccordionItem Title="How do I install it?">
+            <p>Install via NuGet:</p>
+            <code>dotnet add package Tablazor</code>
+            <p class="mt-2 mb-0">Then register the services in your <code>Program.cs</code>:</p>
+            <code>builder.Services.AddTablazor();</code>
+        </TabAccordionItem>
+        <TabAccordionItem Title="Is it open source?">
+            <p class="mb-0">
+                Yes. Tablazor is open source and targets .NET 8, 9, and 10.
+                Contributions and issues are welcome on GitHub.
+            </p>
+        </TabAccordionItem>
+    </TabAccordion>
+</ComponentDemo>
+
+<ComponentDemo Id="accordion-always-open" Title="Always Open" Description="Set AlwaysOpen to allow multiple panels to be expanded simultaneously." SourceCode="@_alwaysOpenCode">
+    <TabAccordion AlwaysOpen="true">
+        <TabAccordionItem Title="Panel One" IsOpen="true">
+            <p class="mb-0">This panel can stay open while others are expanded. Use <code>AlwaysOpen="true"</code> to enable this behavior.</p>
+        </TabAccordionItem>
+        <TabAccordionItem Title="Panel Two" IsOpen="true">
+            <p class="mb-0">Panel Two is also open by default. Both panels can be open at the same time.</p>
+        </TabAccordionItem>
+        <TabAccordionItem Title="Panel Three">
+            <p class="mb-0">Panel Three starts closed. You can open it without closing the others.</p>
+        </TabAccordionItem>
+    </TabAccordion>
+</ComponentDemo>
+
+<ComponentDemo Id="accordion-flush" Title="Flush Style" Description="Add Flush to remove outer borders and rounded corners for an edge-to-edge look inside a card or container." SourceCode="@_flushCode">
+    <div class="card">
+        <TabAccordion Flush="true">
+            <TabAccordionItem Title="Billing">
+                <p class="mb-0">Manage your subscription, invoices, and payment methods.</p>
+            </TabAccordionItem>
+            <TabAccordionItem Title="Security">
+                <p class="mb-0">Change your password, configure two-factor authentication, and review active sessions.</p>
+            </TabAccordionItem>
+            <TabAccordionItem Title="Notifications">
+                <p class="mb-0">Choose which events trigger email, SMS, or in-app notifications.</p>
+            </TabAccordionItem>
+        </TabAccordion>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="accordion-events" Title="Item Events" Description="Use OnOpened and OnClosed on each item, or OnItemOpened and OnItemClosed on the accordion to track state changes." SourceCode="@_eventsCode">
+    <TabAccordion OnItemOpened="OnAccordionItemOpened" OnItemClosed="OnAccordionItemClosed">
+        <TabAccordionItem Title="Step 1 — Introduction" ItemId="step-1" OnOpened="OnStep1Opened" OnClosed="OnStep1Closed">
+            <p class="mb-0">Welcome to the setup wizard. This step introduces the process.</p>
+        </TabAccordionItem>
+        <TabAccordionItem Title="Step 2 — Configuration" ItemId="step-2">
+            <p class="mb-0">Configure your preferences and environment settings.</p>
+        </TabAccordionItem>
+        <TabAccordionItem Title="Step 3 — Review" ItemId="step-3">
+            <p class="mb-0">Review your choices before proceeding to the final step.</p>
+        </TabAccordionItem>
+    </TabAccordion>
+    @if (_eventLog.Count > 0)
+    {
+        <div class="mt-3">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <small class="text-muted fw-medium">Event log</small>
+                <button class="btn btn-sm btn-ghost-secondary" @onclick="ClearLog">Clear</button>
+            </div>
+            <div class="list-group list-group-flush">
+                @foreach (var entry in _eventLog)
+                {
+                    <div class="list-group-item py-1 px-2 small">@entry</div>
+                }
+            </div>
+        </div>
+    }
+</ComponentDemo>
+
+<ComponentDemo Id="accordion-programmatic" Title="Programmatic Control" Description="Use a component reference on TabAccordion to call OpenAllAsync() and CloseAllAsync() from code." SourceCode="@_programmaticCode">
+    <div class="mb-3 btn-list">
+        <button class="btn btn-sm btn-primary" @onclick="OpenAllPanels">Open All</button>
+        <button class="btn btn-sm btn-secondary" @onclick="CloseAllPanels">Close All</button>
+    </div>
+    <TabAccordion @ref="_controlledAccordion" AlwaysOpen="true">
+        <TabAccordionItem Title="Server Configuration" ItemId="server">
+            <p class="mb-0">CPU: 8 cores &nbsp;|&nbsp; RAM: 32 GB &nbsp;|&nbsp; Storage: 1 TB NVMe</p>
+        </TabAccordionItem>
+        <TabAccordionItem Title="Network Settings" ItemId="network">
+            <p class="mb-0">Region: EU West &nbsp;|&nbsp; Bandwidth: 10 Gbps &nbsp;|&nbsp; IP: Static</p>
+        </TabAccordionItem>
+        <TabAccordionItem Title="Security Policy" ItemId="security">
+            <p class="mb-0">Firewall: Enabled &nbsp;|&nbsp; DDoS Protection: On &nbsp;|&nbsp; TLS: 1.3</p>
+        </TabAccordionItem>
+    </TabAccordion>
+</ComponentDemo>
+
+<ComponentDemo Id="accordion-custom-header" Title="Custom Header" Description="Use HeaderContent to place icons, badges, or any markup inside the accordion header button." SourceCode="@_customHeaderCode">
+    <TabAccordion>
+        <TabAccordionItem IsOpen="true">
+            <HeaderContent>
+                <TabIcon Icon="@TabIcons.Filled.Settings" Size="18" CssClass="me-2 text-primary" />
+                <span>Profile &amp; Account</span>
+                <TabBadge Color="TabColors.Success" CssClass="ms-auto">Active</TabBadge>
+            </HeaderContent>
+            <ChildContent>
+                <p class="mb-0">Update your display name, email address, and profile photo.</p>
+            </ChildContent>
+        </TabAccordionItem>
+        <TabAccordionItem>
+            <HeaderContent>
+                <TabIcon Icon="@TabIcons.Outline.Bell" Size="18" CssClass="me-2 text-warning" />
+                <span>Notifications</span>
+                <TabBadge Color="TabColors.Warning" Shape="BadgeShape.Pill" CssClass="ms-auto">3 new</TabBadge>
+            </HeaderContent>
+            <ChildContent>
+                <p class="mb-0">Configure email, push, and in-app notification preferences.</p>
+            </ChildContent>
+        </TabAccordionItem>
+        <TabAccordionItem>
+            <HeaderContent>
+                <TabIcon Icon="@TabIcons.Filled.Shield" Size="18" CssClass="me-2 text-danger" />
+                <span>Security</span>
+                <TabBadge Color="TabColors.Danger" Shape="BadgeShape.Pill" CssClass="ms-auto">Action required</TabBadge>
+            </HeaderContent>
+            <ChildContent>
+                <p class="mb-0">Two-factor authentication is not enabled. Enable it to secure your account.</p>
+            </ChildContent>
+        </TabAccordionItem>
+    </TabAccordion>
+</ComponentDemo>
+
+<ComponentDemo Id="accordion-disabled" Title="Disabled Item" Description="Set Disabled on a TabAccordionItem to prevent the user from toggling it." SourceCode="@_disabledCode">
+    <TabAccordion>
+        <TabAccordionItem Title="Available Panel" IsOpen="true">
+            <p class="mb-0">This panel can be opened and closed normally.</p>
+        </TabAccordionItem>
+        <TabAccordionItem Title="Disabled Panel (cannot open)" Disabled="true">
+            <p class="mb-0">This content is not reachable while the item is disabled.</p>
+        </TabAccordionItem>
+        <TabAccordionItem Title="Another Available Panel">
+            <p class="mb-0">This panel is also interactive.</p>
+        </TabAccordionItem>
+    </TabAccordion>
+</ComponentDemo>
+
+@code {
+    private TabAccordion _controlledAccordion = default!;
+    private readonly List<string> _eventLog = [];
+
+    private async Task OpenAllPanels() => await _controlledAccordion.OpenAllAsync();
+    private async Task CloseAllPanels() => await _controlledAccordion.CloseAllAsync();
+
+    private void ClearLog() => _eventLog.Clear();
+
+    private void OnAccordionItemOpened(TabAccordionItem item)
+        => AddLog("Accordion: opened — " + (item.Title ?? item.ItemId ?? "item"));
+
+    private void OnAccordionItemClosed(TabAccordionItem item)
+        => AddLog("Accordion: closed — " + (item.Title ?? item.ItemId ?? "item"));
+
+    private void OnStep1Opened() => AddLog("Step 1 item OnOpened fired");
+    private void OnStep1Closed() => AddLog("Step 1 item OnClosed fired");
+
+    private void AddLog(string message)
+    {
+        _eventLog.Insert(0, message);
+        if (_eventLog.Count > 10) _eventLog.RemoveAt(_eventLog.Count - 1);
+    }
+
+    // ── Code strings ─────────────────────────────────────────────────────────
+
+    private const string _basicCode = """
+        <TabAccordion>
+            <TabAccordionItem Title="What is Tablazor?" IsOpen="true">
+                <p>Tablazor is a Blazor component library built on Tabler.</p>
+            </TabAccordionItem>
+            <TabAccordionItem Title="How do I install it?">
+                <code>dotnet add package Tablazor</code>
+            </TabAccordionItem>
+            <TabAccordionItem Title="Is it open source?">
+                <p>Yes. Contributions are welcome on GitHub.</p>
+            </TabAccordionItem>
+        </TabAccordion>
+        """;
+
+    private const string _alwaysOpenCode = """
+        <!-- AlwaysOpen allows multiple panels to be expanded at once -->
+        <TabAccordion AlwaysOpen="true">
+            <TabAccordionItem Title="Panel One" IsOpen="true">...</TabAccordionItem>
+            <TabAccordionItem Title="Panel Two" IsOpen="true">...</TabAccordionItem>
+            <TabAccordionItem Title="Panel Three">...</TabAccordionItem>
+        </TabAccordion>
+        """;
+
+    private const string _flushCode = """
+        <!-- Flush removes outer borders for a seamless look inside a card -->
+        <div class="card">
+            <TabAccordion Flush="true">
+                <TabAccordionItem Title="Billing">...</TabAccordionItem>
+                <TabAccordionItem Title="Security">...</TabAccordionItem>
+                <TabAccordionItem Title="Notifications">...</TabAccordionItem>
+            </TabAccordion>
+        </div>
+        """;
+
+    private const string _eventsCode = """
+        <!-- Accordion-level events receive the TabAccordionItem that changed -->
+        <TabAccordion OnItemOpened="OnItemOpened" OnItemClosed="OnItemClosed">
+            <!-- Item-level events fire only for that specific item -->
+            <TabAccordionItem Title="Step 1" ItemId="step-1"
+                              OnOpened="OnStep1Opened" OnClosed="OnStep1Closed">
+                ...
+            </TabAccordionItem>
+            <TabAccordionItem Title="Step 2" ItemId="step-2">...</TabAccordionItem>
+        </TabAccordion>
+
+        @code {
+            private void OnItemOpened(TabAccordionItem item)
+                => Console.WriteLine("Opened: " + (item.Title ?? item.ItemId));
+
+            private void OnItemClosed(TabAccordionItem item)
+                => Console.WriteLine("Closed: " + (item.Title ?? item.ItemId));
+
+            private void OnStep1Opened() => Console.WriteLine("Step 1 opened");
+            private void OnStep1Closed() => Console.WriteLine("Step 1 closed");
+        }
+        """;
+
+    private const string _programmaticCode = """
+        <button @onclick="OpenAll">Open All</button>
+        <button @onclick="CloseAll">Close All</button>
+
+        <TabAccordion @ref="_accordion" AlwaysOpen="true">
+            <TabAccordionItem Title="Server Configuration">...</TabAccordionItem>
+            <TabAccordionItem Title="Network Settings">...</TabAccordionItem>
+            <TabAccordionItem Title="Security Policy">...</TabAccordionItem>
+        </TabAccordion>
+
+        @code {
+            private TabAccordion _accordion = default!;
+
+            private async Task OpenAll() => await _accordion.OpenAllAsync();
+            private async Task CloseAll() => await _accordion.CloseAllAsync();
+        }
+        """;
+
+    private const string _customHeaderCode = """
+        @using Tablazor.Icons
+
+        <TabAccordion>
+            <TabAccordionItem IsOpen="true">
+                <HeaderContent>
+                    <TabIcon Icon="@TabIcons.Filled.Settings" Size="18" CssClass="me-2 text-primary" />
+                    <span>Profile &amp; Account</span>
+                    <TabBadge Color="TabColors.Success" CssClass="ms-auto">Active</TabBadge>
+                </HeaderContent>
+                <ChildContent>
+                    <p>Update your display name, email, and profile photo.</p>
+                </ChildContent>
+            </TabAccordionItem>
+        </TabAccordion>
+        """;
+
+    private const string _disabledCode = """
+        <TabAccordion>
+            <TabAccordionItem Title="Available Panel" IsOpen="true">...</TabAccordionItem>
+            <TabAccordionItem Title="Disabled Panel" Disabled="true">...</TabAccordionItem>
+            <TabAccordionItem Title="Another Available Panel">...</TabAccordionItem>
+        </TabAccordion>
+        """;
+}

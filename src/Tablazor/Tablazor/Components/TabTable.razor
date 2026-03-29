@@ -10,7 +10,7 @@
     @if (WrapInCard)
     {
         <div class="card">
-            @if (!string.IsNullOrEmpty(Title) || HeaderContent is not null)
+            @if (!string.IsNullOrEmpty(Title) || HeaderContent is not null || (BulkActions is not null && _selectedItems.Count > 0))
             {
                 <div class="card-header">
                     @if (HeaderContent is not null)
@@ -19,7 +19,17 @@
                     }
                     else
                     {
-                        <h3 class="card-title">@Title</h3>
+                        @if (!string.IsNullOrEmpty(Title))
+                        {
+                            <h3 class="card-title">@Title</h3>
+                        }
+                        @if (BulkActions is not null && _selectedItems.Count > 0)
+                        {
+                            <div class="card-options">
+                                <span class="text-muted small me-2 mt-1">@_selectedItems.Count @(_selectedItems.Count == 1 ? "item" : "items") selected</span>
+                                @BulkActions(_selectedItems)
+                            </div>
+                        }
                     }
                 </div>
             }
@@ -30,6 +40,13 @@
     }
     else
     {
+        @if (BulkActions is not null && _selectedItems.Count > 0)
+        {
+            <div class="d-flex align-items-center mb-2 gap-2">
+                <span class="text-muted small">@_selectedItems.Count @(_selectedItems.Count == 1 ? "item" : "items") selected</span>
+                @BulkActions(_selectedItems)
+            </div>
+        }
         @if (Responsive)
         {
             <div class="table-responsive">

@@ -38,6 +38,14 @@ public partial class TabTable<TItem> : TabBaseComponent
     public RenderFragment<TItem>? RowActions { get; set; }
 
     /// <summary>
+    /// Gets or sets content shown in the card header when one or more rows are selected.
+    /// Receives the current set of selected items. Only rendered when <see cref="Selectable"/>
+    /// is <c>true</c> and at least one item is selected.
+    /// </summary>
+    [Parameter]
+    public RenderFragment<IEnumerable<TItem>>? BulkActions { get; set; }
+
+    /// <summary>
     /// Gets or sets content rendered in the card header. Overrides <see cref="Title"/> when set.
     /// Only used when <see cref="WrapInCard"/> is <c>true</c>.
     /// </summary>
