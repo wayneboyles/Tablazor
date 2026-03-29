@@ -1,0 +1,361 @@
+@page "/components/list"
+@rendermode InteractiveServer
+@using Tablazor.Icons
+
+<SetTabPageHeader Title="List" Subtitle="A generic data-driven list with configurable avatar, icon, title, subtitle, and right-side slots. Supports row selection and bulk actions."></SetTabPageHeader>
+
+<ComponentDemo Id="list-basic" Title="Basic" Description="Simple list with title and subtitle. Use TitleContent and SubtitleContent to define what each slot renders." SourceCode="@_basicCode">
+    <TabList Items="@_basicItems" Title="Recent Updates">
+        <TitleContent Context="item">@item.Title</TitleContent>
+        <SubtitleContent Context="item">@item.Subtitle</SubtitleContent>
+    </TabList>
+</ComponentDemo>
+
+<ComponentDemo Id="list-avatars" Title="With Avatars" Description="Add AvatarContent to render an avatar or initials on the left of each row." SourceCode="@_avatarsCode">
+    <TabList Items="@_teamMembers" Title="Team Members">
+        <AvatarContent Context="member">
+            <TabAvatar Color="@member.AvatarColor">@member.Initials</TabAvatar>
+        </AvatarContent>
+        <TitleContent Context="member">@member.Name</TitleContent>
+        <SubtitleContent Context="member">@member.Role</SubtitleContent>
+        <RightContent Context="member">
+            <TabBadge Color="@(member.IsActive ? TabColors.Success : TabColors.Secondary)">
+                @(member.IsActive ? "Active" : "Away")
+            </TabBadge>
+        </RightContent>
+    </TabList>
+</ComponentDemo>
+
+<ComponentDemo Id="list-icons" Title="With Icons" Description="Use AvatarContent to wrap a TabIcon in a coloured avatar for status-style lists." SourceCode="@_iconsCode">
+    <TabList Items="@_notifications" Title="Notifications">
+        <AvatarContent Context="notif">
+            <span class="avatar bg-@(notif.IconColor.GetCssClassName())-lt">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="@notif.Icon" />
+                </svg>
+            </span>
+        </AvatarContent>
+        <TitleContent Context="notif">@notif.Title</TitleContent>
+        <SubtitleContent Context="notif">@notif.Subtitle</SubtitleContent>
+        <RightContent Context="notif">
+            <span class="text-muted small">@notif.Time</span>
+        </RightContent>
+    </TabList>
+</ComponentDemo>
+
+<ComponentDemo Id="list-right-content" Title="Right Content" Description="Use RightContent to add metadata, badges, or actions on the trailing edge of each row." SourceCode="@_rightContentCode">
+    <TabList Items="@_tasks" Title="Tasks">
+        <TitleContent Context="task">@task.Title</TitleContent>
+        <SubtitleContent Context="task">@task.Description</SubtitleContent>
+        <RightContent Context="task">
+            <div class="d-flex flex-column align-items-end gap-1">
+                <TabBadge Color="@task.Priority">@task.PriorityLabel</TabBadge>
+                <span class="text-muted small">Due @task.DueDate</span>
+            </div>
+        </RightContent>
+    </TabList>
+</ComponentDemo>
+
+<ComponentDemo Id="list-selectable" Title="Selectable with Bulk Actions" Description="Set Selectable to show checkboxes. Add BulkActions to render action buttons in the header when rows are selected." SourceCode="@_selectableCode">
+    <TabList Items="@_emails" Title="Inbox" Selectable="true">
+        <BulkActions Context="selected">
+            <TabButton Color="TabColors.Danger" Size="ButtonSize.Small" OnClick="DeleteSelected">Delete</TabButton>
+            <TabButton Color="TabColors.Secondary" Size="ButtonSize.Small" OnClick="MarkAsRead" CssClass="ms-2">Mark as Read</TabButton>
+        </BulkActions>
+        <AvatarContent Context="email">
+            <span class="avatar">@email.SenderInitials</span>
+        </AvatarContent>
+        <TitleContent Context="email">
+            <strong>@email.Sender</strong>
+        </TitleContent>
+        <SubtitleContent Context="email">@email.Subject</SubtitleContent>
+        <RightContent Context="email">
+            <div class="d-flex align-items-center gap-2">
+                @if (email.HasAttachment)
+                {
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="text-muted">
+                        <path d="@TabIcons.Filled.Pin" />
+                    </svg>
+                }
+                <span class="text-muted small">@email.Time</span>
+            </div>
+        </RightContent>
+    </TabList>
+    @if (!string.IsNullOrEmpty(_bulkMessage))
+    {
+        <TabAlert Color="TabColors.Info" Message="@_bulkMessage" CssClass="mt-3" OnClose="ClearBulkMessage" />
+    }
+</ComponentDemo>
+
+<ComponentDemo Id="list-click" Title="Item Click Events" Description="Set OnItemClick to handle row clicks. Items render with list-group-item-action styling automatically." SourceCode="@_clickCode">
+    <TabList Items="@_contacts" Title="Contacts" OnItemClick="@((Contact c) => HandleContactClick(c))">
+        <AvatarContent Context="contact">
+            <TabAvatar Color="@contact.Color">@contact.Initials</TabAvatar>
+        </AvatarContent>
+        <TitleContent Context="contact">@contact.Name</TitleContent>
+        <SubtitleContent Context="contact">@contact.Email</SubtitleContent>
+        <RightContent Context="contact">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="text-muted">
+                <path d="@TabIcons.Filled.ChevronRight" />
+            </svg>
+        </RightContent>
+    </TabList>
+    @if (_clickLog.Count > 0)
+    {
+        <div class="mt-3">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <small class="text-muted fw-medium">Click log</small>
+                <button class="btn btn-sm btn-ghost-secondary" @onclick="ClearClickLog">Clear</button>
+            </div>
+            <div class="list-group list-group-flush">
+                @foreach (var entry in _clickLog)
+                {
+                    <div class="list-group-item py-1 px-2 small">@entry</div>
+                }
+            </div>
+        </div>
+    }
+</ComponentDemo>
+
+<ComponentDemo Id="list-empty" Title="Empty State" Description="EmptyText sets a default message. Use EmptyContent for a custom empty-state template." SourceCode="@_emptyCode">
+    <div class="row g-3">
+        <div class="col-md-6">
+            <TabList Items="@_emptyBasicItems" Title="Default empty" EmptyText="No updates yet.">
+                <TitleContent Context="item">@item.Title</TitleContent>
+            </TabList>
+        </div>
+        <div class="col-md-6">
+            <TabList Items="@_emptyBasicItems" Title="Custom empty">
+                <EmptyContent>
+                    <div class="text-center py-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" class="text-muted mb-2">
+                            <path d="@TabIcons.Filled.MailOpened" />
+                        </svg>
+                        <h4 class="text-muted mt-2">Inbox zero!</h4>
+                        <p class="text-muted">No messages to show.</p>
+                    </div>
+                </EmptyContent>
+                <TitleContent Context="item">@item.Title</TitleContent>
+            </TabList>
+        </div>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo Id="list-no-card" Title="Without Card" Description="Set WrapInCard to false and Flush to false for a standalone bordered list." SourceCode="@_noCardCode">
+    <TabList Items="@_settings" WrapInCard="false" Flush="false">
+        <AvatarContent Context="setting">
+            <span class="avatar bg-@(setting.IconColor.GetCssClassName())-lt">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="@setting.Icon" />
+                </svg>
+            </span>
+        </AvatarContent>
+        <TitleContent Context="setting">@setting.Name</TitleContent>
+        <SubtitleContent Context="setting">@setting.Description</SubtitleContent>
+        <RightContent Context="setting">
+            <label class="form-check form-switch m-0">
+                <input class="form-check-input" type="checkbox" checked="@setting.Enabled" />
+            </label>
+        </RightContent>
+    </TabList>
+</ComponentDemo>
+
+@code {
+    private record BasicItem(string Title, string Subtitle);
+    private record NotifItem(string Title, string Subtitle, string Icon, TabColors IconColor, string Time);
+    private record TeamMember(string Name, string Role, TabColors AvatarColor, string Initials, bool IsActive);
+    private record TaskItem(string Title, string Description, TabColors Priority, string PriorityLabel, string DueDate);
+    private record EmailItem(string Sender, string SenderInitials, string Subject, string Time, bool HasAttachment);
+    private record Contact(string Name, string Email, string Initials, TabColors Color);
+    private record SettingItem(string Name, string Description, string Icon, TabColors IconColor, bool Enabled);
+
+    private static readonly BasicItem[] _emptyBasicItems = [];
+    private string _bulkMessage = string.Empty;
+    private readonly List<string> _clickLog = [];
+
+    private readonly List<BasicItem> _basicItems =
+    [
+        new("System Update Available", "Version 2.4.1 is ready to install"),
+        new("Scheduled Maintenance Tonight", "Services will be offline 2–4 AM UTC"),
+        new("Password Expires in 7 Days", "Update your credentials before the deadline")
+    ];
+
+    private readonly List<TeamMember> _teamMembers =
+    [
+        new("Alice Johnson", "Product Manager", TabColors.Primary, "AJ", true),
+        new("Bob Smith", "Senior Developer", TabColors.Success, "BS", true),
+        new("Carol White", "UI/UX Designer", TabColors.Purple, "CW", false),
+        new("David Brown", "DevOps Engineer", TabColors.Cyan, "DB", true)
+    ];
+
+    private readonly List<NotifItem> _notifications =
+    [
+        new("Deployment Successful", "Production deploy completed", TabIcons.Filled.CircleCheck, TabColors.Success, "10m ago"),
+        new("High CPU Usage", "Server load above 85%", TabIcons.Filled.AlertCircle, TabColors.Warning, "25m ago"),
+        new("Database Backup Failed", "Check connection settings", TabIcons.Filled.AlertTriangle, TabColors.Danger, "1h ago"),
+        new("New User Registered", "Welcome email sent", TabIcons.Filled.Mail, TabColors.Blue, "3h ago")
+    ];
+
+    private readonly List<TaskItem> _tasks =
+    [
+        new("Fix login bug", "Users unable to authenticate via SSO", TabColors.Danger, "Critical", "Today"),
+        new("Update documentation", "Add API reference examples", TabColors.Warning, "Medium", "Tomorrow"),
+        new("Code review", "Review PR #347 — new auth flow", TabColors.Info, "Normal", "Friday"),
+        new("Team meeting", "Weekly standup — 15 min", TabColors.Secondary, "Low", "Monday")
+    ];
+
+    private readonly List<EmailItem> _emails =
+    [
+        new("Sarah Connor", "SC", "Re: Project Timeline Update", "9:15 AM", true),
+        new("John Connor", "JC", "Budget Proposal Q2", "Yesterday", false),
+        new("Kyle Reese", "KR", "Team Building Event Next Week", "2 days ago", false),
+        new("Miles Dyson", "MD", "Security Patch Release Notes", "3 days ago", true)
+    ];
+
+    private readonly List<Contact> _contacts =
+    [
+        new("Emma Watson", "emma.watson@example.com", "EW", TabColors.Pink),
+        new("Michael Scott", "michael.scott@example.com", "MS", TabColors.Orange),
+        new("Leslie Knope", "leslie.knope@example.com", "LK", TabColors.Yellow),
+        new("Ron Swanson", "ron.swanson@example.com", "RS", TabColors.Teal)
+    ];
+
+    private readonly List<SettingItem> _settings =
+    [
+        new("Email Notifications", "Receive email alerts for new activity", TabIcons.Filled.Mail, TabColors.Blue, true),
+        new("Two-Factor Authentication", "Add an extra layer of account security", TabIcons.Filled.Shield, TabColors.Green, false),
+        new("Dark Mode", "Use dark theme across the application", TabIcons.Filled.Moon, TabColors.Purple, true),
+        new("Auto-Save", "Automatically save your work every 5 minutes", TabIcons.Filled.DeviceFloppy, TabColors.Orange, true)
+    ];
+
+    private void DeleteSelected() => _bulkMessage = "Delete action triggered.";
+    private void MarkAsRead() => _bulkMessage = "Mark as read action triggered.";
+    private void ClearBulkMessage() => _bulkMessage = string.Empty;
+
+    private void HandleContactClick(Contact contact)
+    {
+        _clickLog.Insert(0, $"Clicked: {contact.Name} at {DateTime.Now:HH:mm:ss}");
+        if (_clickLog.Count > 8) _clickLog.RemoveAt(_clickLog.Count - 1);
+    }
+
+    private void ClearClickLog() => _clickLog.Clear();
+
+    // ── Code strings ─────────────────────────────────────────────────────────
+
+    private const string _basicCode = """
+        <TabList Items="@items" Title="Recent Updates">
+            <TitleContent Context="item">@item.Title</TitleContent>
+            <SubtitleContent Context="item">@item.Subtitle</SubtitleContent>
+        </TabList>
+        """;
+
+    private const string _avatarsCode = """
+        <TabList Items="@teamMembers" Title="Team Members">
+            <AvatarContent Context="member">
+                <TabAvatar Color="@member.AvatarColor">@member.Initials</TabAvatar>
+            </AvatarContent>
+            <TitleContent Context="member">@member.Name</TitleContent>
+            <SubtitleContent Context="member">@member.Role</SubtitleContent>
+            <RightContent Context="member">
+                <TabBadge Color="@(member.IsActive ? TabColors.Success : TabColors.Secondary)">
+                    @(member.IsActive ? "Active" : "Away")
+                </TabBadge>
+            </RightContent>
+        </TabList>
+        """;
+
+    private const string _iconsCode = """
+        <TabList Items="@notifications" Title="Notifications">
+            <AvatarContent Context="notif">
+                <span class="avatar bg-@(notif.IconColor.GetCssClassName())-lt">
+                    <!-- inline SVG using notif.Icon path data -->
+                </span>
+            </AvatarContent>
+            <TitleContent Context="notif">@notif.Title</TitleContent>
+            <SubtitleContent Context="notif">@notif.Subtitle</SubtitleContent>
+            <RightContent Context="notif">
+                <span class="text-muted small">@notif.Time</span>
+            </RightContent>
+        </TabList>
+        """;
+
+    private const string _rightContentCode = """
+        <TabList Items="@tasks" Title="Tasks">
+            <TitleContent Context="task">@task.Title</TitleContent>
+            <SubtitleContent Context="task">@task.Description</SubtitleContent>
+            <RightContent Context="task">
+                <div class="d-flex flex-column align-items-end gap-1">
+                    <TabBadge Color="@task.Priority">@task.PriorityLabel</TabBadge>
+                    <span class="text-muted small">Due @task.DueDate</span>
+                </div>
+            </RightContent>
+        </TabList>
+        """;
+
+    private const string _selectableCode = """
+        <TabList Items="@emails" Title="Inbox" Selectable="true">
+            <BulkActions Context="selected">
+                <TabButton Color="TabColors.Danger" Size="ButtonSize.Small" OnClick="DeleteSelected">Delete</TabButton>
+                <TabButton Color="TabColors.Secondary" Size="ButtonSize.Small" OnClick="MarkAsRead" CssClass="ms-2">
+                    Mark as Read
+                </TabButton>
+            </BulkActions>
+            <TitleContent Context="email"><strong>@email.Sender</strong></TitleContent>
+            <SubtitleContent Context="email">@email.Subject</SubtitleContent>
+            <RightContent Context="email">
+                <span class="text-muted small">@email.Time</span>
+            </RightContent>
+        </TabList>
+        """;
+
+    private const string _clickCode = """
+        <TabList Items="@contacts" Title="Contacts" OnItemClick="HandleContactClick">
+            <AvatarContent Context="contact">
+                <TabAvatar Color="@contact.Color">@contact.Initials</TabAvatar>
+            </AvatarContent>
+            <TitleContent Context="contact">@contact.Name</TitleContent>
+            <SubtitleContent Context="contact">@contact.Email</SubtitleContent>
+        </TabList>
+
+        @code {
+            private void HandleContactClick(Contact contact)
+            {
+                // navigate or show detail
+            }
+        }
+        """;
+
+    private const string _emptyCode = """
+        <!-- Default empty text -->
+        <TabList Items="@empty" EmptyText="No updates yet.">
+            <TitleContent Context="item">@item.Title</TitleContent>
+        </TabList>
+
+        <!-- Custom empty content -->
+        <TabList Items="@empty">
+            <EmptyContent>
+                <div class="text-center py-5">
+                    <h4 class="text-muted">Inbox zero!</h4>
+                </div>
+            </EmptyContent>
+            <TitleContent Context="item">@item.Title</TitleContent>
+        </TabList>
+        """;
+
+    private const string _noCardCode = """
+        <TabList Items="@settings" WrapInCard="false" Flush="false">
+            <AvatarContent Context="setting">
+                <span class="avatar bg-@(setting.IconColor.GetCssClassName())-lt">
+                    <!-- icon svg -->
+                </span>
+            </AvatarContent>
+            <TitleContent Context="setting">@setting.Name</TitleContent>
+            <SubtitleContent Context="setting">@setting.Description</SubtitleContent>
+            <RightContent Context="setting">
+                <label class="form-check form-switch m-0">
+                    <input class="form-check-input" type="checkbox" checked="@setting.Enabled" />
+                </label>
+            </RightContent>
+        </TabList>
+        """;
+}

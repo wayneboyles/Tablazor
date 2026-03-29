@@ -17,6 +17,10 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<TabPageHeaderService>();
         services.AddScoped<TabToastService>();
+        
+        // Overridable services
+        services.AddScoped<IBrandingProvider, DefaultBrandingProvider>();
+        services.AddScoped<IPageLayout, DefaultPageLayout>();
 
         return services;
     }

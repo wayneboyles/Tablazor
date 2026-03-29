@@ -1,15 +1,7 @@
 @page "/components/modal"
 @rendermode InteractiveServer
 
-<PageTitle>Modal - Tablazor</PageTitle>
-
-<div class="page-header mb-4">
-    <h1 class="page-title">Modal</h1>
-    <p class="text-muted">
-        Modals are dialog overlays that focus the user's attention on a specific task or piece of information.
-        They support various sizes, centered layout, scrollable content, and static backdrop options.
-    </p>
-</div>
+<SetTabPageHeader Title="Modal" Subtitle="Modals are dialog overlays that focus the user's attention on a specific task or piece of information. They support various sizes, centered layout, scrollable content, and static backdrop options."></SetTabPageHeader>
 
 <ComponentDemo Id="basic-modal" Title="Basic Modal" Description="A simple modal with a title, body content, and a close button." SourceCode="@_basicModalCode">
     <TabButton Color="TabColors.Primary" OnClick="@(() => _basicModalOpen = true)">Open Basic Modal</TabButton>

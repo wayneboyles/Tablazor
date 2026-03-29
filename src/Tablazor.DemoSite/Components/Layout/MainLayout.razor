@@ -1,8 +1,8 @@
-﻿@using Tablazor.Icons
+﻿@using Tablazor.Models
 @inherits LayoutComponentBase
+@inject Tablazor.Services.IBrandingProvider BrandingProvider
 
 <TabLayout>
-
     <TabNavbar>
         <Brand>
             <a href="/" aria-label="Tabler">
@@ -13,10 +13,9 @@
             </a>
         </Brand>
         <NavContent>
-            <Menu />
+            <Menu></Menu>
         </NavContent>
     </TabNavbar>
-    
     <TabPageWrapper>
         <TabPageHeader />
     
@@ -24,7 +23,19 @@
             @Body
         </TabPageBody>
     </TabPageWrapper>
-
+    
+    <TabFooter Items="@_footerLinks" ShowAppVersion="true">
+        @BrandingProvider.AppName
+    </TabFooter>
 </TabLayout>
 
 <TabToastContainer Position="ToastPosition.TopRight" @rendermode="InteractiveServer" />
+
+@code
+{
+    private readonly List<FooterItem> _footerLinks = new List<FooterItem>()
+    {
+        new FooterItem { Text = "Source Code", Url = "https://github.com/wayneboyles/Tablazor" },
+        new FooterItem { Text = "License", Url = "https://raw.githubusercontent.com/wayneboyles/Tablazor/refs/heads/main/LICENSE" }
+    };
+}

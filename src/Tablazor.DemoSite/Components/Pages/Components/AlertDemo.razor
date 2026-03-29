@@ -2,14 +2,7 @@
 @rendermode InteractiveServer
 @using Tablazor.Icons
 
-<PageTitle>Alerts - Tablazor</PageTitle>
-
-<div class="page-header mb-4">
-    <h1 class="page-title">Alerts</h1>
-    <p class="text-muted">
-        Contextual feedback messages with support for colors, icons, titles, dismissal, auto-close, and action buttons.
-    </p>
-</div>
+<SetTabPageHeader Title="Alerts" Subtitle="Contextual feedback messages with support for colors, icons, titles, dismissal, auto-close, and action buttons."></SetTabPageHeader>
 
 <ComponentDemo Id="alert-basic" Title="Basic" Description="Use Color to set the alert style. All standard Tabler colors are supported." SourceCode="@_basicCode">
     <TabAlert Color="TabColors.Success" Message="Your changes have been saved successfully." />

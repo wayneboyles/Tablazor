@@ -1,5 +1,8 @@
+using System.Reflection;
+
 using Microsoft.AspNetCore.Components;
 using Tablazor.Enums;
+using Tablazor.Models;
 
 namespace Tablazor.Components;
 
@@ -23,12 +26,21 @@ namespace Tablazor.Components;
 /// </remarks>
 public partial class TabFooter : TabBaseComponent
 {
+    private Version? _version = Assembly.GetExecutingAssembly().GetName().Version;
+    
     /// <summary>
     /// Gets or sets the child content rendered inside the footer container.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
-
+    
+    /// <summary>
+    /// Gets or sets the content to be displayed on the right side of the
+    /// footer
+    /// </summary>
+    [Parameter]
+    public List<FooterItem>? Items { get; set; }
+    
     /// <summary>
     /// Gets or sets a value indicating whether the transparent footer variant is applied.
     /// When <c>true</c>, adds the <c>footer-transparent</c> CSS class.
@@ -43,6 +55,13 @@ public partial class TabFooter : TabBaseComponent
     /// <value>The default value is <see cref="ContainerSize.ExtraLarge"/>.</value>
     [Parameter]
     public ContainerSize ContainerSize { get; set; } = ContainerSize.ExtraLarge;
+    
+    /// <summary>
+    /// Whether to display the application version in the footer.
+    /// This will be rendered at the end of <see cref="ChildContent"/>
+    /// </summary>
+    [Parameter]
+    public bool ShowAppVersion { get; set; }
 
     /// <inheritdoc />
     protected override string BuildCssClass()

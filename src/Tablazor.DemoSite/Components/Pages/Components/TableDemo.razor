@@ -2,14 +2,9 @@
 @rendermode InteractiveServer
 @using Tablazor.Icons
 
-<PageTitle>Table - Tablazor</PageTitle>
-
-<div class="page-header mb-4">
-    <h1 class="page-title">Table</h1>
-    <p class="text-muted">
-        Data tables with sortable columns, row selection, row actions, icons, avatars, and image thumbnails.
-    </p>
-</div>
+<DemoHeader Title="Table">
+    Data tables with sortable columns, row selection, row actions, icons, avatars, and image thumbnails.
+</DemoHeader>
 
 <ComponentDemo Id="table-user-directory" Title="User Directory" Description="A realistic user table combining AvatarField, IconField, badge status, and row actions in one view." SourceCode="@_userDirectoryCode">
     <TabTable Items="_users" Title="Team Members">

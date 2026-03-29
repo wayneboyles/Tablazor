@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tablazor.Template", "..\templates\Tablazor.Template\Tablazor.Template.csproj", "{52B24C35-F2C0-4045-954C-2A34E55DC92C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{CCDDB5A6-4975-4CD6-B4C5-C67FB398C371}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCDDB5A6-4975-4CD6-B4C5-C67FB398C371}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCDDB5A6-4975-4CD6-B4C5-C67FB398C371}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52B24C35-F2C0-4045-954C-2A34E55DC92C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52B24C35-F2C0-4045-954C-2A34E55DC92C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52B24C35-F2C0-4045-954C-2A34E55DC92C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52B24C35-F2C0-4045-954C-2A34E55DC92C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,15 +3,8 @@
 @rendermode InteractiveServer
 @using Tablazor.Icons
 
-<PageTitle>Breadcrumbs - Tablazor</PageTitle>
-
-<div class="page-header mb-4">
-    <h1 class="page-title">Breadcrumbs</h1>
-    <p class="text-muted">
-        Breadcrumbs provide navigation context by showing the user's location within the site hierarchy.
-        They can be auto-generated from the URL or manually defined.
-    </p>
-</div>
+<SetTabPageHeader Title="Breadbrumbs" Subtitle="Breadcrumbs provide navigation context by showing the user's location within the site hierarchy.
+        They can be auto-generated from the URL or manually defined."></SetTabPageHeader>
 
 <ComponentDemo Id="auto-breadcrumbs" Title="Auto-Generated Breadcrumbs" Description="Breadcrumbs automatically generated from the current URL path. Navigate to nested routes to see them update." SourceCode="@_autoCode">
     <TabBreadcrumbs />

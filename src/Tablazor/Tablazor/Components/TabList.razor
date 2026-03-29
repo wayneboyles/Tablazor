@@ -1,0 +1,163 @@
+@inherits TabBaseComponent
+@typeparam TItem
+
+@if (Visible)
+{
+    @if (WrapInCard)
+    {
+        <div class="card">
+            @if (!string.IsNullOrEmpty(Title) || HeaderContent is not null || Selectable)
+            {
+                <div class="card-header">
+                    @if (HeaderContent is not null)
+                    {
+                        @HeaderContent
+                    }
+                    else
+                    {
+                        @if (BulkActions is not null && _selectedItems.Count > 0)
+                        {
+                            <span class="card-title text-muted">@_selectedItems.Count @(_selectedItems.Count == 1 ? "item" : "items") selected</span>
+                        }
+                        else if (!string.IsNullOrEmpty(Title))
+                        {
+                            <h3 class="card-title">@Title</h3>
+                        }
+                        <div class="card-options">
+                            @if (BulkActions is not null && _selectedItems.Count > 0)
+                            {
+                                @BulkActions(_selectedItems)
+                            }
+                            else if (Selectable && _items.Count > 0)
+                            {
+                                <label class="d-flex align-items-center gap-2 text-muted cursor-pointer">
+                                    <input type="checkbox" class="form-check-input m-0" checked="@AllSelected" @onchange="ToggleSelectAll" />
+                                    <span class="small">Select all</span>
+                                </label>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+            <div @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+                @foreach (var item in _items)
+                {
+                    <div class="@GetItemCssClass(item)" @onclick="() => HandleItemClickAsync(item)">
+                        <div class="row align-items-center">
+                            @if (AvatarContent is not null)
+                            {
+                                <div class="col-auto">
+                                    @AvatarContent(item)
+                                </div>
+                            }
+                            @if (Selectable)
+                            {
+                                <div class="col-auto">
+                                    <input type="checkbox" class="form-check-input m-0" checked="@IsSelected(item)" @onclick:stopPropagation @onchange="() => ToggleItem(item)" />
+                                </div>
+                            }
+                            @if (TitleContent is not null || SubtitleContent is not null)
+                            {
+                                <div class="col text-truncate">
+                                    @if (TitleContent is not null)
+                                    {
+                                        <span class="text-body d-block">@TitleContent(item)</span>
+                                    }
+                                    @if (SubtitleContent is not null)
+                                    {
+                                        <div class="d-block text-secondary text-truncate mt-n1">@SubtitleContent(item)</div>
+                                    }
+                                </div>
+                            }
+                            @if (RightContent is not null)
+                            {
+                                <div class="col-auto">
+                                    @RightContent(item)
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+                @if (_items.Count == 0)
+                {
+                    @if (EmptyContent is not null)
+                    {
+                        @EmptyContent
+                    }
+                    else
+                    {
+                        <div class="list-group-item text-center text-muted py-4">@EmptyText</div>
+                    }
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        @if (Selectable && _items.Count > 0)
+        {
+            <div class="d-flex align-items-center mb-2">
+                <label class="d-flex align-items-center gap-2 text-muted cursor-pointer me-3">
+                    <input type="checkbox" class="form-check-input m-0" checked="@AllSelected" @onchange="ToggleSelectAll" />
+                    <span class="small">Select all</span>
+                </label>
+                @if (BulkActions is not null && _selectedItems.Count > 0)
+                {
+                    <span class="text-muted small me-2">@_selectedItems.Count @(_selectedItems.Count == 1 ? "item" : "items") selected</span>
+                    @BulkActions(_selectedItems)
+                }
+            </div>
+        }
+        <div @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
+            @foreach (var item in _items)
+            {
+                <div class="@GetItemCssClass(item)" @onclick="() => HandleItemClickAsync(item)">
+                    <div class="row align-items-center">
+                        @if (AvatarContent is not null)
+                        {
+                            <div class="col-auto">
+                                @AvatarContent(item)
+                            </div>
+                        }
+                        @if (Selectable)
+                        {
+                            <div class="col-auto">
+                                <input type="checkbox" class="form-check-input m-0" checked="@IsSelected(item)" @onclick:stopPropagation @onchange="() => ToggleItem(item)" />
+                            </div>
+                        }
+                        @if (TitleContent is not null || SubtitleContent is not null)
+                        {
+                            <div class="col text-truncate">
+                                @if (TitleContent is not null)
+                                {
+                                    <span class="text-body d-block">@TitleContent(item)</span>
+                                }
+                                @if (SubtitleContent is not null)
+                                {
+                                    <div class="d-block text-secondary text-truncate mt-n1">@SubtitleContent(item)</div>
+                                }
+                            </div>
+                        }
+                        @if (RightContent is not null)
+                        {
+                            <div class="col-auto">
+                                @RightContent(item)
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            @if (_items.Count == 0)
+            {
+                @if (EmptyContent is not null)
+                {
+                    @EmptyContent
+                }
+                else
+                {
+                    <div class="list-group-item text-center text-muted py-4">@EmptyText</div>
+                }
+            }
+        </div>
+    }
+}

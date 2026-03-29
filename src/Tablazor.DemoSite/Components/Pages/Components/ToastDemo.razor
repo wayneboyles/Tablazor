@@ -5,15 +5,10 @@
 @using Tablazor.Models
 @inject TabToastService ToastService
 
-<PageTitle>Toast - Tablazor</PageTitle>
-
-<div class="page-header mb-4">
-    <h1 class="page-title">Toast</h1>
-    <p class="text-muted">
-        Toast notifications provide lightweight feedback messages that appear temporarily and auto-dismiss.
-        Use them to inform users about the result of an action without interrupting their workflow.
-    </p>
-</div>
+<DemoHeader Title="Toast">
+    Toast notifications provide lightweight feedback messages that appear temporarily and auto-dismiss.
+    Use them to inform users about the result of an action without interrupting their workflow.
+</DemoHeader>
 
 <ComponentDemo Id="basic-toast" Title="Basic Toasts" Description="Show simple toast notifications using the TabToastService." SourceCode="@_basicToastCode">
     <div class="d-flex flex-wrap gap-2">

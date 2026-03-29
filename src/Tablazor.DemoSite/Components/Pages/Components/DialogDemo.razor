@@ -1,15 +1,7 @@
 @page "/components/dialog"
 @rendermode InteractiveServer
 
-<PageTitle>Dialog - Tablazor</PageTitle>
-
-<div class="page-header mb-4">
-    <h1 class="page-title">Dialog</h1>
-    <p class="text-muted">
-        Dialogs are simple message boxes with predefined button configurations. Unlike modals, they provide an awaitable
-        <code>ShowAsync</code> method that returns a <code>DialogResult</code> indicating which button was clicked.
-    </p>
-</div>
+<SetTabPageHeader Title="Dialog" Subtitle="Dialogs are simple message boxes with predefined button configurations. Unlike modals, they provide an awaitable ShowAsync method that returns a DialogResult indicating which button was clicked."></SetTabPageHeader>
 
 <ComponentDemo Id="basic-dialog" Title="Basic Dialog" Description="A simple OK dialog that displays a message and waits for the user to acknowledge it." SourceCode="@_basicDialogCode">
     <div class="d-flex flex-wrap align-items-center gap-3">

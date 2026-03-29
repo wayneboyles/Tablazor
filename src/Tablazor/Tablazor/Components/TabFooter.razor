@@ -4,7 +4,37 @@
 {
     <footer @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" @attributes="AdditionalAttributes">
         <div class="container-@ContainerSize.GetCssClassName()">
-            @ChildContent
+            <div class="row text-center align-items-center flex-row-reverse">
+                <div class="col-lg-auto ms-lg-auto">
+                    @if (Items != null && Items.Any())
+                    {
+                        <ul class="list-inline list-inline-dots mb-0">
+                            @foreach (var item in Items)
+                            {
+                                <li class="list-inline-item">
+                                    @if (string.IsNullOrWhiteSpace(item.Url))
+                                    {
+                                        @item.Text
+                                    }
+                                    else
+                                    {
+                                        <a href="@item.Url" target="_blank" class="link-secondary" rel="noopener">@item.Text</a>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+                <div class="col-12 col-lg-auto mt-3 mt-lg-0">
+                    <ul class="list-inline list-inline-dots mb-0">
+                        <li class="list-inline-item">@ChildContent</li>
+                        @if (@ShowAppVersion)
+                        {
+                            <li class="list-inline-item">v@(_version)</li>
+                        }
+                    </ul>
+                </div>
+            </div>
         </div>
     </footer>
 }

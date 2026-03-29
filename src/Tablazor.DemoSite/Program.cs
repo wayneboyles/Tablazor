@@ -1,12 +1,18 @@
 using Tablazor.DemoSite.Components;
+using Tablazor.DemoSite.Services;
+using Tablazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
+// Add Tablazor services
 builder.Services.AddTablazor();
+
+// IMPORTANT: Replacing services must be registered after the
+// call to AddTablazor()
+builder.Services.AddScoped<IBrandingProvider, DemoBrandingProvider>();
 
 var app = builder.Build();
 

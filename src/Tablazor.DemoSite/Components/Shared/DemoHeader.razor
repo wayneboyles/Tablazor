@@ -1,0 +1,15 @@
+﻿<PageTitle>@Title</PageTitle>
+
+<TabAlert Title="@Title" AutoClose="false" Dismissible="false" Color="TabColors.Yellow">
+    @ChildContent
+</TabAlert>
+
+@code {
+
+    [Parameter]
+    [EditorRequired]
+    public string Title { get; set; }
+    
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}
