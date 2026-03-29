@@ -30,11 +30,60 @@ public partial class TabTableColumn<TItem> : ComponentBase, IDisposable
     public Func<TItem, object?>? Field { get; set; }
 
     /// <summary>
-    /// Gets or sets a custom cell template. When set, overrides <see cref="Field"/>
-    /// and renders the template for each row's item.
+    /// Gets or sets a custom cell template. When set, takes priority over all field convenience
+    /// parameters and renders the template for each row's item.
     /// </summary>
     [Parameter]
     public RenderFragment<TItem>? CellTemplate { get; set; }
+
+    /// <summary>
+    /// Gets or sets a delegate used exclusively for sorting when <see cref="Sortable"/> is
+    /// <c>true</c> and the column uses <see cref="CellTemplate"/> or another non-text renderer.
+    /// When <c>null</c>, <see cref="Field"/> is used as the sort key.
+    /// </summary>
+    [Parameter]
+    public Func<TItem, object?>? SortField { get; set; }
+
+    /// <summary>
+    /// Gets or sets a delegate that returns SVG path data (from <see cref="Tablazor.Icons.TabIcons"/>)
+    /// or a CSS class name for the icon to display in the cell via <see cref="TabIcon"/>.
+    /// </summary>
+    [Parameter]
+    public Func<TItem, string?>? IconField { get; set; }
+
+    /// <summary>
+    /// Gets or sets a delegate that returns an image URL to display as a <see cref="TabAvatar"/>
+    /// in the cell. Use <see cref="AvatarColor"/> to set the fallback background color.
+    /// </summary>
+    [Parameter]
+    public Func<TItem, string?>? AvatarField { get; set; }
+
+    /// <summary>
+    /// Gets or sets the color applied to the <see cref="TabAvatar"/> rendered by <see cref="AvatarField"/>.
+    /// Defaults to <see cref="TabColors.Default"/>.
+    /// </summary>
+    [Parameter]
+    public TabColors AvatarColor { get; set; } = TabColors.Default;
+
+    /// <summary>
+    /// Gets or sets a delegate that returns an image URL to render as a plain <c>&lt;img&gt;</c>
+    /// element in the cell.
+    /// </summary>
+    [Parameter]
+    public Func<TItem, string?>? ImageField { get; set; }
+
+    /// <summary>
+    /// Gets or sets the alt text used when rendering images via <see cref="ImageField"/>.
+    /// Defaults to an empty string.
+    /// </summary>
+    [Parameter]
+    public string ImageAlt { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the CSS class applied to images rendered via <see cref="ImageField"/>.
+    /// </summary>
+    [Parameter]
+    public string? ImageClass { get; set; }
 
     /// <summary>
     /// Gets or sets the horizontal alignment of cell content.

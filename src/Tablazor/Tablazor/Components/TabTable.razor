@@ -125,6 +125,34 @@
                                     {
                                         @col.CellTemplate(item)
                                     }
+                                    else if (col.IconField is not null)
+                                    {
+                                        var iconValue = col.IconField(item);
+                                        @if (!string.IsNullOrEmpty(iconValue))
+                                        {
+                                            <TabIcon Icon="@iconValue" />
+                                        }
+                                    }
+                                    else if (col.AvatarField is not null)
+                                    {
+                                        var avatarUrl = col.AvatarField(item);
+                                        @if (!string.IsNullOrEmpty(avatarUrl))
+                                        {
+                                            <TabAvatar ImageUrl="@avatarUrl" />
+                                        }
+                                        else
+                                        {
+                                            <TabAvatar Color="@col.AvatarColor" />
+                                        }
+                                    }
+                                    else if (col.ImageField is not null)
+                                    {
+                                        var imgSrc = col.ImageField(item);
+                                        @if (!string.IsNullOrEmpty(imgSrc))
+                                        {
+                                            <img src="@imgSrc" alt="@col.ImageAlt" class="@col.ImageClass" />
+                                        }
+                                    }
                                     else if (col.Field is not null)
                                     {
                                         @(col.Field(item)?.ToString())

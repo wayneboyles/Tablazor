@@ -162,15 +162,17 @@ public partial class TabTable<TItem> : TabBaseComponent
 
     private void RefreshDisplayItems()
     {
-        if (_sortColumn?.Field is null)
+        var keySelector = _sortColumn?.SortField ?? _sortColumn?.Field;
+
+        if (keySelector is null)
         {
             _displayItems = Items ?? [];
             return;
         }
 
         var sorted = _sortAscending
-            ? Items.OrderBy(i => _sortColumn.Field(i))
-            : Items.OrderByDescending(i => _sortColumn.Field(i));
+            ? Items.OrderBy(i => keySelector(i))
+            : Items.OrderByDescending(i => keySelector(i));
 
         _displayItems = sorted;
     }
