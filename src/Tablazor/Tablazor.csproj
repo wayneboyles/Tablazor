@@ -38,7 +38,7 @@
     
     <!-- Assembly Versions -->
     <PropertyGroup>
-        <VersionPrefix>0.8.8</VersionPrefix>
+        <VersionPrefix>0.8.9</VersionPrefix>
         <AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
         <FileVersion>$(VersionPrefix)</FileVersion>
     </PropertyGroup>

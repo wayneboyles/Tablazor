@@ -1,0 +1,207 @@
+@page "/components/alert"
+@rendermode InteractiveServer
+@using Tablazor.Icons
+
+<PageTitle>Alerts - Tablazor</PageTitle>
+
+<div class="page-header mb-4">
+    <h1 class="page-title">Alerts</h1>
+    <p class="text-muted">
+        Contextual feedback messages with support for colors, icons, titles, dismissal, auto-close, and action buttons.
+    </p>
+</div>
+
+<ComponentDemo Id="alert-basic" Title="Basic" Description="Use Color to set the alert style. All standard Tabler colors are supported." SourceCode="@_basicCode">
+    <TabAlert Color="TabColors.Success" Message="Your changes have been saved successfully." />
+    <TabAlert Color="TabColors.Info" Message="A new software update is available." />
+    <TabAlert Color="TabColors.Warning" Message="Your session is about to expire." />
+    <TabAlert Color="TabColors.Danger" Message="An error occurred while processing your request." />
+</ComponentDemo>
+
+<ComponentDemo Id="alert-title" Title="With Title" Description="Add a Title to display a heading above the message." SourceCode="@_titleCode">
+    <TabAlert Color="TabColors.Success" Title="Payment received" Message="Your invoice has been paid. Thank you!" />
+    <TabAlert Color="TabColors.Danger" Title="Account suspended" Message="Your account has been suspended due to multiple failed login attempts." />
+</ComponentDemo>
+
+<ComponentDemo Id="alert-icons" Title="With Icons" Description="Set Icon to the SVG path data from TabIcons to display an icon alongside the content." SourceCode="@_iconsCode">
+    <TabAlert Color="TabColors.Success" Title="All systems operational" Message="All services are running normally." Icon="@TabIcons.Filled.CircleCheck" />
+    <TabAlert Color="TabColors.Info" Title="Scheduled maintenance" Message="The system will be offline from 2:00 AM to 4:00 AM UTC." Icon="@TabIcons.Filled.AlertCircle" />
+    <TabAlert Color="TabColors.Warning" Title="Low disk space" Message="You are using 90% of your storage quota." Icon="@TabIcons.Filled.AlertTriangle" />
+    <TabAlert Color="TabColors.Danger" Title="Deployment failed" Message="The deployment pipeline encountered a fatal error." Icon="@TabIcons.Filled.AlertOctagon" />
+</ComponentDemo>
+
+<ComponentDemo Id="alert-non-dismissible" Title="Non-Dismissible" Description="Set Dismissible to false to remove the close button." SourceCode="@_nonDismissibleCode">
+    <TabAlert Color="TabColors.Warning" Title="Read-only mode" Message="This environment is in read-only mode. Changes cannot be saved." Dismissible="false" />
+</ComponentDemo>
+
+<ComponentDemo Id="alert-events" Title="Dismiss Events" Description="Use OnClose to react when the alert is dismissed." SourceCode="@_eventsCode">
+    @if (_showDismissAlert)
+    {
+        <TabAlert Color="TabColors.Info" Title="Dismiss me" Message="Click the X button and watch the event log below." OnClose="OnAlertClosed" />
+    }
+    else
+    {
+        <button class="btn btn-sm btn-secondary mb-3" @onclick="ResetDismissAlert">Reset alert</button>
+    }
+    @if (_dismissLog.Count > 0)
+    {
+        <div class="mt-2">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <small class="text-muted fw-medium">Event log</small>
+                <button class="btn btn-sm btn-ghost-secondary" @onclick="ClearDismissLog">Clear</button>
+            </div>
+            <div class="list-group list-group-flush">
+                @foreach (var entry in _dismissLog)
+                {
+                    <div class="list-group-item py-1 px-2 small">@entry</div>
+                }
+            </div>
+        </div>
+    }
+</ComponentDemo>
+
+<ComponentDemo Id="alert-autoclose" Title="Auto-Close" Description="Set AutoClose to true and configure AutoCloseDelay (in milliseconds) to automatically dismiss the alert." SourceCode="@_autoCloseCode">
+    @if (_showAutoCloseAlert)
+    {
+        <TabAlert Color="TabColors.Success"
+                  Title="Auto-closing in 4 seconds"
+                  Message="This alert will dismiss itself automatically."
+                  Icon="@TabIcons.Filled.CircleCheck"
+                  AutoClose="true"
+                  AutoCloseDelay="4000"
+                  OnClose="OnAutoCloseAlertClosed" />
+    }
+    else
+    {
+        <button class="btn btn-sm btn-secondary" @onclick="ResetAutoCloseAlert">Show alert again</button>
+    }
+</ComponentDemo>
+
+<ComponentDemo Id="alert-actions" Title="Action Buttons" Description="Use the Actions slot to render buttons or links inside the alert." SourceCode="@_actionsCode">
+    <TabAlert Color="TabColors.Warning" Title="Unsaved changes" Message="You have unsaved changes that will be lost if you navigate away.">
+        <Actions>
+            <button class="btn btn-sm btn-warning">Save changes</button>
+            <button class="btn btn-sm btn-ghost-secondary">Discard</button>
+        </Actions>
+    </TabAlert>
+    <TabAlert Color="TabColors.Info" Title="New version available" Message="Version 2.5.0 includes performance improvements and bug fixes.">
+        <Actions>
+            <a href="#" class="btn btn-sm btn-info">View release notes</a>
+            <button class="btn btn-sm btn-ghost-secondary">Remind me later</button>
+        </Actions>
+    </TabAlert>
+</ComponentDemo>
+
+<ComponentDemo Id="alert-custom-content" Title="Custom Content" Description="Use ChildContent to place arbitrary markup inside the alert body." SourceCode="@_customContentCode">
+    <TabAlert Color="TabColors.Danger" Title="Connection lost" Dismissible="false" Icon="@TabIcons.Filled.AlertOctagon">
+        <ChildContent>
+            <div class="text-secondary">
+                Unable to reach the server. Check your network connection and
+                <a href="#" class="alert-link">try again</a>.
+            </div>
+        </ChildContent>
+    </TabAlert>
+</ComponentDemo>
+
+@code {
+    private bool _showDismissAlert = true;
+    private bool _showAutoCloseAlert = true;
+    private readonly List<string> _dismissLog = [];
+
+    private void OnAlertClosed()
+    {
+        _dismissLog.Insert(0, "Alert dismissed at " + DateTime.Now.ToString("HH:mm:ss"));
+        if (_dismissLog.Count > 5) _dismissLog.RemoveAt(_dismissLog.Count - 1);
+        _showDismissAlert = false;
+    }
+
+    private void ResetDismissAlert()
+    {
+        _showDismissAlert = true;
+    }
+
+    private void ClearDismissLog() => _dismissLog.Clear();
+
+    private void OnAutoCloseAlertClosed() => _showAutoCloseAlert = false;
+
+    private void ResetAutoCloseAlert() => _showAutoCloseAlert = true;
+
+    // ── Code strings ─────────────────────────────────────────────────────────
+
+    private const string _basicCode = """
+        <TabAlert Color="TabColors.Success" Message="Your changes have been saved successfully." />
+        <TabAlert Color="TabColors.Info" Message="A new software update is available." />
+        <TabAlert Color="TabColors.Warning" Message="Your session is about to expire." />
+        <TabAlert Color="TabColors.Danger" Message="An error occurred while processing your request." />
+        """;
+
+    private const string _titleCode = """
+        <TabAlert Color="TabColors.Success" Title="Payment received" Message="Your invoice has been paid." />
+        <TabAlert Color="TabColors.Danger" Title="Account suspended" Message="Multiple failed login attempts detected." />
+        """;
+
+    private const string _iconsCode = """
+        @using Tablazor.Icons
+
+        <TabAlert Color="TabColors.Success" Title="All systems operational"
+                  Message="All services are running normally."
+                  Icon="@TabIcons.Filled.CircleCheck" />
+
+        <TabAlert Color="TabColors.Warning" Title="Low disk space"
+                  Message="You are using 90% of your storage quota."
+                  Icon="@TabIcons.Filled.AlertTriangle" />
+
+        <TabAlert Color="TabColors.Danger" Title="Deployment failed"
+                  Message="The deployment pipeline encountered a fatal error."
+                  Icon="@TabIcons.Filled.AlertOctagon" />
+        """;
+
+    private const string _nonDismissibleCode = """
+        <TabAlert Color="TabColors.Warning" Title="Read-only mode"
+                  Message="This environment is in read-only mode."
+                  Dismissible="false" />
+        """;
+
+    private const string _eventsCode = """
+        <TabAlert Color="TabColors.Info" Title="Dismiss me"
+                  Message="Click X and watch the event fire."
+                  OnClose="OnAlertClosed" />
+
+        @code {
+            private void OnAlertClosed()
+                => Console.WriteLine("Alert was dismissed at " + DateTime.Now);
+        }
+        """;
+
+    private const string _autoCloseCode = """
+        <!-- AutoCloseDelay is in milliseconds (default 5000) -->
+        <TabAlert Color="TabColors.Success"
+                  Title="Auto-closing in 4 seconds"
+                  Message="This alert will dismiss itself automatically."
+                  AutoClose="true"
+                  AutoCloseDelay="4000"
+                  OnClose="OnAlertClosed" />
+        """;
+
+    private const string _actionsCode = """
+        <TabAlert Color="TabColors.Warning" Title="Unsaved changes"
+                  Message="You have unsaved changes that will be lost.">
+            <Actions>
+                <button class="btn btn-sm btn-warning">Save changes</button>
+                <button class="btn btn-sm btn-ghost-secondary">Discard</button>
+            </Actions>
+        </TabAlert>
+        """;
+
+    private const string _customContentCode = """
+        <TabAlert Color="TabColors.Danger" Title="Connection lost"
+                  Dismissible="false" Icon="@TabIcons.Filled.AlertOctagon">
+            <ChildContent>
+                <div class="text-secondary">
+                    Unable to reach the server.
+                    <a href="#" class="alert-link">Try again</a>.
+                </div>
+            </ChildContent>
+        </TabAlert>
+        """;
+}

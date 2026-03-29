@@ -1,0 +1,35 @@
+@inherits TabBaseComponent
+
+@if (Visible && _isVisible)
+{
+    <div @ref="Element" id="@GetId()" class="@GetCssClass()" style="@Style" role="alert" @attributes="AdditionalAttributes">
+        @if (Dismissible)
+        {
+            <button type="button" class="btn-close" @onclick="CloseAsync" aria-label="close"></button>
+        }
+        @if (!string.IsNullOrEmpty(Icon))
+        {
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="@Icon" />
+            </svg>
+        }
+        <div>
+            @if (!string.IsNullOrEmpty(Title))
+            {
+                <h4 class="alert-title">@Title</h4>
+            }
+            @if (ChildContent is not null)
+            {
+                @ChildContent
+            }
+            else if (!string.IsNullOrEmpty(Message))
+            {
+                <div class="text-secondary">@Message</div>
+            }
+            @if (Actions is not null)
+            {
+                <div class="btn-list mt-2">@Actions</div>
+            }
+        </div>
+    </div>
+}
