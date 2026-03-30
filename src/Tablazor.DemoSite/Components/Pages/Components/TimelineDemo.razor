@@ -1,0 +1,80 @@
+@page "/components/timeline"
+@rendermode InteractiveServer
+@using Tablazor.Models
+@using Tablazor.Icons
+@using Tablazor.Enums
+
+<SetTabPageHeader Title="Timeline" Subtitle="Display a sequence of events in chronological order with icons, titles, messages, and timestamps."></SetTabPageHeader>
+
+<ComponentDemo Id="basic-timeline" Title="Basic Timeline" Description="A simple timeline with icon, title, message, and time for each event." SourceCode="@_basicCode">
+    <TabTimeline Items="@_basicItems" />
+</ComponentDemo>
+
+<ComponentDemo Id="colored-timeline" Title="Colored Icons" Description="Timeline events can use different icon background colors to convey status or category." SourceCode="@_coloredCode">
+    <TabTimeline Items="@_coloredItems" />
+</ComponentDemo>
+
+<ComponentDemo Id="minimal-timeline" Title="Minimal Timeline" Description="Timeline items without messages, showing just a title and time." SourceCode="@_minimalCode">
+    <TabTimeline Items="@_minimalItems" />
+</ComponentDemo>
+
+@code {
+    private readonly List<TimelineItem> _basicItems =
+    [
+        new TimelineItem("Deployed to production", "Version 2.4.1 was deployed successfully to the production environment.", "Just now", TabIcons.Filled.CircleCheck, TabColors.Success),
+        new TimelineItem("Pull request merged", "Feature branch 'feat/timeline-component' was merged into main.", "10 min ago", TabIcons.Filled.Check, TabColors.Primary),
+        new TimelineItem("Build failed", "The CI pipeline failed due to a failing unit test. Investigate and fix.", "1 hour ago", TabIcons.Filled.AlertCircle, TabColors.Danger),
+        new TimelineItem("New notification", "A new comment was added to issue #142.", "3 hours ago", TabIcons.Outline.Bell, TabColors.Warning),
+    ];
+
+    private readonly List<TimelineItem> _coloredItems =
+    [
+        new TimelineItem("New user registered", "A new user account was created and a welcome email was sent.", "Mar 30", TabIcons.Filled.Man, TabColors.Azure),
+        new TimelineItem("Payment received", "Invoice #1042 was paid in full.", "Mar 29", TabIcons.Filled.CreditCard, TabColors.Teal),
+        new TimelineItem("Report generated", "Monthly summary report was exported as PDF.", "Mar 28", TabIcons.Filled.FileText, TabColors.Indigo),
+        new TimelineItem("Settings updated", "Notification preferences were changed by an administrator.", "Mar 27", TabIcons.Filled.Settings, TabColors.Orange),
+    ];
+
+    private readonly List<TimelineItem> _minimalItems =
+    [
+        new TimelineItem("Project created", time: "Today", icon: TabIcons.Filled.Folder, iconColor: TabColors.Primary),
+        new TimelineItem("First commit pushed", time: "Yesterday", icon: TabIcons.Filled.Check, iconColor: TabColors.Secondary),
+        new TimelineItem("Team members invited", time: "2 days ago", icon: TabIcons.Filled.Send, iconColor: TabColors.Info),
+    ];
+
+    private const string _basicCode =
+@"<TabTimeline Items=""@_items"" />
+
+@code {
+    private readonly List<TimelineItem> _items =
+    [
+        new TimelineItem(""Deployed to production"", ""Version 2.4.1 was deployed successfully."", ""Just now"", TabIcons.Filled.CircleCheck, TabColors.Success),
+        new TimelineItem(""Pull request merged"", ""Feature branch was merged into main."", ""10 min ago"", TabIcons.Filled.Check, TabColors.Primary),
+        new TimelineItem(""Build failed"", ""The CI pipeline failed due to a failing unit test."", ""1 hour ago"", TabIcons.Filled.AlertCircle, TabColors.Danger),
+    ];
+}";
+
+    private const string _coloredCode =
+@"<TabTimeline Items=""@_items"" />
+
+@code {
+    private readonly List<TimelineItem> _items =
+    [
+        new TimelineItem(""New user registered"", ""A new user account was created."", ""Mar 30"", TabIcons.Filled.Man, TabColors.Azure),
+        new TimelineItem(""Payment received"", ""Invoice #1042 was paid in full."", ""Mar 29"", TabIcons.Filled.CreditCard, TabColors.Teal),
+        new TimelineItem(""Report generated"", ""Monthly summary report was exported."", ""Mar 28"", TabIcons.Filled.FileText, TabColors.Indigo),
+    ];
+}";
+
+    private const string _minimalCode =
+@"<TabTimeline Items=""@_items"" />
+
+@code {
+    private readonly List<TimelineItem> _items =
+    [
+        new TimelineItem(""Project created"", time: ""Today"", icon: TabIcons.Filled.Folder, iconColor: TabColors.Primary),
+        new TimelineItem(""First commit pushed"", time: ""Yesterday"", icon: TabIcons.Filled.Check, iconColor: TabColors.Secondary),
+        new TimelineItem(""Team members invited"", time: ""2 days ago"", icon: TabIcons.Filled.Send, iconColor: TabColors.Info),
+    ];
+}";
+}

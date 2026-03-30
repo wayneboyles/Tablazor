@@ -1,0 +1,33 @@
+@using Tablazor.Icons
+@using Tablazor.Models
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    <ul @ref="Element" id="@GetId()" class="@GetCssClass()" style="@GetStyleString()" @attributes="AdditionalAttributes">
+        @foreach (var item in Items)
+        {
+            <li class="timeline-event">
+                <div class="timeline-event-icon @GetIconBgClass(item)">
+                    @if (!string.IsNullOrEmpty(item.Icon))
+                    {
+                        @((MarkupString)TabIconsRenderer.Render(item.Icon, size: 20))
+                    }
+                </div>
+                <div class="timeline-event-card card">
+                    <div class="card-body">
+                        @if (!string.IsNullOrEmpty(item.Time))
+                        {
+                            <div class="text-secondary float-end">@item.Time</div>
+                        }
+                        <h4>@item.Title</h4>
+                        @if (!string.IsNullOrEmpty(item.Message))
+                        {
+                            <p class="text-secondary">@item.Message</p>
+                        }
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+}
