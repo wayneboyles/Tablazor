@@ -17,7 +17,7 @@ A Blazor component library built on the [Tabler](https://tabler.io/) UI kit — 
 ## Features
 
 - **Multi-Target Support** — .NET 8.0, 9.0, and 10.0
-- **40+ Components** — Buttons, Badges, Avatars, Cards, Modals, Dialogs, Toasts, Carousels, Dropdowns, Breadcrumbs, Icons, and more
+- **50+ Components** — Buttons, Badges, Avatars, Cards, Modals, Dialogs, Toasts, Carousels, Dropdowns, Breadcrumbs, Tables, Accordions, Alerts, and more
 - **4,000+ Icons** — The complete Tabler Icons set included as strongly-typed constants
 - **Minimal JavaScript** — Pure Blazor state management; JS interop only where the DOM API requires it
 - **Accessible** — ARIA roles, labels, and keyboard navigation
@@ -43,7 +43,7 @@ This registers services required by components such as `TabToastContainer` and `
 
 ### 3. Add the Tabler stylesheet and script
 
-In your `App.razor` (or `index.html` for WASM), add the Tabler CSS and JS references.  Note that I'm  woorking hard to
+In your `App.razor` (or `index.html` for WASM), add the Tabler CSS and JS references.  Note that I'm working hard to
 completely remove the dependency on the `tabler.js` file and create everything in pure Blazor.
 
 ```html
@@ -103,27 +103,170 @@ You're ready to go.
 
 ## Components
 
+### Accordion
+
 | Component | Description |
 |-----------|-------------|
-| `TabAvatar` | User profile images and text/icon placeholders |
-| `TabAvatarList` | Grouped avatars with optional stacking |
-| `TabBadge` | Small count and label indicators |
-| `TabBreadcrumbs` | Navigation breadcrumb trail |
-| `TabBreadcrumbItem` | Individual breadcrumb entry |
-| `TabButton` | Buttons with colour, size, outline, and loading states |
-| `TabCard` | Content container with header, body, footer, title, subtitle, and actions |
-| `TabCarousel` | Image/content carousel with slide transitions and indicators |
-| `TabCarouselSlide` | Individual carousel slide |
-| `TabCountup` | Animated number counter |
+| `TabAccordion` | Manages collapsible content panels with optional flush styling and multi-panel support |
+| `TabAccordionItem` | A collapsible panel used inside `TabAccordion` to display expandable content sections |
+
+### Alert
+
+| Component | Description |
+|-----------|-------------|
+| `TabAlert` | Displays contextual messages with colours, icons, titles, dismissal, and auto-close |
+
+### Avatar
+
+| Component | Description |
+|-----------|-------------|
+| `TabAvatar` | User profile images, icons, or initials with status indicators in various sizes and shapes |
+| `TabAvatarList` | A group of `TabAvatar` components with optional stacking |
+
+### Badge
+
+| Component | Description |
+|-----------|-------------|
+| `TabBadge` | Small count and label indicators with customisable shape and size |
+
+### Breadcrumbs
+
+| Component | Description |
+|-----------|-------------|
+| `TabBreadcrumbs` | Navigation breadcrumb trail with auto-generation or manual definition |
+| `TabBreadcrumbItem` | Individual breadcrumb entry with optional link and icon |
+
+### Button
+
+| Component | Description |
+|-----------|-------------|
+| `TabButton` | Buttons with colour, size, outline, icon, and loading states |
+
+### Card
+
+| Component | Description |
+|-----------|-------------|
+| `TabCard` | Content container with status borders and padding variations |
+| `TabCardHeader` | Card header for titles, subtitles, and action buttons |
+| `TabCardBody` | Card content area; may be repeated for distinct sections |
+| `TabCardFooter` | Card footer for action buttons or supplementary information |
+| `TabCardTitle` | Heading element within a card header (h1–h6) |
+| `TabCardSubtitle` | Secondary context text within a card header |
+| `TabCardActions` | Aligns action buttons, dropdowns, or interactive elements in a card header |
+
+### Carousel
+
+| Component | Description |
+|-----------|-------------|
+| `TabCarousel` | Cycles through slides with images, captions, keyboard navigation, and auto-play |
+| `TabCarouselSlide` | Individual carousel slide with image, caption, and custom content |
+
+### Countup
+
+| Component | Description |
+|-----------|-------------|
+| `TabCountup` | Animated number counter from a start to end value with easing and scroll-trigger support |
+
+### Dialog
+
+| Component | Description |
+|-----------|-------------|
 | `TabDialog` | Awaitable message dialog with configurable buttons (Ok, Cancel, Yes, No) |
-| `TabDivider` | Horizontal or vertical divider with optional label |
-| `TabDropdown` | Dropdown menu with items, headers, and dividers |
-| `TabIcon` | 4,000+ Tabler SVG icons with size and animation support |
-| `TabModal` | Full modal dialog with header, body, and footer regions |
-| `TabPageHeader` | Page-level header with title, subtitle, and actions |
-| `TabRibbon` | Ribbon component to decorate components such as `TabCard` |
-| `TabToast` | Toast notification messages |
-| `TabToastContainer` | Container that manages toast positioning and lifecycle |
+
+### Divider
+
+| Component | Description |
+|-----------|-------------|
+| `TabDivider` | Divider with optional text label, alignment, and colour |
+
+### Dropdown
+
+| Component | Description |
+|-----------|-------------|
+| `TabDropdown` | Toggleable dropdown menu supporting various directions and open/close callbacks |
+| `TabDropdownMenu` | Menu container holding items, dividers, and headers with alignment options |
+| `TabDropdownItem` | Individual dropdown item rendered as a button or anchor |
+| `TabDropdownHeader` | Header label within a dropdown for categorising item groups |
+| `TabDropdownDivider` | Visual divider between groups of items in a dropdown |
+
+### Dynamic Form
+
+| Component | Description |
+|-----------|-------------|
+| `TabDynamicForm` | Auto-generates form inputs from data-annotation attributes on a model |
+
+### Footer
+
+| Component | Description |
+|-----------|-------------|
+| `TabFooter` | Page footer with optional version display and responsive container |
+
+### Icon
+
+| Component | Description |
+|-----------|-------------|
+| `TabIcon` | 4,000+ Tabler SVG icons with customisable size, stroke width, colour, and animations |
+
+### Layout
+
+| Component | Description |
+|-----------|-------------|
+| `TabLayout` | Outermost page wrapper containing the full page structure |
+| `TabNavbar` | Horizontal top navigation bar with brand, navigation links, and right-side items |
+| `TabSidebar` | Vertical sidebar with brand area, navigation links, and dark/condensed variants |
+| `TabPageWrapper` | Wrapper for the main page content area including body and footer |
+| `TabPageBody` | Main content area with optional responsive container |
+| `TabPageHeader` | Page-level header with title, subtitle, and action buttons |
+| `SetTabPageHeader` | Helper component for setting `TabPageHeader` title, subtitle, and breadcrumbs from child pages |
+
+### List
+
+| Component | Description |
+|-----------|-------------|
+| `TabList` | Displays collections as Tabler list-groups with selection and bulk actions |
+
+### Modal
+
+| Component | Description |
+|-----------|-------------|
+| `TabModal` | Full modal dialog with size, centred layout, and scroll options |
+| `TabModalHeader` | Modal header with custom content and close button |
+| `TabModalTitle` | Heading element within a modal header (h1–h6) |
+| `TabModalBody` | Main content area of a modal dialog |
+| `TabModalFooter` | Footer section of a modal dialog for action buttons |
+
+### Off-Canvas
+
+| Component | Description |
+|-----------|-------------|
+| `TabOffCanvas` | Panel that slides in from any viewport edge with header, footer, and backdrop options |
+
+### Placeholder
+
+| Component | Description |
+|-----------|-------------|
+| `TabPlaceholderContainer` | Applies glow or wave animation to a group of placeholder elements |
+| `TabPlaceholder` | A single loading skeleton span with customisable columns and colour |
+
+### Ribbon
+
+| Component | Description |
+|-----------|-------------|
+| `TabRibbon` | Decorative corner/edge labels to highlight featured, new, or promoted content |
+
+### Table
+
+| Component | Description |
+|-----------|-------------|
+| `TabTable` | Data-driven table with sortable columns, row selection, and custom cell templates |
+| `TabTableColumn` | Column definition specifying header text, field mapping, sorting, and cell templates |
+
+### Toast
+
+| Component | Description |
+|-----------|-------------|
+| `TabToastContainer` | Manages and displays toast notifications from `TabToastService` with positioning |
+| `TabToast` | Toast notification with auto-dismiss, icon, colour, and custom content support |
 
 ## Common Parameters
 
