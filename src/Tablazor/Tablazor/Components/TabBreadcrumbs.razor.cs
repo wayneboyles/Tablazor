@@ -2,6 +2,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using Tablazor.Enums;
+using Tablazor.Models;
 
 namespace Tablazor.Components;
 

@@ -1,4 +1,4 @@
-namespace Tablazor.Components;
+namespace Tablazor.Models;
 
 /// <summary>
 /// Represents a single breadcrumb navigation item.

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using Tablazor.Enums;
 
 namespace Tablazor.Components;
@@ -30,6 +31,10 @@ namespace Tablazor.Components;
 public partial class TabDropdown : TabBaseComponent
 {
     private bool _isOpen;
+    private bool _prevIsOpen;
+    private string _dropdownId = string.Empty;
+    private IJSObjectReference? _jsModule;
+    private DotNetObjectReference<TabDropdown>? _dotNetRef;
     private readonly List<TabDropdownMenu> _menus = [];
 
     /// <summary>
@@ -80,6 +85,9 @@ public partial class TabDropdown : TabBaseComponent
     {
         base.OnInitialized();
         _isOpen = IsOpen;
+        _prevIsOpen = IsOpen;
+        _dropdownId = GetId();
+        _dotNetRef = DotNetObjectReference.Create(this);
     }
 
     /// <inheritdoc />
@@ -87,9 +95,22 @@ public partial class TabDropdown : TabBaseComponent
     {
         base.OnParametersSet();
 
-        if (IsOpen != _isOpen)
+        if (IsOpen != _prevIsOpen)
         {
+            _prevIsOpen = IsOpen;
             _isOpen = IsOpen;
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender && JsRuntime is not null)
+        {
+            _jsModule = await JsRuntime.InvokeAsync<IJSObjectReference>(
+                "import", "./_content/Tablazor/Tablazor/Components/TabDropdown.razor.js");
         }
     }
 
@@ -120,6 +141,8 @@ public partial class TabDropdown : TabBaseComponent
 
         _isOpen = true;
 
+        await OpenJsAsync();
+
         if (IsOpenChanged.HasDelegate)
         {
             await IsOpenChanged.InvokeAsync(_isOpen);
@@ -139,25 +162,17 @@ public partial class TabDropdown : TabBaseComponent
     /// </summary>
     public async Task CloseAsync()
     {
-        if (!_isOpen)
-        {
-            return;
-        }
+        await CloseInternalAsync(notifyJs: true);
+    }
 
-        _isOpen = false;
-
-        if (IsOpenChanged.HasDelegate)
-        {
-            await IsOpenChanged.InvokeAsync(_isOpen);
-        }
-
-        if (OnClosed.HasDelegate)
-        {
-            await OnClosed.InvokeAsync();
-        }
-
-        NotifyMenus();
-        StateHasChanged();
+    /// <summary>
+    /// Called by JavaScript when a click outside the dropdown is detected,
+    /// or when another dropdown opens.
+    /// </summary>
+    [JSInvokable]
+    public async Task CloseFromJs()
+    {
+        await CloseInternalAsync(notifyJs: false);
     }
 
     /// <summary>
@@ -181,6 +196,34 @@ public partial class TabDropdown : TabBaseComponent
         _menus.Remove(menu);
     }
 
+    private async Task CloseInternalAsync(bool notifyJs)
+    {
+        if (!_isOpen)
+        {
+            return;
+        }
+
+        _isOpen = false;
+
+        if (notifyJs)
+        {
+            await CloseJsAsync();
+        }
+
+        if (IsOpenChanged.HasDelegate)
+        {
+            await IsOpenChanged.InvokeAsync(_isOpen);
+        }
+
+        if (OnClosed.HasDelegate)
+        {
+            await OnClosed.InvokeAsync();
+        }
+
+        NotifyMenus();
+        StateHasChanged();
+    }
+
     private void NotifyMenus()
     {
         foreach (var menu in _menus)
@@ -189,11 +232,57 @@ public partial class TabDropdown : TabBaseComponent
         }
     }
 
+    private async Task OpenJsAsync()
+    {
+        if (_jsModule is null || !IsJsRuntimeAvailable || _dotNetRef is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await _jsModule.InvokeVoidAsync("open", _dotNetRef, _dropdownId, Element);
+        }
+        catch (JSDisconnectedException) { }
+    }
+
+    private async Task CloseJsAsync()
+    {
+        if (_jsModule is null || !IsJsRuntimeAvailable)
+        {
+            return;
+        }
+
+        try
+        {
+            await _jsModule.InvokeVoidAsync("close", _dropdownId);
+        }
+        catch (JSDisconnectedException) { }
+    }
+
     /// <inheritdoc />
     protected override string BuildCssClass()
     {
         return new CssBuilder(Direction.GetCssClassName())
             .AddClass(CssClass)
             .Build();
+    }
+
+    /// <inheritdoc />
+    public override async ValueTask DisposeAsync()
+    {
+        if (_jsModule is not null)
+        {
+            try
+            {
+                await _jsModule.InvokeVoidAsync("dispose", _dropdownId);
+                await _jsModule.DisposeAsync();
+            }
+            catch (JSDisconnectedException) { }
+        }
+
+        _dotNetRef?.Dispose();
+
+        await base.DisposeAsync();
     }
 }
