@@ -1,0 +1,219 @@
+@page "/components/popover"
+@rendermode InteractiveServer
+
+<SetTabPageHeader Title="Popover" Subtitle="Popovers display contextual information anchored to a trigger element. They support click, hover, and focus triggers, and can be placed above, below, or to the sides."></SetTabPageHeader>
+
+<ComponentDemo
+    Id="popover-basic"
+    Title="Basic Popover"
+    Description="A simple click-triggered popover with a title and plain-text content."
+    SourceCode="@_basicCode">
+    <TabPopover Title="Popover title" Content="And here's some amazing content. It's very engaging. Right?">
+        <button class="btn btn-primary">Click to toggle popover</button>
+    </TabPopover>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="popover-placements"
+    Title="Placements"
+    Description="Popovers can appear on any side of the trigger element."
+    SourceCode="@_placementsCode">
+    <div class="d-flex flex-wrap gap-3 justify-content-center" style="padding: 80px 40px;">
+        <TabPopover Title="Top popover" Content="Popover on top." Placement="PopoverPlacement.Top">
+            <button class="btn btn-secondary">Top</button>
+        </TabPopover>
+        <TabPopover Title="Bottom popover" Content="Popover on bottom." Placement="PopoverPlacement.Bottom">
+            <button class="btn btn-secondary">Bottom</button>
+        </TabPopover>
+        <TabPopover Title="Start popover" Content="Popover on start." Placement="PopoverPlacement.Start">
+            <button class="btn btn-secondary">Start</button>
+        </TabPopover>
+        <TabPopover Title="End popover" Content="Popover on end." Placement="PopoverPlacement.End">
+            <button class="btn btn-secondary">End</button>
+        </TabPopover>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="popover-hover"
+    Title="Hover Trigger"
+    Description="Popovers can be shown on mouse hover."
+    SourceCode="@_hoverCode">
+    <TabPopover Title="Hover popover"
+                Content="This popover appears on hover and dismisses when you move away."
+                Placement="PopoverPlacement.Top"
+                Trigger="PopoverTrigger.Hover">
+        <button class="btn btn-primary">Hover over me</button>
+    </TabPopover>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="popover-focus"
+    Title="Focus Trigger"
+    Description="Popovers can be shown when an element receives focus and dismissed on blur."
+    SourceCode="@_focusCode">
+    <TabPopover Title="Focus popover"
+                Content="This popover appears when the input is focused."
+                Placement="PopoverPlacement.End"
+                Trigger="PopoverTrigger.Focus">
+        <input type="text" class="form-control" style="max-width: 200px;" placeholder="Click to focus" />
+    </TabPopover>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="popover-rich-content"
+    Title="Rich Content"
+    Description="Use the PopoverContent slot for structured HTML inside the popover body."
+    SourceCode="@_richContentCode">
+    <TabPopover Title="User details" Placement="PopoverPlacement.End">
+        <TriggerContent>
+            <button class="btn btn-info">View user</button>
+        </TriggerContent>
+        <PopoverContent>
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="avatar avatar-sm rounded-circle bg-primary text-white">JD</span>
+                <div>
+                    <div class="fw-bold">Jane Doe</div>
+                    <div class="text-muted small">jane@example.com</div>
+                </div>
+            </div>
+            <div class="text-muted small">Member since January 2024</div>
+        </PopoverContent>
+    </TabPopover>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="popover-no-title"
+    Title="Without Title"
+    Description="The popover header is omitted when no title is provided."
+    SourceCode="@_noTitleCode">
+    <TabPopover Content="Simple popover without a header." Placement="PopoverPlacement.Bottom">
+        <button class="btn btn-secondary">No title</button>
+    </TabPopover>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="popover-manual"
+    Title="Manual Control"
+    Description="Use the Manual trigger to control the popover programmatically."
+    SourceCode="@_manualCode">
+    <div class="d-flex align-items-center gap-3">
+        <TabPopover @ref="_manualPopover"
+                    Title="Manual popover"
+                    Content="Controlled via ShowAsync / HideAsync / ToggleAsync."
+                    Placement="PopoverPlacement.Top"
+                    Trigger="PopoverTrigger.Manual">
+            <span class="badge bg-blue">Target element</span>
+        </TabPopover>
+        <TabButton Color="TabColors.Primary" OnClick="@(() => _manualPopover.ShowAsync())">Show</TabButton>
+        <TabButton Color="TabColors.Secondary" OnClick="@(() => _manualPopover.HideAsync())">Hide</TabButton>
+        <TabButton OnClick="@(() => _manualPopover.ToggleAsync())">Toggle</TabButton>
+    </div>
+</ComponentDemo>
+
+<ComponentDemo
+    Id="popover-two-way-binding"
+    Title="Two-way Binding"
+    Description="Use two-way binding on IsOpen to keep external state in sync with the popover visibility."
+    SourceCode="@_twoWayCode">
+    <div class="d-flex align-items-center gap-3 flex-wrap">
+        <TabPopover Title="Bound popover"
+                    Content="This popover is bound to IsOpen."
+                    Placement="PopoverPlacement.Top"
+                    @bind-IsOpen="_isPopoverOpen">
+            <button class="btn btn-primary">Toggle popover</button>
+        </TabPopover>
+        <span class="text-muted">IsOpen: <strong>@_isPopoverOpen</strong></span>
+    </div>
+</ComponentDemo>
+
+@code {
+    private TabPopover _manualPopover = default!;
+    private bool _isPopoverOpen;
+
+    private const string _basicCode =
+@"<TabPopover Title=""Popover title"" Content=""And here's some amazing content. It's very engaging. Right?"">
+    <button class=""btn btn-primary"">Click to toggle popover</button>
+</TabPopover>";
+
+    private const string _placementsCode =
+@"<TabPopover Title=""Top popover"" Content=""Popover on top."" Placement=""PopoverPlacement.Top"">
+    <button class=""btn btn-secondary"">Top</button>
+</TabPopover>
+<TabPopover Title=""Bottom popover"" Content=""Popover on bottom."" Placement=""PopoverPlacement.Bottom"">
+    <button class=""btn btn-secondary"">Bottom</button>
+</TabPopover>
+<TabPopover Title=""Start popover"" Content=""Popover on start."" Placement=""PopoverPlacement.Start"">
+    <button class=""btn btn-secondary"">Start</button>
+</TabPopover>
+<TabPopover Title=""End popover"" Content=""Popover on end."" Placement=""PopoverPlacement.End"">
+    <button class=""btn btn-secondary"">End</button>
+</TabPopover>";
+
+    private const string _hoverCode =
+@"<TabPopover Title=""Hover popover""
+            Content=""This popover appears on hover and dismisses when you move away.""
+            Placement=""PopoverPlacement.Top""
+            Trigger=""PopoverTrigger.Hover"">
+    <button class=""btn btn-primary"">Hover over me</button>
+</TabPopover>";
+
+    private const string _focusCode =
+@"<TabPopover Title=""Focus popover""
+            Content=""This popover appears when the input is focused.""
+            Placement=""PopoverPlacement.End""
+            Trigger=""PopoverTrigger.Focus"">
+    <input type=""text"" class=""form-control"" placeholder=""Click to focus"" />
+</TabPopover>";
+
+    private const string _richContentCode =
+@"<TabPopover Title=""User details"" Placement=""PopoverPlacement.End"">
+    <TriggerContent>
+        <button class=""btn btn-info"">View user</button>
+    </TriggerContent>
+    <PopoverContent>
+        <div class=""d-flex align-items-center gap-2 mb-2"">
+            <span class=""avatar avatar-sm rounded-circle bg-primary text-white"">JD</span>
+            <div>
+                <div class=""fw-bold"">Jane Doe</div>
+                <div class=""text-muted small"">jane@example.com</div>
+            </div>
+        </div>
+        <div class=""text-muted small"">Member since January 2024</div>
+    </PopoverContent>
+</TabPopover>";
+
+    private const string _noTitleCode =
+@"<TabPopover Content=""Simple popover without a header."" Placement=""PopoverPlacement.Bottom"">
+    <button class=""btn btn-secondary"">No title</button>
+</TabPopover>";
+
+    private const string _manualCode =
+@"<TabPopover @ref=""_popover""
+            Title=""Manual popover""
+            Content=""Controlled via ShowAsync / HideAsync / ToggleAsync.""
+            Placement=""PopoverPlacement.Top""
+            Trigger=""PopoverTrigger.Manual"">
+    <span class=""badge bg-blue"">Target element</span>
+</TabPopover>
+<TabButton Color=""TabColors.Primary"" OnClick=""@(() => _popover.ShowAsync())"">Show</TabButton>
+<TabButton Color=""TabColors.Secondary"" OnClick=""@(() => _popover.HideAsync())"">Hide</TabButton>
+<TabButton OnClick=""@(() => _popover.ToggleAsync())"">Toggle</TabButton>
+
+@code {
+    private TabPopover _popover = default!;
+}";
+
+    private const string _twoWayCode =
+@"<TabPopover Title=""Bound popover""
+            Content=""This popover is bound to IsOpen.""
+            Placement=""PopoverPlacement.Top""
+            @bind-IsOpen=""_isPopoverOpen"">
+    <button class=""btn btn-primary"">Toggle popover</button>
+</TabPopover>
+<span>IsOpen: <strong>@_isPopoverOpen</strong></span>
+
+@code {
+    private bool _isPopoverOpen;
+}";
+}

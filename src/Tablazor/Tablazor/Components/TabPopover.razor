@@ -1,0 +1,40 @@
+@inherits TabBaseComponent
+
+@if (Visible)
+{
+    <div @ref="Element" id="@GetId()" class="@GetCssClass()" style="@GetStyleString()" @attributes="AdditionalAttributes" @onclick="HandleClickAsync" @onmouseenter="HandleMouseEnterAsync" @onmouseleave="HandleMouseLeaveAsync" @onfocusin="HandleFocusInAsync" @onfocusout="HandleFocusOutAsync">
+
+        @if (TriggerContent is not null)
+        {
+            @TriggerContent
+        }
+        else
+        {
+            @ChildContent
+        }
+
+        @if (_isVisible)
+        {
+            <div class="@GetPopoverCssClass()" style="@GetPopoverPositionStyle()" role="tooltip" @onclick:stopPropagation="true">
+                
+                <div class="popover-arrow"></div>
+                
+                @if (!string.IsNullOrEmpty(Title))
+                {
+                    <div class="popover-header">@Title</div>
+                }
+                
+                <div class="popover-body">
+                    @if (PopoverContent is not null)
+                    {
+                        @PopoverContent
+                    }
+                    else
+                    {
+                        @Content
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}

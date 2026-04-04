@@ -40,7 +40,7 @@
     
     <!-- Assembly Versions -->
     <PropertyGroup>
-        <VersionPrefix>0.9.0</VersionPrefix>
+        <VersionPrefix>0.9.1</VersionPrefix>
         <AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
         <FileVersion>$(VersionPrefix)</FileVersion>
     </PropertyGroup>
