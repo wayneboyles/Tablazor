@@ -17,7 +17,7 @@ A Blazor component library built on the [Tabler](https://tabler.io/) UI kit — 
 ## Features
 
 - **Multi-Target Support** — .NET 8.0, 9.0, and 10.0
-- **50+ Components** — Buttons, Badges, Avatars, Cards, Modals, Dialogs, Toasts, Carousels, Dropdowns, Breadcrumbs, Tables, Accordions, Alerts, and more
+- **50+ Components** — Buttons, Badges, Avatars, Cards, Modals, Dialogs, Toasts, Carousels, Dropdowns, Popovers, Breadcrumbs, Tables, Accordions, Alerts, and more
 - **4,000+ Icons** — The complete Tabler Icons set included as strongly-typed constants
 - **Minimal JavaScript** — Pure Blazor state management; JS interop only where the DOM API requires it
 - **Accessible** — ARIA roles, labels, and keyboard navigation
@@ -247,6 +247,12 @@ You're ready to go.
 |-----------|-------------|
 | `TabPlaceholderContainer` | Applies glow or wave animation to a group of placeholder elements |
 | `TabPlaceholder` | A single loading skeleton span with customisable columns and colour |
+
+### Popover
+
+| Component | Description |
+|-----------|-------------|
+| `TabPopover` | Contextual overlay anchored to a trigger element with click, hover, and focus triggers |
 
 ### Ribbon
 
